@@ -6,10 +6,12 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -21,33 +23,42 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "account")
 public class Account {
-	
+
 	@Id
-    @GeneratedValue
-    @Column(name = "id")
+	@GeneratedValue
+	@Column(name = "id")
 	private Integer id;
-	
+
 	@NotNull
 	@Size(max = 50)
 	@Column(name = "user_name", nullable = false)
 	private String userName;
-	
+
 	@NotNull
 	@Size(max = 100)
 	@Column(name = "password", nullable = false)
 	private String password;
-	
+
+	@Column(name = "enabled", nullable = false, columnDefinition = "boolean default true")
+	private boolean enabled;
+
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;
-	
-	@ManyToOne()
-    @JoinColumn(name="role_id", nullable = false) 
-	private Role role;
-	
-	@OneToMany(targetEntity=ShoppingCart.class, mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+
+	@ManyToMany(cascade = CascadeType.MERGE)
+	@JoinTable(
+	  name = "role_account", 
+	  joinColumns = @JoinColumn(name = "account_id"), 
+	  inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private List<Role> roles;
+
+	@OneToMany(targetEntity = ShoppingCart.class, mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ShoppingCart> shoppingCarts = new ArrayList<ShoppingCart>();
-	
+
+	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Order> orders = new ArrayList<Order>();
+
 	public Account() {
 		super();
 	}
@@ -83,13 +94,12 @@ public class Account {
 		this.password = password;
 	}
 
-	@JsonIgnore
-	public Role getRole() {
-		return role;
+	public List<Role> getRoles() {
+		return roles;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 	@JsonIgnore

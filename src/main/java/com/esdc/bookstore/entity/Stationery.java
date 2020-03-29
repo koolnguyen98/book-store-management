@@ -1,6 +1,7 @@
 package com.esdc.bookstore.entity;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,6 +12,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "stationery")
+@DiscriminatorValue("2")
 @PrimaryKeyJoinColumn(name="id")  
 public class Stationery extends Product {
 	
@@ -52,6 +54,14 @@ public class Stationery extends Product {
 
 	public void setParameter(String parameter) {
 		this.parameter = parameter;
+	}
+
+	public Brand getBrand() {
+		return brand;
+	}
+
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
 	
 }

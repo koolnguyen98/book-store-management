@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <title th:utext="${title}"></title>
+   </head>
+    
+   <body>
+    
+      <!-- Include _menu.html -->
+      <th:block th:include="/_menu"></th:block>  
+       
+      <h2>Message : <span th:utext="${message}"></span></h2>
+      
+      <table>
+      	<tr>
+          <th>STT</th>
+          <th>Acronym</th>
+          <th>Name</th>
+        </tr>
+        
+         <tr th:each="productType : ${productTypes}">
+          <td th:utext="${productType.id}">STT</td>
+          <td th:utext="${productType.acronym}">Acronym</td>
+          <td th:utext="${productType.name}">Name</td>
+           
+        </tr>
+      </table>
+      
+      <table>
+      	<tr>
+          <th>Product Code</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Size</th>
+          <th>Product Type</th>
+          <th>Date Create</th>
+          <th>Price</th>
+          <th>Discount</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Form Bookjacket</th>
+          <th>Language</th>
+          <th>Page Number</th>
+          <th>Publishing Year</th>
+          <th>Translator</th>
+          <th>Author</th>
+          <th>Publishing Company</th>
+        </tr>
+        
+         <tr th:each="book : ${books}">
+          <td th:utext="${book.id}">Product Code</td>
+          <td th:utext="${book.productName}">Name</td>
+          <td th:utext="${book.description}">Description</td>
+          <td th:utext="${book.size}">Size</td>
+          <td th:utext="${book.productType.name}">Product Type</td>
+          <td th:utext="${book.dateCreate}">Date Create</td>
+          <td th:utext="${book.price}">Price</td>
+          <td th:utext="${book.discount}">Discount</td>
+          <td th:utext="${book.amount}">Amount</td>
+          <td th:utext="${book.status}">Status</td>
+          <td th:utext="${book.formBookJacket}">Form Bookjacket</td>
+          <td th:utext="${book.language}">Language</td>
+          <td th:utext="${book.pageNumber}">Page Number</td>
+          <td th:utext="${book.publishingYear}">Publishing Year</td>
+          <td th:utext="${book.translator}">Translator</td>
+          <td th:utext="${book.author == null ? '' : book.author.name}">Author</td>
+          <td th:utext="${book.publishingCompany == null ? '' : book.publishingCompany.name}">Publishing Company</td>
+        </tr>
+      </table>
+      
+      <table>
+      	<tr>
+          <th>Product Code</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Size</th>
+          <th>Product Type</th>
+          <th>Date Create</th>
+          <th>Price</th>
+          <th>Discount</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Made In</th>
+          <th>Parameter</th>
+          <th>Brand</th>
+        </tr>
+        
+         <tr th:each="stationerie : ${stationeries}">
+          <td th:utext="${stationerie.id}">Product Code</td>
+          <td th:utext="${stationerie.productName}">Name</td>
+          <td th:utext="${stationerie.description}">Description</td>
+          <td th:utext="${stationerie.size}">Size</td>
+          <td th:utext="${stationerie.productType.name}">Product Type</td>
+          <td th:utext="${stationerie.dateCreate}">Date Create</td>
+          <td th:utext="${stationerie.price}">Price</td>
+          <td th:utext="${stationerie.discount}">Discount</td>
+          <td th:utext="${stationerie.amount}">Amount</td>
+          <td th:utext="${stationerie.status}">Status</td>
+          <td th:utext="${stationerie.madeIn}">Made In</td>
+          <td th:utext="${stationerie.parameter}">Parameter</td>
+          <td th:utext="${stationerie.brand == null ? '' : stationerie.brand.name}">Brand</td>
+         </tr>
+      </table>
+       
+   </body>
+</html>

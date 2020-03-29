@@ -17,7 +17,7 @@ public class OrderDetail {
 	@EmbeddedId
 	private OrderDetailKey orderDetailKey;
 	
-	@ManyToOne(targetEntity=Account.class, fetch = FetchType.LAZY)
+	@ManyToOne(targetEntity=Order.class, fetch = FetchType.LAZY)
     @MapsId("order_id")
 	@JoinColumn(name = "order_id")
     private Order order;

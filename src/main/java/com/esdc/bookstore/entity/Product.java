@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,65 +25,67 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "product")
-@Inheritance(strategy=InheritanceType.JOINED)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.INTEGER)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Product {
-	
+
 	@Id
-    @GeneratedValue
-    @Column(name = "id")
+	@GeneratedValue
+	@Column(name = "id")
 	private Integer id;
-	
+
 	@NotNull
 	@Size(max = 50)
 	@Column(name = "product_name", nullable = false)
 	private String productName;
-	
+
 	@NotNull
 	@Size(max = 100)
 	@Column(name = "size", nullable = false)
 	private String size;
-	
+
 	@NotNull
 	@Size(max = 2000)
 	@Column(name = "description", nullable = false)
 	private String description;
-	
-	@Column(name = "discount", nullable = false, columnDefinition="Decimal(10,2) default '0.00'")
+
+	@Column(name = "discount", nullable = false, columnDefinition = "Decimal(10,2) default '0.00'")
 	private double discount;
-	
+
 	@NotNull
 	@Column(name = "price", nullable = false)
 	private double price;
-	
-	@Column(name = "date_create", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+
+	@Column(name = "date_create", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp dateCreate;
-	
+
 	@NotNull
-	@Column(name = "status", nullable = false, columnDefinition="tinyint(1) default 0")
+	@Column(name = "status", nullable = false, columnDefinition = "tinyint(1) default 0")
 	private boolean status;
 
 	@NotNull
-	@Column(name = "amount", nullable = false, columnDefinition="integer default 0")
+	@Column(name = "amount", nullable = false, columnDefinition = "integer default 0")
 	private int amount;
-	
+
 	@ManyToOne()
-    @JoinColumn(name="product_type_id", nullable = false) 
+	@JoinColumn(name = "product_type_id", nullable = false)
 	private ProductType productType;
-	
+
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Image> images = new ArrayList<Image>();
-	
-	@OneToMany(targetEntity=ShoppingCart.class, mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+
+	@OneToMany(targetEntity = ShoppingCart.class, mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ShoppingCart> shoppingCarts = new ArrayList<ShoppingCart>();
 
-	@OneToMany(targetEntity=OrderDetail.class, mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(targetEntity = OrderDetail.class, mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<OrderDetail> orderDetails = new ArrayList<OrderDetail>();
 
 	public Product() {
 		super();
 	}
 
-	public Product(String productName, String size, String description, double discount, double price, boolean status, int amount) {
+	public Product(String productName, String size, String description, double discount, double price, boolean status,
+			int amount) {
 		super();
 		this.productName = productName;
 		this.size = size;
@@ -148,7 +152,7 @@ public class Product {
 		this.dateCreate = dateCreate;
 	}
 
-	public boolean isStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 
@@ -181,9 +185,9 @@ public class Product {
 	public void setImages(List<Image> images) {
 		this.images = images;
 	}
-	
+
 	public Product addImage(Image image) {
-		if(this.images == null) {
+		if (this.images == null) {
 			this.images = new ArrayList<Image>();
 		}
 		this.images.add(image);
@@ -198,9 +202,9 @@ public class Product {
 	public void setShoppingCarts(List<ShoppingCart> shoppingCarts) {
 		this.shoppingCarts = shoppingCarts;
 	}
-	
+
 	public Product addShoppingCart(ShoppingCart shoppingCart) {
-		if(this.shoppingCarts == null) {
+		if (this.shoppingCarts == null) {
 			this.shoppingCarts = new ArrayList<ShoppingCart>();
 		}
 		this.shoppingCarts.add(shoppingCart);
@@ -215,13 +219,13 @@ public class Product {
 	public void setOrderDetails(List<OrderDetail> orderDetails) {
 		this.orderDetails = orderDetails;
 	}
-	
+
 	public Product addOrderDetail(OrderDetail orderDetail) {
-		if(this.orderDetails == null) {
+		if (this.orderDetails == null) {
 			this.orderDetails = new ArrayList<OrderDetail>();
 		}
 		this.orderDetails.add(orderDetail);
 		return this;
 	}
-	
+
 }

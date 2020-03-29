@@ -1,6 +1,7 @@
 package com.esdc.bookstore.entity;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,6 +12,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "book")
+@DiscriminatorValue("1")
 @PrimaryKeyJoinColumn(name="id")  
 public class Book extends Product{
 	
@@ -96,5 +98,23 @@ public class Book extends Product{
 	public void setLanguage(String language) {
 		this.language = language;
 	}
+
+	public Author getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(Author author) {
+		this.author = author;
+	}
+
+	public PublishingCompany getPublishingCompany() {
+		return publishingCompany;
+	}
+
+	public void setPublishingCompany(PublishingCompany publishingCompany) {
+		this.publishingCompany = publishingCompany;
+	}
+	
+	
 	
 }
