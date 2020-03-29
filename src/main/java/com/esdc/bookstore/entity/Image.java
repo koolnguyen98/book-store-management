@@ -19,7 +19,7 @@ public class Image {
 	private Integer id;
 	
 	@NotNull
-	@Column(name = "image", nullable = false)
+	@Column(name = "image", nullable = false, columnDefinition="longblob")
 	private byte[] image;
 	
 	@ManyToOne()
@@ -49,6 +49,14 @@ public class Image {
 
 	public void setImage(byte[] image) {
 		this.image = image;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 	
 }

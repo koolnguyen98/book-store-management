@@ -21,7 +21,7 @@
             
       </div>
       
-      <h3>Insert book:</h3>
+      <h3>Update Stationery</h3>
       <form th:object="${stationeryForm}" th:action="@{/admin/updateStationery}" method='POST'>
          <table>
             <tr>
@@ -72,7 +72,15 @@
             <tr>
                <td>Brand</td>
                <td><input type='number' name='brand' th:field="*{brand}"/></td>
-            </tr>  
+            </tr>
+            <tr th:unless="*{#lists.isEmpty(base64Images)}">
+               <td>Image</td>
+               <td><img th:src="@{|data:image/*;base64,*{base64Images[0]}|}"/></td>
+            </tr>
+            <tr> 
+               <td>Update Image:</td>
+               <td><input type='file' name='imageFiles' value='' th:field="*{imageFiles}"  multiple accept="image/png, image/jpeg"/></td>
+            </tr>     
             <tr>
                <td><input name="submit" type="submit" value="submit" /></td>
             </tr>

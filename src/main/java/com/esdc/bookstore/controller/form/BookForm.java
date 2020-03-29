@@ -1,7 +1,11 @@
 package com.esdc.bookstore.controller.form;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class BookForm {
 	
@@ -37,6 +41,10 @@ public class BookForm {
 	private Integer pageNumber;
 	
 	private Integer publishingYear;
+	
+	private MultipartFile[] imageFiles;
+	
+	private List<String> base64Images;
 	
 	@NotNull
 	private String language;
@@ -89,6 +97,31 @@ public class BookForm {
 		this.formBookJacket = formBookJacket;
 		this.pageNumber = pageNumber;
 		this.publishingYear = publishingYear;
+		this.language = language;
+		this.author = author;
+		this.publishingCompany = publishingCompany;
+	}
+
+	public BookForm(int id, @NotNull @Size(max = 50) String productName, @NotNull @Size(max = 100) String size,
+			@NotNull @Size(max = 2000) String description, double discount, double price, boolean status, int amount,
+			int productType, String translator, @NotNull String formBookJacket, Integer pageNumber,
+			Integer publishingYear, MultipartFile[] imageFiles, @NotNull String language, int author,
+			int publishingCompany) {
+		super();
+		this.id = id;
+		this.productName = productName;
+		this.size = size;
+		this.description = description;
+		this.discount = discount;
+		this.price = price;
+		this.status = status;
+		this.amount = amount;
+		this.productType = productType;
+		this.translator = translator;
+		this.formBookJacket = formBookJacket;
+		this.pageNumber = pageNumber;
+		this.publishingYear = publishingYear;
+		this.imageFiles = imageFiles;
 		this.language = language;
 		this.author = author;
 		this.publishingCompany = publishingCompany;
@@ -220,6 +253,22 @@ public class BookForm {
 
 	public void setPublishingCompany(int publishingCompany) {
 		this.publishingCompany = publishingCompany;
+	}
+
+	public MultipartFile[] getImageFiles() {
+		return imageFiles;
+	}
+
+	public void setImageFiles(MultipartFile[] imageFiles) {
+		this.imageFiles = imageFiles;
+	}
+
+	public List<String> getBase64Images() {
+		return base64Images;
+	}
+
+	public void setBase64Images(List<String> base64Images) {
+		this.base64Images = base64Images;
 	}
 
 }

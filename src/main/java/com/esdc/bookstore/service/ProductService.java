@@ -1,22 +1,36 @@
 package com.esdc.bookstore.service;
 
+import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.esdc.bookstore.controller.form.AdditionalForm;
 import com.esdc.bookstore.controller.form.BookForm;
+import com.esdc.bookstore.controller.form.ProductTypeForm;
 import com.esdc.bookstore.controller.form.StationeryForm;
+import com.esdc.bookstore.entity.Author;
 import com.esdc.bookstore.entity.Book;
+import com.esdc.bookstore.entity.Brand;
+import com.esdc.bookstore.entity.Image;
 import com.esdc.bookstore.entity.OrderDetail;
 import com.esdc.bookstore.entity.Product;
+import com.esdc.bookstore.entity.ProductType;
+import com.esdc.bookstore.entity.PublishingCompany;
 import com.esdc.bookstore.entity.ShoppingCart;
 import com.esdc.bookstore.entity.Stationery;
 import com.esdc.bookstore.repository.AuthorRepository;
 import com.esdc.bookstore.repository.BookRepository;
 import com.esdc.bookstore.repository.BrandRepository;
+import com.esdc.bookstore.repository.ImageRepository;
 import com.esdc.bookstore.repository.OrderDetailRepository;
 import com.esdc.bookstore.repository.ProductRepository;
 import com.esdc.bookstore.repository.ProductTypeRepository;
@@ -52,6 +66,9 @@ public class ProductService {
 	
 	@Autowired
 	private StationeryRepository stationeryRepository;
+	
+	@Autowired
+	private ImageRepository imageRepository;
 
 	public Book insertBook(BookForm bookForm) {
 		Book book = new Book();
@@ -72,8 +89,14 @@ public class ProductService {
 		book.setSize(bookForm.getSize());
 		book.setStatus(bookForm.getStatus());
 		book.setTranslator(bookForm.getTranslator());
-
-		return bookRepository.save(book);
+		
+		Book result = bookRepository.save(book);
+		
+		List<Image> images = this.getByteListImage(bookForm.getImageFiles(), result);
+		
+		imageRepository.saveAll(images);
+		
+		return bookRepository.findById(result.getId()).get();
 	}
 
 	public BookForm findBookById(int id) {
@@ -97,6 +120,7 @@ public class ProductService {
 			bookForm.setSize(book.getSize());
 			bookForm.setStatus(book.getStatus());
 			bookForm.setTranslator(book.getTranslator());
+			bookForm.setBase64Images(this.CoverBase64(book.getImages()));
 
 			return bookForm;
 		}
@@ -123,8 +147,14 @@ public class ProductService {
 			book.setSize(bookForm.getSize());
 			book.setStatus(bookForm.getStatus());
 			book.setTranslator(bookForm.getTranslator());
-
-			return bookRepository.save(book);
+			
+			Book result = bookRepository.save(book);
+			
+			List<Image> images = this.getByteListImage(bookForm.getImageFiles(), result);
+			
+			imageRepository.saveAll(images);
+			
+			return bookRepository.findById(result.getId()).get();
 		}
 		return null;
 	}
@@ -139,6 +169,12 @@ public class ProductService {
 			List<OrderDetail> oddbooks = orderDetailRepository.findByProduct(product);
 			
 			if(spcbooks.isEmpty() && oddbooks.isEmpty()) {
+				List<Image> images = book.getImages();
+				
+				if (images.isEmpty()) {
+					imageRepository.deleteAll(images);
+				}
+				
 				bookRepository.delete(book);
 			}
 			book.setStatus(false);
@@ -163,8 +199,14 @@ public class ProductService {
 		stationery.setBrand(brandRepository.findById(stationeryForm.getBrand()).get());
 		stationery.setSize(stationeryForm.getSize());
 		stationery.setStatus(stationeryForm.getStatus());
-
-		return stationeryRepository.save(stationery);
+		
+		Stationery result = stationeryRepository.save(stationery);
+		
+		List<Image> images = this.getByteListImage(stationeryForm.getImageFiles(), result);
+		
+		imageRepository.saveAll(images);
+		
+		return stationeryRepository.findById(result.getId()).get();
 	}
 
 	public StationeryForm findStationeryById(int id) {
@@ -184,7 +226,8 @@ public class ProductService {
 			stationeryForm.setBrand(stationery.getBrand().getId());
 			stationeryForm.setSize(stationery.getSize());
 			stationeryForm.setStatus(stationery.getStatus());
-
+			stationeryForm.setBase64Images(this.CoverBase64(stationery.getImages()));
+			
 			return stationeryForm;
 		}
 		return null;
@@ -207,7 +250,13 @@ public class ProductService {
 			stationery.setSize(stationeryForm.getSize());
 			stationery.setStatus(stationeryForm.getStatus());
 
-			return stationeryRepository.save(stationery);
+			Stationery result = stationeryRepository.save(stationery);
+			
+			List<Image> images = this.getByteListImage(stationeryForm.getImageFiles(), result);
+			
+			imageRepository.saveAll(images);
+			
+			return stationeryRepository.findById(result.getId()).get();
 		}
 		return null;
 	}
@@ -220,14 +269,276 @@ public class ProductService {
 		if (stationery != null && product != null) {
 			List<ShoppingCart> spcStationerys = shoppingCartRepository.findByProduct(product);
 			List<OrderDetail> oddStationerys = orderDetailRepository.findByProduct(product);
-			
-			if(spcStationerys.isEmpty() && oddStationerys.isEmpty()) {
+
+			if (spcStationerys.isEmpty() && oddStationerys.isEmpty()) {
+				List<Image> images = stationery.getImages();
+
+				if (images.isEmpty()) {
+					imageRepository.deleteAll(images);
+				}
+
 				stationeryRepository.delete(stationery);
 			}
 			stationery.setStatus(false);
 			stationeryRepository.save(stationery);
 			return true;
 		}
+		return false;
+	}
+	
+	private List<Image> getByteListImage(MultipartFile[] imageFiles, Product result) {
+		List<Image> images = new ArrayList<Image>();
+		
+		if (imageFiles != null && imageFiles.length > 0) {
+			for (MultipartFile imageFile : imageFiles) {
+				Image image = new Image();
+				try {
+					image.setImage(imageFile.getBytes());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				image.setProduct(result);
+				images.add(image);
+			}
+			return images;
+		}
+		
+		return null;
+	}
+	
+	private List<String> CoverBase64(List<Image> images) {
+		List<String> base64Images = new ArrayList<String>();
+		for (Image image : images) {
+			String base64Encoded = Base64.getEncoder().encodeToString(image.getImage());
+			base64Images.add(base64Encoded);
+		}
+		return base64Images;
+	}
+
+	public ProductType insertProductType(ProductTypeForm productTypeForm) {
+		ProductType productType = new ProductType();
+
+		productType.setAcronym(productTypeForm.getAcronym());
+		productType.setName(productTypeForm.getName());
+
+		return productTypeRepository.save(productType);
+	}
+	
+	public ProductTypeForm findProductTypeById(int id) {
+		Optional<ProductType> productTypeOpt = productTypeRepository.findById(id);
+		ProductType productType = productTypeOpt.isPresent() ? productTypeOpt.get() : null;
+		if (productType != null) {
+			ProductTypeForm productTypeForm = new ProductTypeForm();
+			productTypeForm.setId(productType.getId());
+			productTypeForm.setAcronym(productType.getAcronym());
+			productTypeForm.setName(productType.getName());
+
+			return productTypeForm;
+		}
+		return null;
+	}
+
+	public ProductType updateProductType(ProductTypeForm productTypeForm) {
+		Optional<ProductType> productTypeOpt = productTypeRepository.findById(productTypeForm.getId());
+		ProductType productType = productTypeOpt.isPresent() ? productTypeOpt.get() : null;
+		if (productType != null) {
+			productType.setAcronym(productTypeForm.getAcronym());
+			productType.setName(productTypeForm.getName());
+
+			return productTypeRepository.save(productType);
+		}
+		return null;
+	}
+
+	public Boolean deleteProductTypeById(int id) {
+		Optional<ProductType> productTypeOpt = productTypeRepository.findById(id);
+		ProductType productType = productTypeOpt.isPresent() ? productTypeOpt.get() : null;
+		if (productType != null) {
+			List<Product> products = productRepository.findByProductType(productType);
+			
+			if(products.isEmpty()) {
+				productTypeRepository.delete(productType);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public Boolean insertAdditionalProperties(AdditionalForm additionalForm) {
+		switch (additionalForm.getType()) {
+		case "BRAND":
+			Brand brand = new Brand();
+
+			brand.setCountry(additionalForm.getCountry());
+			brand.setName(additionalForm.getName());
+			if (brandRepository.save(brand) != null) {
+				return true;
+			}
+			break;
+
+		case "AUTHOR":
+			Author author = new Author();
+
+			author.setCountry(additionalForm.getCountry());
+			author.setName(additionalForm.getName());
+			if (authorRepository.save(author) != null) {
+				return true;
+			}
+			break;
+
+		case "PUBLISHINGCOMPANY":
+			PublishingCompany publishingCompany = new PublishingCompany();
+
+			publishingCompany.setCountry(additionalForm.getCountry());
+			publishingCompany.setName(additionalForm.getName());
+			if (publishingCompanyRepository.save(publishingCompany) != null) {
+				return true;
+			}
+			break;
+
+		default:
+			break;
+		}
+		
+
+		return false;
+	}
+
+	public AdditionalForm findAdditionalByIdAndType(int id, String type) {
+		switch (type) {
+		case "BRAND":
+			Optional<Brand> brandOpt = brandRepository.findById(id);
+			Brand brand = brandOpt.isPresent() ? brandOpt.get() : null;
+			if (brand != null) {
+				AdditionalForm additionalForm = new AdditionalForm();
+				additionalForm.setId(brand.getId());
+				additionalForm.setCountry(brand.getCountry());
+				additionalForm.setName(brand.getName());
+
+				return additionalForm;
+			}
+			break;
+
+		case "AUTHOR":
+			Optional<Author> authorOpt = authorRepository.findById(id);
+			Author author = authorOpt.isPresent() ? authorOpt.get() : null;
+			if (author != null) {
+				AdditionalForm additionalForm = new AdditionalForm();
+				additionalForm.setId(author.getId());
+				additionalForm.setCountry(author.getCountry());
+				additionalForm.setName(author.getName());
+
+				return additionalForm;
+			}
+			break;
+
+		case "PUBLISHINGCOMPANY":
+			Optional<PublishingCompany> publishingCompanyOpt = publishingCompanyRepository.findById(id);
+			PublishingCompany publishingCompany = publishingCompanyOpt.isPresent() ? publishingCompanyOpt.get() : null;
+			if (publishingCompany != null) {
+				AdditionalForm additionalForm = new AdditionalForm();
+				additionalForm.setId(publishingCompany.getId());
+				additionalForm.setCountry(publishingCompany.getCountry());
+				additionalForm.setName(publishingCompany.getName());
+
+				return additionalForm;
+			}
+			break;
+
+		default:
+			break;
+		}
+
+		return null;
+	}
+
+	public Boolean updateAdditional(@Valid AdditionalForm additionalForm) {
+		switch (additionalForm.getType()) {
+		case "BRAND":
+			Optional<Brand> brandOpt = brandRepository.findById(additionalForm.getId());
+			Brand brand = brandOpt.isPresent() ? brandOpt.get() : null;
+			if (brand != null) {
+				brand.setCountry(additionalForm.getCountry());
+				brand.setName(additionalForm.getName());
+				if (brandRepository.save(brand) != null) {
+					return true;
+				}
+			}
+			break;
+
+		case "AUTHOR":
+			Optional<Author> authorOpt = authorRepository.findById(additionalForm.getId());
+			Author author = authorOpt.isPresent() ? authorOpt.get() : null;
+			if (author != null) {
+				author.setCountry(additionalForm.getCountry());
+				author.setName(additionalForm.getName());
+				if (authorRepository.save(author) != null) {
+					return true;
+				}
+			}
+			break;
+
+		case "PUBLISHINGCOMPANY":
+			Optional<PublishingCompany> publishingCompanyOpt = publishingCompanyRepository.findById(additionalForm.getId());
+			PublishingCompany publishingCompany = publishingCompanyOpt.isPresent() ? publishingCompanyOpt.get() : null;
+			if (publishingCompanyOpt != null) {
+				publishingCompany.setCountry(additionalForm.getCountry());
+				publishingCompany.setName(additionalForm.getName());
+				if (publishingCompanyRepository.save(publishingCompany) != null) {
+					return true;
+				}
+			}
+			break;
+
+		default:
+			break;
+		}
+		
+		return false;
+	}
+
+	public Boolean deleteAdditionalByIdAndType(int id, String type) {
+		switch (type) {
+		case "BRAND":
+			Optional<Brand> brandOpt = brandRepository.findById(id);
+			Brand brand = brandOpt.isPresent() ? brandOpt.get() : null;
+			if (brand != null) {
+				List<Stationery> stationeries = stationeryRepository.findByBrand(brand);
+				if(stationeries.isEmpty()) {
+					brandRepository.delete(brand);
+					return true;
+				}
+			}
+			break;
+
+		case "AUTHOR":
+			Optional<Author> authorOpt = authorRepository.findById(id);
+			Author author = authorOpt.isPresent() ? authorOpt.get() : null;
+			if (author != null) {
+				List<Book> books = bookRepository.findByAuthor(author);
+				if(books.isEmpty()) {
+					authorRepository.delete(author);
+					return true;
+				}
+			}
+			break;
+
+		case "PUBLISHINGCOMPANY":
+			Optional<PublishingCompany> publishingCompanyOpt = publishingCompanyRepository.findById(id);
+			PublishingCompany publishingCompany = publishingCompanyOpt.isPresent() ? publishingCompanyOpt.get() : null;
+			if (publishingCompanyOpt != null) {
+				List<Book> books = bookRepository.findByPublishingCompany(publishingCompany);
+				if(books.isEmpty()) {
+					publishingCompanyRepository.delete(publishingCompany);
+					return true;
+				}
+			}
+			break;
+
+		default:
+			break;
+		}
+		
 		return false;
 	}
 }

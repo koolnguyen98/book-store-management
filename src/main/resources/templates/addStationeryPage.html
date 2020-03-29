@@ -21,7 +21,7 @@
             
       </div>
       
-      <h3>Insert book:</h3>
+      <h3>Insert Stationery:</h3>
       <form th:object="${stationeryForm}" th:action="@{/admin/addStationery}" method='POST'>
          <table>
             <tr>
@@ -68,6 +68,10 @@
                <td>Brand</td>
                <td><input type='number' name='brand' th:field="*{brand}"/></td>
             </tr>
+            <tr>
+               <td>Image:</td>
+               <td><input type='file' name='imageFiles' value='' th:field="*{imageFiles}"  multiple accept="image/png, image/jpeg"/></td>
+            </tr>  
             <tr>
                <td><input name="submit" type="submit" value="submit" /></td>
             </tr>

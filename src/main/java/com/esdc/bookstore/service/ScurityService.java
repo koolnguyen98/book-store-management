@@ -5,18 +5,22 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.esdc.bookstore.controller.form.AdditionalForm;
 import com.esdc.bookstore.controller.form.BookForm;
+import com.esdc.bookstore.controller.form.ProductTypeForm;
 import com.esdc.bookstore.controller.form.StationeryForm;
 import com.esdc.bookstore.entity.Author;
 import com.esdc.bookstore.entity.Book;
 import com.esdc.bookstore.entity.Brand;
 import com.esdc.bookstore.entity.ProductType;
 import com.esdc.bookstore.entity.PublishingCompany;
+import com.esdc.bookstore.entity.Role;
 import com.esdc.bookstore.entity.Stationery;
 import com.esdc.bookstore.repository.AuthorRepository;
 import com.esdc.bookstore.repository.BrandRepository;
 import com.esdc.bookstore.repository.ProductTypeRepository;
 import com.esdc.bookstore.repository.PublishingCompanyRepository;
+import com.esdc.bookstore.repository.RoleRepository;
 
 @Service
 public class ScurityService {
@@ -38,6 +42,9 @@ public class ScurityService {
 	
 	@Autowired
 	private BrandRepository brandRepository;
+	
+	@Autowired
+	private RoleRepository roleRepository;
 
 	public List<ProductType> findAllProductType() {
 		return productTypeRepository.findAll();
@@ -55,10 +62,16 @@ public class ScurityService {
 		return brandRepository.findAll();
 	}
 	
+	public List<Role> findAllRole() {
+		return roleRepository.findAll();
+	}
+	
 	/**
 	 * 
 	 *
 	 * Product service
+	 * 
+	 * Add, update, delete product (Book and Stationery), product type, brand, author and publishing company
 	 * 
 	 * 
 	 **/
@@ -95,13 +108,40 @@ public class ScurityService {
 		return productService.deleteStationeryById(id);
 	}
 
-	/**
-	 * 
-	 *
-	 *  User Service
-	 * 
-	 * 
-	 **/
+	public ProductTypeForm findProductTypeById(int id) {
+		return productService.findProductTypeById(id);
+	}
+
+	public ProductType insertProductType(ProductTypeForm productTypeForm) {
+		return productService.insertProductType(productTypeForm);
+	}
+
+	public ProductType updateProductType(ProductTypeForm productTypeForm) {
+		return productService.updateProductType(productTypeForm);
+	}
+
+	public Boolean deleteProductTypeById(int id) {
+		return productService.deleteProductTypeById(id);
+	}
+
+	public Boolean insertAdditionalProperties(AdditionalForm additionalForm) {
+		return productService.insertAdditionalProperties(additionalForm);
+	}
+
+	public AdditionalForm findAdditionalByIdAndType(int id, String type) {
+		return productService.findAdditionalByIdAndType(id, type);
+	}
+
+	public Boolean updateAdditional(AdditionalForm additionalForm) {
+		return productService.updateAdditional(additionalForm);
+	}
+
+	public Boolean deleteAdditionalByIdAndType(int id, String type) {
+		return productService.deleteAdditionalByIdAndType(id, type);
+	}
+
+	
+	
 	
 	
 

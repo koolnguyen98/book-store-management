@@ -2,6 +2,8 @@ package com.esdc.bookstore.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,7 +12,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.esdc.bookstore.controller.form.AdditionalForm;
 import com.esdc.bookstore.controller.form.BookForm;
+import com.esdc.bookstore.controller.form.ProductTypeForm;
 import com.esdc.bookstore.controller.form.StationeryForm;
 import com.esdc.bookstore.entity.Author;
 import com.esdc.bookstore.entity.Book;
@@ -53,7 +57,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/admin/addBook", method = RequestMethod.POST)
-	public String addBook(Model model, @ModelAttribute("bookForm") BookForm bookForm) {
+	public String addBook(Model model, @ModelAttribute("bookForm") @Valid BookForm bookForm) {
 
 		Book book = scurityService.insertBook(bookForm);
 
@@ -84,7 +88,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/admin/updateBook", method = RequestMethod.POST)
-	public String updateBook(Model model, @ModelAttribute("bookForm") BookForm bookForm) {
+	public String updateBook(Model model, @ModelAttribute("bookForm") @Valid BookForm bookForm) {
 
 		Book book = scurityService.updateBook(bookForm);
 
@@ -123,7 +127,7 @@ public class AdminController {
 	}
 
 	@RequestMapping(value = "/admin/addStationery", method = RequestMethod.POST)
-	public String addStationery(Model model, @ModelAttribute("stationeryForm") StationeryForm stationeryForm) {
+	public String addStationery(Model model, @ModelAttribute("stationeryForm") @Valid StationeryForm stationeryForm) {
 
 		Stationery stationery = scurityService.insertStationery(stationeryForm);
 
@@ -151,7 +155,7 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/admin/updateStationery", method = RequestMethod.POST)
-	public String updateStationery(Model model, @ModelAttribute("stationeryForm") StationeryForm stationeryForm) {
+	public String updateStationery(Model model, @ModelAttribute("stationeryForm") @Valid StationeryForm stationeryForm) {
 
 		Stationery stationery = scurityService.updateStationery(stationeryForm);
 
@@ -165,4 +169,116 @@ public class AdminController {
 		
 		return "redirect:/home";
 	}
+	
+	/**
+	 * 
+	 *
+	 *  Product type
+	 * 
+	 * 
+	 **/
+	
+	@RequestMapping(value = "/admin/addProductType", method = RequestMethod.GET)
+	public String addProductTypePage(Model model) {
+
+		ProductTypeForm productTypeForm = new ProductTypeForm();
+		model.addAttribute("productTypeForm", productTypeForm);
+
+		return "addProductTypePage";
+	}
+
+	@RequestMapping(value = "/admin/addProductType", method = RequestMethod.POST)
+	public String addProductType(Model model, @ModelAttribute("productTypeForm") @Valid ProductTypeForm productTypeForm) {
+
+		ProductType productType = scurityService.insertProductType(productTypeForm);
+
+		return "redirect:/home";
+	}
+
+	@RequestMapping(value = "/admin/updateProductType/{id}", method = RequestMethod.GET)
+	public String updateProductTypePage(Model model, @PathVariable int id) {
+
+		ProductTypeForm productTypeForm = scurityService.findProductTypeById(id);
+
+		if (productTypeForm != null) {
+			model.addAttribute("productTypeForm", productTypeForm);
+			
+			return "updateProductTypePage";
+		}
+		
+		return "redirect:/home";
+	}
+	
+	@RequestMapping(value = "/admin/updateProductType", method = RequestMethod.POST)
+	public String updateProductType(Model model, @ModelAttribute("productTypeForm") @Valid ProductTypeForm productTypeForm) {
+
+		ProductType productType = scurityService.updateProductType(productTypeForm);
+
+		return "redirect:/home";
+	}
+	
+	@RequestMapping(value = "/admin/deleteProductType/{id}", method = RequestMethod.GET)
+	public String deleteProductType(Model model, @PathVariable int id) {
+
+		Boolean deleteProductType = scurityService.deleteProductTypeById(id);
+		
+		return "redirect:/home";
+	}
+	
+	/**
+	 * 
+	 *
+	 *  Additional Properties
+	 * 
+	 * 
+	 **/
+	
+	@RequestMapping(value = "/admin/addAdditionalProperties", method = RequestMethod.GET)
+	public String addAdditionalPropertiesPage(Model model) {
+
+		AdditionalForm additionalForm = new AdditionalForm();
+		model.addAttribute("additionalForm", additionalForm);
+
+		return "addProductTypePage";
+	}
+
+	@RequestMapping(value = "/admin/addAdditionalProperties", method = RequestMethod.POST)
+	public String addAdditionalProperties(Model model, @ModelAttribute("additionalForm") @Valid AdditionalForm additionalForm) {
+
+		Boolean result = scurityService.insertAdditionalProperties(additionalForm);
+
+		return "redirect:/home";
+	}
+
+	@RequestMapping(value = "/admin/updateAdditional/{id}", method = RequestMethod.GET)
+	public String updateAdditionalPage(Model model, @PathVariable int id, @PathVariable String type) {
+
+		AdditionalForm additionalForm = scurityService.findAdditionalByIdAndType(id, type);
+
+		if (additionalForm != null) {
+			model.addAttribute("additionalForm", additionalForm);
+			
+			return "updateProductTypePage";
+		}
+		
+		return "redirect:/home";
+	}
+	
+	@RequestMapping(value = "/admin/updateAdditional", method = RequestMethod.POST)
+	public String updateAdditional(Model model, @ModelAttribute("additionalForm") @Valid AdditionalForm additionalForm) {
+
+		Boolean result = scurityService.updateAdditional(additionalForm);
+
+		return "redirect:/home";
+	}
+	
+	@RequestMapping(value = "/admin/deleteAdditional/{id}", method = RequestMethod.GET)
+	public String deleteAdditional(Model model, @PathVariable int id, @PathVariable String type) {
+
+		Boolean deleteAdditional = scurityService.deleteAdditionalByIdAndType(id, type);
+		
+		return "redirect:/home";
+	}
+	
+	
 }

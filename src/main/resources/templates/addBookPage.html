@@ -22,7 +22,7 @@
       </div>
       
       <h3>Insert book:</h3>
-      <form th:object="${bookForm}" th:action="@{/admin/addBook}" method='POST'>
+      <form th:object="${bookForm}" th:action="@{/admin/addBook}" method='POST' enctype="multipart/form-data">
          <table>
             <tr>
                <td>Book name:</td>
@@ -83,9 +83,13 @@
             <tr>
                <td>Publishing Company</td>
                <td><input type='number' name='publishingCompany' th:field="*{publishingCompany}"/></td>
+            </tr>
+            <tr>
+               <td>Image:</td>
+               <td><input type='file' name='imageFiles' value='' th:field="*{imageFiles}"  multiple accept="image/png, image/jpeg"/></td>
             </tr>        
             <tr>
-               <td><input name="submit" type="submit" value="submit" /></td>
+               <td><input name="submit" type="submit" value="submit"/></td>
             </tr>
          </table>
       </form>

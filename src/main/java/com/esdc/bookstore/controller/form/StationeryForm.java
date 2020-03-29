@@ -1,7 +1,11 @@
 package com.esdc.bookstore.controller.form;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class StationeryForm {
 	
@@ -34,6 +38,10 @@ public class StationeryForm {
 	
 	@NotNull
 	private String parameter;
+	
+	private MultipartFile[] imageFiles;
+	
+	private List<String> base64Images;
 	
 	private int brand;
 
@@ -73,6 +81,24 @@ public class StationeryForm {
 		this.productType = productType;
 		this.madeIn = madeIn;
 		this.parameter = parameter;
+		this.brand = brand;
+	}
+
+	public StationeryForm(@NotNull @Size(max = 50) String productName, @NotNull @Size(max = 100) String size,
+			@NotNull @Size(max = 2000) String description, double discount, double price, boolean status, int amount,
+			int productType, @NotNull String madeIn, @NotNull String parameter, MultipartFile[] imageFiles, int brand) {
+		super();
+		this.productName = productName;
+		this.size = size;
+		this.description = description;
+		this.discount = discount;
+		this.price = price;
+		this.status = status;
+		this.amount = amount;
+		this.productType = productType;
+		this.madeIn = madeIn;
+		this.parameter = parameter;
+		this.imageFiles = imageFiles;
 		this.brand = brand;
 	}
 
@@ -170,6 +196,22 @@ public class StationeryForm {
 
 	public void setBrand(int brand) {
 		this.brand = brand;
+	}
+
+	public MultipartFile[] getImageFiles() {
+		return imageFiles;
+	}
+
+	public void setImageFiles(MultipartFile[] imageFiles) {
+		this.imageFiles = imageFiles;
+	}
+
+	public List<String> getBase64Images() {
+		return base64Images;
+	}
+
+	public void setBase64Images(List<String> base64Images) {
+		this.base64Images = base64Images;
 	}
 
 }
