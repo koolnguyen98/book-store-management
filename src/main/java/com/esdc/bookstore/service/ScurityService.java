@@ -9,6 +9,7 @@ import com.esdc.bookstore.controller.form.AdditionalForm;
 import com.esdc.bookstore.controller.form.BookForm;
 import com.esdc.bookstore.controller.form.ProductTypeForm;
 import com.esdc.bookstore.controller.form.StationeryForm;
+import com.esdc.bookstore.entity.Account;
 import com.esdc.bookstore.entity.Author;
 import com.esdc.bookstore.entity.Book;
 import com.esdc.bookstore.entity.Brand;
@@ -16,11 +17,14 @@ import com.esdc.bookstore.entity.ProductType;
 import com.esdc.bookstore.entity.PublishingCompany;
 import com.esdc.bookstore.entity.Role;
 import com.esdc.bookstore.entity.Stationery;
+import com.esdc.bookstore.entity.User;
+import com.esdc.bookstore.repository.AccountRepository;
 import com.esdc.bookstore.repository.AuthorRepository;
 import com.esdc.bookstore.repository.BrandRepository;
 import com.esdc.bookstore.repository.ProductTypeRepository;
 import com.esdc.bookstore.repository.PublishingCompanyRepository;
 import com.esdc.bookstore.repository.RoleRepository;
+import com.esdc.bookstore.repository.UserRepository;
 
 @Service
 public class ScurityService {
@@ -45,6 +49,12 @@ public class ScurityService {
 	
 	@Autowired
 	private RoleRepository roleRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private AccountRepository accountRepository;
 
 	public List<ProductType> findAllProductType() {
 		return productTypeRepository.findAll();
@@ -138,6 +148,13 @@ public class ScurityService {
 
 	public Boolean deleteAdditionalByIdAndType(int id, String type) {
 		return productService.deleteAdditionalByIdAndType(id, type);
+	}
+
+	public User findUserByUserName(String userName) {
+		
+		Account account = accountRepository.findByUserName(userName);
+		
+		return userRepository.findByAccount(account);
 	}
 
 	

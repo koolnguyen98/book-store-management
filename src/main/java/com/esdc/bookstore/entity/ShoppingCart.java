@@ -10,6 +10,9 @@ import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.esdc.bookstore.entity.Account;
+import com.esdc.bookstore.entity.Product;;
+
 @Entity
 @Table(name = "shopping_cart")
 public class ShoppingCart {
@@ -34,6 +37,10 @@ public class ShoppingCart {
     @NotNull
 	@Column(name = "unit_price", nullable = false)
 	private double unitPrice;
+    
+    @NotNull
+	@Column(name = "discount", nullable = false)
+	private double discount;
 	
     @NotNull
 	@Column(name = "total_price", nullable = false)
@@ -43,12 +50,13 @@ public class ShoppingCart {
 		super();
 	}
 
-	public ShoppingCart(ShoppingCartKey shoppingCartKey, int amount, double unitPrice, double totalPrice) {
+	public ShoppingCart(ShoppingCartKey shoppingCartKey, int amount, double unitPrice, double totalPrice ,double discount) {
 		super();
 		this.shoppingCartKey = shoppingCartKey;
 		this.amount = amount;
 		this.unitPrice = unitPrice;
 		this.totalPrice = totalPrice;
+		this.discount = discount;
 	}
 
 	public ShoppingCartKey getShoppingCartKey() {
@@ -97,6 +105,14 @@ public class ShoppingCart {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(double discount) {
+		this.discount = discount;
 	}
 	
 }

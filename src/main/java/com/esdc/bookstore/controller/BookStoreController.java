@@ -2,12 +2,14 @@ package com.esdc.bookstore.controller;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -15,6 +17,8 @@ import com.esdc.bookstore.config.utils.WebUtils;
 import com.esdc.bookstore.entity.Book;
 import com.esdc.bookstore.entity.Product;
 import com.esdc.bookstore.entity.ProductType;
+import com.esdc.bookstore.entity.PublishingCompany;
+import com.esdc.bookstore.entity.ShoppingCart;
 import com.esdc.bookstore.entity.Stationery;
 import com.esdc.bookstore.service.NonScurityService;
 
@@ -25,9 +29,7 @@ public class BookStoreController {
 	private NonScurityService nonScurityService;
 
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
-	public String homePage(Model model) {
-		model.addAttribute("title", "Welcome");
-		model.addAttribute("message", "This is welcome page!");
+	public String homePage(Model model, Principal principal) {
 
 		List<ProductType> productTypes = nonScurityService.findAllProductType();
 
@@ -41,19 +43,175 @@ public class BookStoreController {
 
 		model.addAttribute("stationeries", stationeries);
 
-		return "homePage";
+		String userInfo = "";
+		List<ShoppingCart> shoppingCarts = null;
+		if (principal != null) {
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			userInfo = loginedUser.getUsername();
+			
+			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
+
+			
+		}
+		model.addAttribute("shoppingCarts", shoppingCarts);
+		model.addAttribute("userInfo", userInfo);
+
+		return "index";
+	}
+
+	@RequestMapping(value = { "/shop" }, method = RequestMethod.GET)
+	public String shop(Model model, Principal principal) {
+
+		List<ProductType> productTypes = nonScurityService.findAllProductType();
+
+		model.addAttribute("productTypes", productTypes);
+
+		List<PublishingCompany> publishingCompanies = nonScurityService.findAllPublishingCompany();
+
+		model.addAttribute("publishingCompanies", publishingCompanies);
+
+		List<Book> books = nonScurityService.findAllBook();
+
+		model.addAttribute("books", books);
+
+		List<Stationery> stationeries = nonScurityService.findAllStationery();
+
+		model.addAttribute("stationeries", stationeries);
+
+		String userInfo = "";
+		List<ShoppingCart> shoppingCarts = null;
+		if (principal != null) {
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			userInfo = loginedUser.getUsername();
+			
+			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
+
+			
+		}
+		model.addAttribute("shoppingCarts", shoppingCarts);
+		model.addAttribute("userInfo", userInfo);
+
+		return "shop";
+	}
+
+	@RequestMapping(value = { "/shop/{acronym}" }, method = RequestMethod.GET)
+	public String findByProductType(Model model, Principal principal, @PathVariable("acronym") String acronym) {
+
+		List<ProductType> productTypes = nonScurityService.findAllProductType();
+
+		model.addAttribute("productTypes", productTypes);
+
+		List<PublishingCompany> publishingCompanies = nonScurityService.findAllPublishingCompany();
+
+		model.addAttribute("publishingCompanies", publishingCompanies);
+
+		List<Book> books = nonScurityService.findBookByProductAcronym(acronym);
+
+		model.addAttribute("books", books);
+
+		List<Stationery> stationeries = nonScurityService.findAllStationery();
+
+		model.addAttribute("stationeries", stationeries);
+
+		String userInfo = "";
+		List<ShoppingCart> shoppingCarts = null;
+		if (principal != null) {
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			userInfo = loginedUser.getUsername();
+			
+			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
+
+			
+		}
+		model.addAttribute("shoppingCarts", shoppingCarts);
+		model.addAttribute("userInfo", userInfo);
+
+		return "shop";
+	}
+
+	@RequestMapping(value = {"/shop/{acronym}/product/{id}", "/shop/product/{id}"}, method = RequestMethod.GET)
+	public String findByProdcut(Model model, Principal principal, @PathVariable("acronym") Optional<String> acronym,
+			@PathVariable("id") int id) {
+
+		List<ProductType> productTypes = nonScurityService.findAllProductType();
+
+		model.addAttribute("productTypes", productTypes);
+
+		List<PublishingCompany> publishingCompanies = nonScurityService.findAllPublishingCompany();
+
+		model.addAttribute("publishingCompanies", publishingCompanies);
+
+		Book book = nonScurityService.findBookByProductId(id);
+
+		List<Book> books = null;
+		
+		model.addAttribute("book", book);
+		
+		if (acronym.isPresent()) {
+			books = nonScurityService.findBookByProductAcronym(acronym.get());
+		} else {
+			books = nonScurityService.findAllBook();
+		}
+		
+		model.addAttribute("books", books);
+
+		List<Stationery> stationeries = nonScurityService.findAllStationery();
+
+		model.addAttribute("stationeries", stationeries);
+
+		String userInfo = "";
+		List<ShoppingCart> shoppingCarts = null;
+		if (principal != null) {
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			userInfo = loginedUser.getUsername();
+			
+			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
+
+			
+		}
+		model.addAttribute("shoppingCarts", shoppingCarts);
+		model.addAttribute("userInfo", userInfo);
+
+		return "product";
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginPage(Model model) {
+	public String loginPage(Model model, Principal principal) {
+		
+		String userInfo = "";
+		if (principal != null) {
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			userInfo = loginedUser.getUsername();
+		}
 
-		return "loginPage";
+		model.addAttribute("userInfo", userInfo);
+		
+		if (userInfo != "") {
+			return "redirect:/";
+		}
+		
+		return "login";
 	}
 
 	@RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
 	public String logoutSuccessfulPage(Model model) {
-		model.addAttribute("title", "Logout");
-		return "logoutPage";
+		List<ProductType> productTypes = nonScurityService.findAllProductType();
+
+		model.addAttribute("productTypes", productTypes);
+
+		List<Book> books = nonScurityService.findAllBook();
+
+		model.addAttribute("books", books);
+
+		List<Stationery> stationeries = nonScurityService.findAllStationery();
+
+		model.addAttribute("stationeries", stationeries);
+
+		String userInfo = "";
+
+		model.addAttribute("userInfo", userInfo);
+		
+		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
@@ -67,7 +225,7 @@ public class BookStoreController {
 		return "adminPage";
 	}
 
-	@RequestMapping(value = "/userAccountInfo", method = RequestMethod.GET)
+	@RequestMapping(value = "/user", method = RequestMethod.GET)
 	public String userInfo(Model model, Principal principal) {
 
 		// Sau khi user login thanh cong se co principal

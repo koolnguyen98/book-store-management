@@ -1,0 +1,95 @@
+<header class="header-section">
+        <div class="header-top">
+            <div class="container">
+                <div class="ht-left">
+                    <div class="mail-service" th:if="${userInfo != ''}">
+                        <i class=" fa fa-envelope"></i>
+                        <span th:text="${userInfo}" id="userInfor"></span>
+                    </div>
+                </div>
+                <div class="ht-right" th:if="${userInfo == ''}">
+                    <a th:href="@{/login}" class="login-panel"><i class="fa fa-user"></i>Login</a>
+                   
+                    <div class="top-social">
+                        <a href="#"><i class="ti-facebook"></i></a>
+                        <a href="#"><i class="ti-twitter-alt"></i></a>
+                        <a href="#"><i class="ti-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="ht-right" th:unless="${userInfo == ''}">
+                    <a th:href="@{/logout}" class="login-panel"><i class="fa fa-user"></i>Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="inner-header">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2">
+                        <div class="logo">
+                            <a href="./index.html">
+                                <img src="img/booklogo1.png" alt="" >
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-7">
+                        <div class="advanced-search">
+                            <button type="button" class="category-btn">Tìm kiếm sách</button>
+                            <div class="input-group">
+                                <input type="text" placeholder="Công nghệ...">
+                                <button type="button"><i class="ti-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 text-right col-md-3">
+                        <ul class="nav-right" th:if="${not #lists.isEmpty(shoppingCarts)}">
+                            <li class="cart-icon">
+                                <a th:href="@{/shoppingcarts}">
+                                    <i class="icon_bag_alt"></i>
+                                    <span th:if="${not #lists.isEmpty(shoppingCarts)}">[[${#lists.size(shoppingCarts)}]]</span>
+                                    <span th:if="${#lists.isEmpty(shoppingCarts)}">0</span>
+                                </a>
+                            </li>
+                            <li class="cart-price">Giỏ hàng</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-item">
+            <div class="container">
+                <div class="nav-depart">
+                    <div class="depart-btn">
+                        <i class="ti-menu"></i>
+                        <span><a th:href="@{/shop}">Danh mục sản phẩm</a></span>
+                        <ul class="depart-hover">
+                            <li th:each="productType : ${productTypes}">
+                            	<a th:href="@{/shop/__${productType.acronym}__}">
+                            		<i class="fas fa-book"></i> <span th:text="${productType.name}"></span>
+                            	</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <nav class="nav-menu mobile-menu">
+                    <ul>
+                        <li class="active"><a href="./index.html">Trang chủ</a></li>
+                        <li><a href="#">Tin tức</a></li>
+                        <li><a href="">Khuyến mãi</a></li>
+                        <li><a href="">Blog</a></li>
+                        <li><a href="">Liên hệ</a></li>
+                        <!-- <li><a href="#">Pages</a>
+                            <ul class="dropdown">
+                                <li><a href="./blog-details.html">Blog Details</a></li>
+                                <li><a href="./shopping-cart.html">Shopping Cart</a></li>
+                                <li><a href="./check-out.html">Checkout</a></li>
+                                <li><a href="./faq.html">Faq</a></li>
+                                <li><a href="./register.html">Register</a></li>
+                                <li><a href="./login.html">Login</a></li>
+                            </ul>
+                        </li> -->
+                    </ul>
+                </nav>
+                <div id="mobile-menu-wrap"></div>
+            </div>
+        </div>
+    </header>

@@ -165,7 +165,7 @@ public class ProductService {
 		Optional<Product> productOtp = productRepository.findById(id);
 		Product product = productOtp.isPresent() ? productOtp.get() : null;
 		if (book != null && product != null) {
-			List<ShoppingCart> spcbooks = shoppingCartRepository.findByProduct(product);
+			List<ShoppingCart> spcbooks = shoppingCartRepository.findByShoppingCartKeyProductId(product.getId());
 			List<OrderDetail> oddbooks = orderDetailRepository.findByProduct(product);
 			
 			if(spcbooks.isEmpty() && oddbooks.isEmpty()) {
@@ -267,7 +267,7 @@ public class ProductService {
 		Optional<Product> productOtp = productRepository.findById(id);
 		Product product = productOtp.isPresent() ? productOtp.get() : null;
 		if (stationery != null && product != null) {
-			List<ShoppingCart> spcStationerys = shoppingCartRepository.findByProduct(product);
+			List<ShoppingCart> spcStationerys = shoppingCartRepository.findByShoppingCartKeyProductId(product.getId());
 			List<OrderDetail> oddStationerys = orderDetailRepository.findByProduct(product);
 
 			if (spcStationerys.isEmpty() && oddStationerys.isEmpty()) {

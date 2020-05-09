@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <th:block th:include="/_head"></th:block>
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
+    <th:block th:include="/_header"></th:block>
+    <!-- Header End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text product-more">
+                        <a href="./home.html"><i class="fa fa-home"></i>Trang chủ</a>
+                        <a href="./shop.html">Sản phẩm</a>
+                        <span>Giỏ hàng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section Begin -->
+
+    <!-- Shopping Cart Section Begin -->
+    <section class="shopping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="cart-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th>Tên</th>
+                                    <th>Đơn giá</th>
+                                    <th>Số lượng</th>
+                                    <th>Tổng tiền</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="shoppingCart : ${shoppingCarts}">
+                                    <td class="cart-pic first-row"><img th:src="@{/img/products/p1.jpg}" alt=""
+                                            style="height: 150px"></td>
+                                    <td class="cart-title first-row">
+                                        <h5>[[${shoppingCart.product.productName}]]</h5>
+                                    </td>
+                                    <td class="p-price first-row">[[(${shoppingCart.product.price} - (${shoppingCart.product.price}*${shoppingCart.discount})/100) + 'VNĐ']]</td>
+                                    <td class="qua-col first-row">
+                                        <div class="quantity">
+                                            <div class="pro-qty">
+                                                <input type="number" th:value="${shoppingCart.amount}" min="1">
+                                            </div>
+                                            <input type="hidden" th:value="${shoppingCart.product.id}">
+                                        </div>
+                                    </td>
+                                    <td class="total-price first-row">[[${shoppingCart.totalPrice} + 'VNĐ']]</td>
+                                    <td class="close-td first-row"><i class="ti-close"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="cart-buttons">
+                                <a th:href="@{/shop}" class="primary-btn continue-shop">Tiếp tục mua sắm</a>
+                            </div>
+                            <!-- <div class="discount-coupon">
+                                <h6>Discount Codes</h6>
+                                <form action="#" class="coupon-form">
+                                    <input type="text" placeholder="Enter your codes">
+                                    <button type="submit" class="site-btn coupon-btn">Apply</button>
+                                </form>
+                            </div> -->
+                        </div>
+                        <div class="col-lg-4 offset-lg-4">
+                            <div class="proceed-checkout">
+                                <ul>
+                                    <li class="subtotal">Tổng tiền <span>[[${totalPrice} + 'VNĐ']]</span></li>
+                                </ul>
+                                <a th:href="@{/shoppingcarts/order}" class="proceed-btn">Đặt hàng</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+
+    <!-- Partner Logo Section Begin -->
+
+    <!-- Partner Logo Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer-section">
+        <th:block th:include="/_footer"></th:block>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    <th:block th:include="/_jsplugin"></th:block>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var proQty = $('.pro-qty');
+			
+			proQty.on('click', '.qtybtn', function () {
+				var $button = $(this);
+				var oldValue = $button.parent().find('input').val();
+				if ($button.hasClass('inc')) {
+					var bookId = $(this).parent().next().val();
+					
+					$.ajax({
+						type : 'POST',
+						url : "/shoppingcarts/" + bookId + "/addNumberProduct",
+						success : function() {
+							location.reload();
+						}
+					});
+				} else {
+					var bookId = $(this).parent().next().val();
+
+					$.ajax({
+						type : 'POST',
+						url : "/shoppingcarts/" + bookId + "/minusNumberProduct",
+						success : function() {
+							location.reload();
+						}
+					});
+
+				}
+				
+			});
+			
+			$(this).find('input').change(function(){
+			    var number = $(this).val();
+			    var bookId = $(this).parent().next().val();
+			    
+			    $.ajax({
+					type : 'POST',
+					url : "/shoppingcarts/update/" + bookId + "?number=" +number,
+					success : function() {
+						location.reload();
+					}
+				});
+			});
+			
+			var tiClose = $('.ti-close');
+			
+			tiClose.on('click', function () {
+				var check = confirm("Bạn có muốn xóa sản phẩm này không?");
+				
+				if (check) {
+					
+					var bookId = $(this).parents().eq(3).find('input').eq(1).val();
+					
+					$.ajax({
+						type : 'POST',
+						url : "/shoppingcarts/" + bookId + "/delete",
+						success : function() {
+							location.reload();
+						}
+					});
+				} 
+			});
+		});
+	</script>
+</body>
+
+</html>

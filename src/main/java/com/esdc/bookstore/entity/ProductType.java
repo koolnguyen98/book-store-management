@@ -30,7 +30,7 @@ public class ProductType {
 	
 	@NotNull
 	@Size(max = 5)
-	@Column(name = "acronym", nullable = false)
+	@Column(name = "acronym", nullable = false, unique = true)
 	private String acronym;
 	
 	@OneToMany(mappedBy = "productType", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

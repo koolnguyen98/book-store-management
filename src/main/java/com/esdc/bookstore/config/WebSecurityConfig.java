@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -35,6 +37,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
  
     }
+    
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        SimpleUrlAuthenticationSuccessHandler handler = new SimpleUrlAuthenticationSuccessHandler();
+        handler.setUseReferer(true);
+        return handler;
+    }
  
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -43,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
  
         http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll();
  
-        http.authorizeRequests().antMatchers("/userAccountInfo", "/userAccountInfo/**").hasAnyAuthority("ADMIN", "USER");
+        http.authorizeRequests().antMatchers("/user", "/user/**", "/shoppingcarts", "/shoppingcarts/**").hasAnyAuthority("ADMIN", "USER");
  
         http.authorizeRequests().antMatchers("/admin" ,"/admin/**").hasAuthority("ADMIN");
  
@@ -52,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().and().formLogin()
                 .loginProcessingUrl("/bookStoreScurity")
                 .loginPage("/login")
-                .defaultSuccessUrl("/userAccountInfo")
+                .successHandler(successHandler())
                 .failureUrl("/login?error=true")
                 .usernameParameter("username")
                 .passwordParameter("password")

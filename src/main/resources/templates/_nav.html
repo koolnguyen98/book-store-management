@@ -1,0 +1,71 @@
+<form
+	class="col-lg-3 col-md-6 col-sm-8 produts-sidebar-filter">
+	<div class="filter-widget">
+		<h4 class="fw-title">Sách</h4>
+		<ul class="filter-catagories">
+			<li th:each="productType : ${productTypes}"><a
+				th:href="@{/shop/__${productType.acronym}__}"> <i
+					class="fas fa-book"></i> <span th:text="${productType.name}"></span>
+			</a></li>
+		</ul>
+	</div>
+	<div class="filter-widget">
+		<h4 class="fw-title">Thương hiệu</h4>
+		<div class="fw-brand-check">
+			<div class="bc-item"
+				th:each="publishingCompany : ${publishingCompanies}">
+				<label for="bc-calvin"> <span
+					th:text="${publishingCompany.name}"></span> <input type="checkbox"
+					th:id="'TT' + ${publishingCompany.id}"> <span
+					class="checkmark"></span>
+				</label>
+			</div>
+		</div>
+	</div>
+	<div class="filter-widget">
+		<h4 class="fw-title">Ngôn ngữ</h4>
+		<div class="fw-brand-check">
+			<div class="bc-item">
+				<label for="bc-calvin"> Tiếng Việt <input type="checkbox"
+					id="NN0"> <span class="checkmark"></span>
+				</label>
+			</div>
+			<div class="bc-item">
+				<label for="bc-diesel"> Tiếng Anh <input type="checkbox"
+					id="NN1"> <span class="checkmark"></span>
+				</label>
+			</div>
+			<div class="bc-item">
+				<label for="bc-polo"> Song ngữ Anh - Việt <input
+					type="checkbox" id="NN2"> <span class="checkmark"></span>
+				</label>
+			</div>
+			<div class="bc-item">
+				<label for="bc-tommy"> Tiếng Nhật <input type="checkbox"
+					id="NN3"> <span class="checkmark"></span>
+				</label>
+			</div>
+		</div>
+	</div>
+	<div class="filter-widget">
+		<h4 class="fw-title">Giá</h4>
+		<div class="filter-range-wrap">
+			<div class="range-slider">
+				<div class="price-input">
+					<input type="text" id="minamount"> <input type="text"
+						id="maxamount">
+				</div>
+			</div>
+			<div
+				class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
+				data-min="0" data-max="1000000">
+				<div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+				<span tabindex="0"
+					class="ui-slider-handle ui-corner-all ui-state-default"></span> <span
+					tabindex="0"
+					class="ui-slider-handle ui-corner-all ui-state-default"></span>
+			</div>
+		</div>
+		<button class="filter-btn">Lọc</button>
+	</div>
+</form>

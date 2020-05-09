@@ -250,8 +250,8 @@ public class AdminController {
 		return "redirect:/home";
 	}
 
-	@RequestMapping(value = "/admin/updateAdditional/{id}", method = RequestMethod.GET)
-	public String updateAdditionalPage(Model model, @PathVariable int id, @PathVariable String type) {
+	@RequestMapping(value = "/admin/updateAdditional/{type}/{id}", method = RequestMethod.GET)
+	public String updateAdditionalPage(Model model, @PathVariable("id") int id, @PathVariable("type") String type) {
 
 		AdditionalForm additionalForm = scurityService.findAdditionalByIdAndType(id, type);
 

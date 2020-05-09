@@ -30,6 +30,10 @@ public class Order {
 	@Column(name = "payment_method", nullable = false, columnDefinition="tinyint(1) default 0")
 	private Boolean paymentMethod;
 	
+	@NotNull
+	@Column(name = "address", nullable = false)
+	private String address;
+	
 	@Basic(optional = false)
 	@Column(name = "date_create", insertable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)

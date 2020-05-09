@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+<th:block th:include="/_head"></th:block>
+</head>
+
+<body>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<!-- Header Section Begin -->
+	<th:block th:include="/_header"></th:block>
+	<!-- Header End -->
+
+	<!-- Breadcrumb Section Begin -->
+	<div class="breacrumb-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="breadcrumb-text product-more">
+						<a href="./home.html"><i class="fa fa-home"></i> Trang chủ</a> <a
+							href="./shop.html">Sách</a> <span>Chi tiết</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Breadcrumb Section Begin -->
+
+	<!-- Product Shop Section Begin -->
+	<section class="product-shop spad page-details">
+		<div class="container">
+			<div class="row">
+
+				<!-- Include _nav.html -->
+				<th:block th:include="/_nav"></th:block>
+				<!-- End -->
+
+				<div class="col-lg-9">
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="product-pic-zoom">
+								<img class="product-big-img" th:src="@{/img/products/p1.jpg}"
+									alt="">
+								<div class="zoom-icon">
+									<i class="fa fa-search-plus"></i>
+								</div>
+							</div>
+							<div class="product-thumbs">
+								<div class="product-thumbs-track ps-slider owl-carousel">
+									<div class="pt active"
+										th:data-imgbigurl="@{/img/products/p1.jpg}">
+										<img th:src="@{/img/products/p1.jpg}" alt="">
+									</div>
+									<div class="pt" th:data-imgbigurl="@{/img/products/p1-1.jpg}">
+										<img th:src="@{/img/products/p1-1.jpg}" alt="">
+									</div>
+									<div class="pt" th:data-imgbigurl="@{/img/products/p1-2.jpg}">
+										<img th:src="@{/img/products/p1-2.jpg}" alt="">
+									</div>
+									<div class="pt" th:data-imgbigurl="@{/img/products/p1-3.jpg}">
+										<img th:src="@{/img/products/p1-3.jpg}" alt="">
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="product-details">
+								<div class="pd-title">
+									<span th:text="${book.productType.name}"></span>
+									<h3 th:text="${book.productName}"></h3>
+									<a href="#" class="heart-icon"><i class="icon_heart_alt"></i></a>
+								</div>
+								<div class="pd-rating">
+									<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+										class="fa fa-star-o"></i> <span>(5)</span>
+								</div>
+								<div class="pd-desc">
+									<p th:text="${book.description}"></p>
+									<h4>
+										[[(${book.price} - (${book.price}*${book.discount})/100) +
+										'VNĐ']] <span th:text="${book.price} + 'VNĐ'"></span> <b
+											th:if="${book.discount*1 != 0}"> [[${book.discount} +
+											'%']]</span>
+										</b>
+									</h4>
+								</div>
+								<div class="quantity">
+									<div class="pro-qty">
+										<input type="text" value="1" id="number">
+									</div>
+									<a href="#" class="primary-btn pd-cart" data-toggle="modal"
+										data-target="#login" id="addProduct">Thêm vào giỏ hàng</a>
+								</div>
+								<ul class="pd-tags">
+									<li><span>Nhà xuất bản</span>:
+										[[${book.publishingCompany.name}]]</li>
+									<li><span>Tác giả</span>: [[${book.author.name}]]</li>
+								</ul>
+								<div class="pd-share">
+									<div class="p-code">Code : [[${book.productType.acronym}
+										+ '0000' + ${book.id}]]</div>
+									<input type="hidden" th:value="${book.id}" id="bookId">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="product-tab">
+						<div class="tab-item">
+							<ul class="nav" role="tablist">
+								<li><a class="active" data-toggle="tab" href="#tab-1"
+									role="tab">Giới thiệu</a></li>
+								<li><a data-toggle="tab" href="#tab-2" role="tab">Thông
+										tin chi tiết</a></li>
+								<li><a data-toggle="tab" href="#tab-3" role="tab">Khách
+										hàng nhận xét</a></li>
+							</ul>
+						</div>
+						<div class="tab-item-content">
+							<div class="tab-content">
+								<div class="tab-pane fade-in active" id="tab-1" role="tabpanel">
+									<div class="product-content">
+										<div class="row">
+											<div class="col-lg-7">
+												<h5>[[${book.productName}]]</h5>
+												<p>[[${book.description}]]</p>
+											</div>
+											<div class="col-lg-5">
+												<img src="img/products/p1.jpg" alt="">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="tab-2" role="tabpanel">
+									<div class="specification-table">
+										<table>
+											<tr>
+												<td class="p-catagory">Mã sản phẩm</td>
+												<td style="text-align: left">
+													<h5 style="padding-left: 34px">[[${book.productType.acronym}
+														+ '0000' + ${book.id}]]</h5>
+												</td>
+												<!-- <td>
+                                                    <div class="pd-rating">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star-o"></i>
+                                                        <span>(5)</span>
+                                                    </div>
+                                                </td> -->
+											</tr>
+											<tr>
+												<td class="p-catagory">Tác giả</td>
+												<td style="text-align: left">
+													<h5 style="padding-left: 34px">
+														[[${book.author.name}]]</h5>
+												</td>
+											</tr>
+											<tr>
+												<td class="p-catagory">Nhà xuất bản</td>
+												<td style="text-align: left">
+													<h5 style="padding-left: 34px">[[${book.publishingCompany.name}]]</h5>
+												</td>
+											</tr>
+											<tr>
+												<td class="p-catagory">Người dịch</td>
+												<td style="text-align: left">
+													<h5 style="padding-left: 34px">[[${book.translator}]]</h5>
+												</td>
+											</tr>
+											<tr>
+												<td class="p-catagory">Hình thức bìa</td>
+												<td style="text-align: left">
+													<h5 style="padding-left: 34px">[[${book.formBookJacket}]]</h5>
+												</td>
+											</tr>
+											<tr>
+												<td class="p-catagory">Kích thước</td>
+												<td style="text-align: left">
+													<h5 style="padding-left: 34px">[[${book.size}]]</h5>
+												</td>
+											</tr>
+											<tr>
+												<td class="p-catagory">Số trang</td>
+												<td style="text-align: left">
+													<h5 style="padding-left: 34px">[[${book.pageNumber}]]</h5>
+												</td>
+											</tr>
+											<tr>
+												<td class="p-catagory">Năm xuất bản</td>
+												<td style="text-align: left">
+													<h5 style="padding-left: 34px">[[${book.publishingYear}]]</h5>
+												</td>
+											</tr>
+											<tr>
+												<td class="p-catagory">Ngôn ngữ</td>
+												<td style="text-align: left">
+													<h5 style="padding-left: 34px">[[${book.language}]]</h5>
+												</td>
+											</tr>
+										</table>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="tab-3" role="tabpanel">
+									<div class="customer-review-option">
+										<h4>2 Comments</h4>
+										<div class="comment-option">
+											<div class="co-item">
+												<div class="avatar-pic">
+													<img src="img/product-single/avatar-1.png" alt="">
+												</div>
+												<div class="avatar-text">
+													<div class="at-rating">
+														<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+															class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+															class="fa fa-star-o"></i>
+													</div>
+													<h5>
+														Alexa Bliss <span>27/8/2019</span>
+													</h5>
+													<div class="at-reply">Nice !</div>
+												</div>
+											</div>
+											<div class="co-item">
+												<div class="avatar-pic">
+													<img src="img/product-single/avatar-2.png" alt="">
+												</div>
+												<div class="avatar-text">
+													<div class="at-rating">
+														<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+															class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+															class="fa fa-star-o"></i>
+													</div>
+													<h5>
+														Sasha Banks <span>27/9/2019</span>
+													</h5>
+													<div class="at-reply">Nice !</div>
+												</div>
+											</div>
+										</div>
+										<div class="personal-rating">
+											<h6>Đánh giá của bạn</h6>
+											<div class="rating">
+												<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+													class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+													class="fa fa-star-o"></i>
+											</div>
+										</div>
+										<div class="leave-comment">
+											<h4>Nhận xét</h4>
+											<form action="#" class="comment-form">
+												<div class="row">
+													<div class="col-lg-6">
+														<input type="text" placeholder="Tên">
+													</div>
+													<div class="col-lg-6">
+														<input type="text" placeholder="Email">
+													</div>
+													<div class="col-lg-12">
+														<textarea placeholder="Viết đánh giá"></textarea>
+														<button type="submit" class="site-btn">Gửi</button>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Modal Login  -->
+			<div class="modal fade" id="login">
+				<div class="modal-dialog modal-dialog-centered modal-xl">
+					<div class="modal-content">
+
+						<!-- Modal Header -->
+						<div class="modal-header">
+
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+
+						<!-- Modal body -->
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-lg-6 offset-lg-3">
+									<div class="login-form">
+										<h2>Đăng nhập</h2>
+										<br>
+										<form name='f' th:action="@{/bookStoreScurity}" method='POST'>
+											<div class="group-input">
+												<label for="username">Tên tài khoản *</label> <input
+													type="text" id="username" name='username'>
+											</div>
+											<div class="group-input">
+												<label for="pass">Mật khẩu *</label> <input type="password"
+													id="pass" name='password'>
+											</div>
+											<div class="group-input gi-check">
+												<div class="gi-more">
+													<label for="save-pass"> Lưu mật khẩu <input
+														type="checkbox" id="save-pass" name="remember-me">
+														<span class="checkmark"></span>
+													</label> <a href="#" class="forget-pass">Quên mật khẩu?</a>
+												</div>
+											</div>
+											<button type="submit" class="site-btn login-btn"
+												name="submit">Đăng nhập</button>
+										</form>
+										<div class="switch-login">
+											<a href="./register.html" class="or-login">Tạo tài khoản
+												mới</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal-footer">
+							<button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Product Shop Section End -->
+
+	<!-- Related Products Section End -->
+	<div class="related-products spad">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="section-title">
+						<h2>Cùng thể loại</h2>
+					</div>
+				</div>
+			</div>
+			<div class="product-slider owl-carousel">
+				<div class="product-item" th:each="productBook : ${books}">
+					<div class="pi-pic">
+						<img th:src="@{/img/products/p2.jpg}" alt="" style="height: 300px">
+						<div class="sale pp-sale" th:if="${productBook.discount*1 != 0}">[[${productBook.discount}
+							+ '%']]</div>
+						<div class="icon">
+							<i class="icon_heart_alt"></i>
+						</div>
+						<ul>
+							<li class="w-icon active"><a href="#"><i
+									class="icon_bag_alt"></i></a></li>
+							<li class="quick-view"><a
+								th:href="@{/shop/__${productBook.productType.acronym}__/product/__${productBook.id}__}">+
+									Chi tiết</a></li>
+						</ul>
+					</div>
+					<div class="pi-text">
+						<div class="catagory-name">[[${productBook.productType.name}]]</div>
+						<a
+							th:href="@{/shop/__${productBook.productType.acronym}__/product/__${productBook.id}__}">
+							<h5>[[${productBook.productName}]]</h5>
+						</a>
+						<div class="product-price">
+							[[(${productBook.price} -
+							(${productBook.price}*${productBook.discount})/100) + 'VNĐ']] <span
+								th:text="${productBook.price} + 'VNĐ'"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Related Products Section End -->
+
+	<!-- Partner Logo Section Begin -->
+
+	<!-- Partner Logo Section End -->
+
+	<!-- Footer Section Begin -->
+	<footer class="footer-section">
+		<th:block th:include="/_footer"></th:block>
+	</footer>
+	<!-- Footer Section End -->
+
+	<!-- Js Plugins -->
+	<th:block th:include="/_jsplugin"></th:block>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#addProduct").click(function(e) {
+				
+				var bookId = $("#bookId").val();
+				
+				var number = $("#number").val();
+				
+				var checkLogin = $("#userInfor").text();
+				
+				if(checkLogin != ""){
+					$.ajax({
+						type : 'POST',
+						url : "/shoppingcarts/" + bookId + "?number=" +number,
+						success : function(data) {
+							alert("Thêm vào giỏ hàng thành công");
+						}
+					});
+				} else {
+					$("#login").modal("show");
+				}
+				
+				return false;
+			});
+		});
+	</script>
+</body>
+
+</html>

@@ -8,4 +8,6 @@ import com.esdc.bookstore.entity.ProductType;
 @Repository
 public interface ProductTypeRepository extends JpaRepository<ProductType, Integer>  {
 
+	ProductType findByAcronym(String acronym);
+
 }

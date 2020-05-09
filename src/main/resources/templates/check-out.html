@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <th:block th:include="/_head"></th:block>
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
+    <th:block th:include="/_header"></th:block>  
+    <!-- Header End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text product-more">
+                        <a href="./index.html"><i class="fa fa-home"></i> Trang Chủ</a>
+                        <a href="./shop.html">Sản phẩm</a>
+                        <span>Thanh Toán</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section Begin -->
+
+    <!-- Shopping Cart Section Begin -->
+    <section class="checkout-section spad">
+        <div class="container">
+            <div class="checkout-form">
+                <div class="row">
+                    <div class="col-lg-6">
+
+                        <h4>Thông tin đơn hàng</h4>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label for="fir">Họ và tên<span>*</span></label>
+                                <input type="text" id="fir" th:value="${user.fullName}" disabled>
+                            </div>
+
+                            <!-- <div class="col-lg-12">
+                                <label for="cun-name">Company Name</label>
+                                <input type="text" id="cun-name">
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="cun">Country<span>*</span></label>
+                                <input type="text" id="cun">
+                            </div> -->
+                            <div class="col-lg-12">
+                                <label for="street">Địa chỉ<span>*</span></label>
+                                <input type="text" id="street" class="street-first"
+                                    th:value="${user.address}">
+                            </div>
+
+                            <div class="col-lg-12">
+                                <label for="email">Email <span>*</span></label>
+                                <input type="text" id="email" th:value="${user.email}" disabled>
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="phone">Số điện thoại<span>*</span></label>
+                                <input type="text" id="phone" th:value="${user.phoneNumber}" disabled>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+
+                        <div class="place-order">
+                            <h4>Sản phẩm</h4>
+                            <div class="order-total">
+                                <ul class="order-table">
+                                    <li>Sản phẩm <span>Thành tiền</span></li>
+                                    <li class="fw-normal" th:each="shoppingCart : ${shoppingCarts}">[[${shoppingCart.product.productName} + 'x' + ${shoppingCart.amount}]]<span>[[${shoppingCart.totalPrice} + 'VNĐ']]</span></li>
+                                </ul>
+                                <div class="payment-check">
+                                    <h5>Hình thức thanh toán </h5><br>
+                                    <div class="pc-item">
+                                        <label for="pc-check">
+                                            iBanking
+                                            <input type="radio" id="pc-check" name="payment" value="1">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                    <div class="pc-item">
+                                        <label for="pc-paypal">
+                                            COD (20,000 VNĐ)
+                                            <input type="radio" id="pc-paypal" name="payment" vaule="0">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <ul class="order-table">
+                                    <li class="total-price">Tổng tiền <span>[[${totalPrice} + 'VNĐ']]</span></li>
+                                </ul>
+                                <div class="order-btn">
+                                    <button type="submit" class="site-btn place-btn" id="submit">Mua hàng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+
+    <!-- Partner Logo Section Begin -->
+
+    <!-- Partner Logo Section End -->
+
+    <!-- Footer Section Begin -->
+    <!-- Footer Section Begin -->
+    <footer class="footer-section">
+        <th:block th:include="/_footer"></th:block>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    <th:block th:include="/_jsplugin"></th:block>
+    
+    <script type="text/javascript">
+		$(document).ready(function() {		
+			var submit = $('#submit');
+			
+			submit.on('click', function () {
+				var check = confirm("Xác nhận đặt hàng?");
+				
+				if (check) {
+					
+					var stress = $("#street").val();
+					
+					var pcCheck = $("input[name='payment']:checked").val();
+					
+					if (pcCheck != 1 && pcCheck != 0) {
+						pcCheck = 0;
+					}
+					
+					var data = {};
+					
+					data['stress'] = stress;
+					data['pcCheck'] = pcCheck;
+					
+					$.ajax({
+						type : 'POST',
+						url : "/shoppingcarts/ordering",
+						data: data,
+						success : function() {
+							location.reload();
+						}
+					});
+				} 
+			});
+		});
+	</script>
+</body>
+
+</html>

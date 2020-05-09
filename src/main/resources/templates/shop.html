@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <th:block th:include="/_head"></th:block>
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
+    <th:block th:include="/_header"></th:block>
+    <!-- Header End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <a href="#"><i class="fa fa-home"></i> Home</a>
+                        <span>Shop</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section Begin -->
+
+    <!-- Product Shop Section Begin -->
+    <section class="product-shop spad">
+        <div class="container">
+            <div class="row">
+            
+            	<!-- Include _nav.html -->
+                <th:block th:include="/_nav"></th:block>
+                <!-- End -->
+                
+                <div class="col-lg-9 order-1 order-lg-2">
+                    <div class="product-show-option">
+                        <div class="row">
+                            <div class="col-lg-7 col-md-7">
+                                <div class="select-option">
+                                    <select class="sorting">
+                                        <option value="" selected>Sắp xếp</option>
+                                        <option value="">Nổi bật</option>
+                                        <option value="">Bán chạy</option>
+                                        <option value="">Mới nhất</option>
+                                    </select>
+                                    <select class="sorting">
+                                        <option value="">12 sản phẩm</option>
+                                        <option value="">24 sản phẩm</option>
+                                        <option value="">48 sản phẩm</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- <div class="col-lg-5 col-md-5 text-right">
+                                <p>Show 01- 09 Of 36 Product</p>
+                            </div> -->
+                        </div>
+                    </div>
+                    <div class="product-list">
+                        <div class="row">
+                            <div class="col-lg-4 col-sm-6" th:each="book : ${books}">
+                                <div class="product-item">
+                                    <div class="pi-pic">
+                                        <img th:src="@{/img/products/p1.jpg}" alt="" style="height: 250px">
+                                        <div class="sale pp-sale" th:if="${book.discount*1 != 0}"><span th:text="${book.discount} + '%'"></span></div>
+                                        <div class="icon">
+                                            <i class="icon_heart_alt"></i>
+                                        </div>
+                                        <ul>
+                                            <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
+                                            <li class="quick-view"><a th:href="@{__${#httpServletRequest.requestURI}__/product/__${book.id}__}">+ Chi tiết</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="pi-text">
+                                        <div class="catagory-name"><span th:text="${book.productType.name}"></span></div>
+                                        <a th:href="@{__${#httpServletRequest.requestURI}__/product/__${book.id}__}">
+                                            <h5 th:text="${book.productName}"></h5>
+                                        </a>
+                                        <div class="product-price">
+                                            <h5 th:text="(${book.price} - (${book.price}*${book.discount})/100) + 'VNĐ'"></h5>
+                                            <span th:text="${book.price} + 'VNĐ'"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="loading-more">
+                        <i class="icon_loading"></i>
+                        <a href="#">
+                            Xem thêm
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Shop Section End -->
+
+    <!-- Partner Logo Section Begin -->
+
+    <!-- Partner Logo Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer-section">
+        <th:block th:include="/_footer"></th:block>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    <th:block th:include="/_jsplugin"></th:block>
+</body>
+
+</html>
