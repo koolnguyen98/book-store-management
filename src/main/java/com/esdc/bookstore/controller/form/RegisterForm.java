@@ -29,12 +29,23 @@ public class RegisterForm {
 	@NotNull
     private boolean sex;
 	
+	
+	public RegisterForm(@NotNull String username, @NotNull String password, @NotNull String confPassword,
+			@NotNull String fullName, @NotNull String email, @NotNull String phoneNumber, @NotNull String address) {
+		this.username = username;
+		this.password = password;
+		this.confPassword = confPassword;
+		this.fullName = fullName;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.address = address;
+	}
+
 	public RegisterForm() {}
 	
 	public RegisterForm(@NotNull String username, @NotNull String password, @NotNull String confPassword,
 			@NotNull String fullName, @NotNull String email, @NotNull String phoneNumber, @NotNull String address,
 			@NotNull boolean sex) {
-		super();
 		this.username = username;
 		this.password = password;
 		this.confPassword = confPassword;
@@ -48,7 +59,6 @@ public class RegisterForm {
 	public RegisterForm(int id, @NotNull String username, @NotNull String password, @NotNull String confPassword,
 			@NotNull String fullName, @NotNull String email, @NotNull String phoneNumber, @NotNull String address,
 			@NotNull boolean sex) {
-		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
@@ -131,4 +141,12 @@ public class RegisterForm {
 	public void setSex(boolean sex) {
 		this.sex = sex;
 	}
+
+	@Override
+	public String toString() {
+		return "RegisterForm [username=" + username + ", password=" + password + ", confPassword=" + confPassword
+				+ ", fullName=" + fullName + ", email=" + email + ", phoneNumber=" + phoneNumber + ", address="
+				+ address + ", sex=" + sex + "]";
+	}
+
 }

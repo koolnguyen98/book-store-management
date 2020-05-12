@@ -2,8 +2,8 @@ const isAccountValid = (payload) => {
 	const emailPattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
 	const phonePattern = /(03|07|08|09|01[2|6|8|9])+([0-9]{8})\b/;
 	
-	const { username, password, confPass, fullname,
-		email, phoneNumber, address, sex } = payload;
+	const { username, password, confPassword, fullname,
+		email, phoneNumber, address } = payload;
 		
 	let formIsValid = true;
 	
@@ -25,11 +25,11 @@ const isAccountValid = (payload) => {
 		formIsValid = false;
 	}
 	
-	if (confPass.trim().length == 0) {
+	if (confPassword.trim().length == 0) {
 		$(".confPassword-helper").html('Password is required');
 		formIsValid = false;
 	} else {
-		if (password.trim() !== confPass.trim()) {
+		if (password.trim() !== confPassword.trim()) {
 			$(".confPassword-helper").html('Password does not match');
 			formIsValid = false;
 		}
@@ -75,7 +75,7 @@ const register = () => {
 		
 		let username = $('#username').val();
 		let password = $('#pass').val();
-		let confPass = $('#con-pass').val();
+		let confPassword = $('#con-pass').val();
 		let fullname = $('#fullname').val();
 		let email = $('#email').val();
 		let phoneNumber = $('#phoneNumber').val();
@@ -83,17 +83,16 @@ const register = () => {
 		let sex = $('#male').is(':checked') ? 1 : 0;
 		
 		let payload = {
-			username,password,confPass,
+			username,password,confPassword,
 			fullname, email, phoneNumber, address, sex
 		};
 		
 		let isValid = isAccountValid(payload);
 		
 		if (isValid) {
-			alert('form is valid');
-		} else {
-			alert('form is not valid');
-		}
+			$('.register-form').submit();
+
+		} 
 	})
 }
 
