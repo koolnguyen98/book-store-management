@@ -26,12 +26,16 @@ import com.esdc.bookstore.entity.PublishingCompany;
 import com.esdc.bookstore.entity.ShoppingCart;
 import com.esdc.bookstore.entity.Stationery;
 import com.esdc.bookstore.service.NonScurityService;
+import com.esdc.bookstore.service.UserService;
 
 @Controller
 public class BookStoreController {
 
 	@Autowired
 	private NonScurityService nonScurityService;
+	
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public String homePage(Model model, Principal principal) {
@@ -277,6 +281,7 @@ public class BookStoreController {
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String register(Model model, @ModelAttribute("registerForm") @Validated RegisterForm registerForm) {
+		model = userService.createUser(model, registerForm);
 		
 		return "register";
 	}
