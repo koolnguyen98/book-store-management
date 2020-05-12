@@ -6,6 +6,7 @@ const isAccountValid = (payload) => {
 		email, phoneNumber, address } = payload;
 		
 	let formIsValid = true;
+	let coordinates;
 	
 	$(".username-helper").html('');
 	$(".password-helper").html('');
@@ -18,53 +19,94 @@ const isAccountValid = (payload) => {
 	if (username.trim().length == 0) {
 		$(".username-helper").html('Username is required');
 		formIsValid = false;
+		
+		if (!coordinates) {
+			coordinates = $("#username").offset().top - 50;
+		}
 	}
 	
 	if (password.trim().length == 0) {
 		$(".password-helper").html('Password is required');
 		formIsValid = false;
+		
+		if (!coordinates) {
+			coordinates = $("#pass").offset().top - 50;
+		}
 	}
 	
 	if (confPassword.trim().length == 0) {
 		$(".confPassword-helper").html('Password is required');
 		formIsValid = false;
+		
+		if (!coordinates) {
+			coordinates = $("#con-pass").offset().top - 50;
+		}
 	} else {
 		if (password.trim() !== confPassword.trim()) {
 			$(".confPassword-helper").html('Password does not match');
 			formIsValid = false;
+			
+			if (!coordinates) {
+				coordinates = $("#con-pass").offset().top - 50;
+			}
 		}
 	}
 	
 	if (fullname.trim().length == 0) {
 		$(".fullName-helper").html('Fullname is required');
 		formIsValid = false;
+		
+		if (!coordinates) {
+			coordinates = $("#fullname").offset().top - 50;
+		}
 	}
 	
 	if (email.trim().length == 0) {
 		$(".email-helper").html('Email is required');
 		formIsValid = false;
+		
+		if (!coordinates) {
+			coordinates = $("#email").offset().top - 50;
+		}
 	} else {
 		if (!emailPattern.test(email.trim())) {
 			$(".email-helper").html('Email is not valid');
 			formIsValid = false;
+			
+			if (!coordinates) {
+				coordinates = $("#email").offset().top - 50;
+			}
 		}
 	}
 	
 	if (phoneNumber.trim().length == 0) {
 		$(".phoneNumber-helper").html('Phone number is required');
 		formIsValid = false;
+		
+		if (!coordinates) {
+			coordinates = $("#phoneNumber").offset().top - 50;
+		}
 	} else {
 		if (!phonePattern.test(phoneNumber.trim())) {
 			$(".phoneNumber-helper").html('Phone number is not valid');
 			formIsValid = false;
+			
+			if (!coordinates) {
+				coordinates = $("#phoneNumber").offset().top - 50;
+			}
 		}
 	}
 	
 	if (address.trim().length == 0) {
 		$(".address-helper").html('Address is required');
 		formIsValid = false;
+	
+		if (!coordinates) {
+			coordinates = $("#address").offset().top - 50;
+		}
 	}
 	
+	$("html").animate({ scrollTop: coordinates }, 500);
 	
 	return formIsValid;
 }
@@ -91,7 +133,6 @@ const register = () => {
 		
 		if (isValid) {
 			$('.register-form').submit();
-
 		} 
 	})
 }

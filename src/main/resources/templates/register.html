@@ -37,6 +37,17 @@
                 <div class="col-lg-6 offset-lg-3">
                     <div class="register-form">
                         <h2>Đăng kí</h2>
+                        <div th:if="${errorMessage != null}" th:text="${errorMessage}" class="alert alert-danger" role="alert">
+						  This is a secondary alert—check it out!
+						</div>
+						<div th:if="${successMessage}"
+							class="alert alert-success alert-dismissible fade show" role="alert">
+							<span th:text="${successMessage}"></span>
+							<button type="button" class="close" data-dismiss="alert"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
                         <form class="register-form" th:action="@{/register}" th:object="${registerForm}" method="POST">
                             <div class="group-input">
                                 <label for="username">Tên đăng nhập *</label>

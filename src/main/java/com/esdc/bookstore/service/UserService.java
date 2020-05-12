@@ -14,6 +14,7 @@ import com.esdc.bookstore.repository.AccountRepository;
 import com.esdc.bookstore.repository.RoleRepository;
 import com.esdc.bookstore.repository.UserRepository;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Service
 public class UserService {
@@ -29,7 +30,7 @@ public class UserService {
 	@Autowired
 	private AuthService authService;
 	
-	public Model createUser(Model model, RegisterForm registerForm) {
+	public String createUser(RedirectAttributes redirect, Model model, RegisterForm registerForm) {
 		String email = registerForm.getEmail();
 		String username = registerForm.getUsername();
 		
@@ -38,7 +39,7 @@ public class UserService {
 		if (existedUser != null) {
 			model.addAttribute("errorMessage", "Email has already taken");
 			
-			return model;
+			return "register";
 		}
 		
 		Account existedAccount = accountRepository.findByUserName(username);
@@ -46,7 +47,7 @@ public class UserService {
 		if (existedAccount != null) {
 			model.addAttribute("errorMessage", "Username has already taken");
 			
-			return model;
+			return "register";
 		}
 		
 		User user = new User();
@@ -60,9 +61,9 @@ public class UserService {
 		User entity = userRepository.save(user);
 		
 		if (entity == null) {
-			model.addAttribute("errorMessage", "Create account failed");
+			model.addAttribute("errorMessage", "Create user failed");
 			
-			return model;
+			return "register";
 		}
 		
 		Role userRole = roleRepository.findByRole("USER");
@@ -77,10 +78,16 @@ public class UserService {
 		account.setUser(entity);
 		account.setRoles(roles);
 		
-		accountRepository.save(account);
+		Account addedAccount = accountRepository.save(account);
 		
-		model.addAttribute("message", "Create account successfully");
+		if (addedAccount == null) {
+			model.addAttribute("errorMessage", "Create account failed");
+			
+			return "register";
+		}
 		
-		return model;
+		redirect.addFlashAttribute("successMessage", "Create account successfully");
+		
+		return "redirect:/registerPage";
 	}
 }

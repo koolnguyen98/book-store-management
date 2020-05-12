@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.esdc.bookstore.config.utils.WebUtils;
 import com.esdc.bookstore.controller.form.BookForm;
@@ -280,10 +281,9 @@ public class BookStoreController {
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String register(Model model, @ModelAttribute("registerForm") @Validated RegisterForm registerForm) {
-		model = userService.createUser(model, registerForm);
+	public String register(RedirectAttributes redirectAttrs, Model model, @ModelAttribute("registerForm") @Validated RegisterForm registerForm) {
 		
-		return "register";
+		return userService.createUser(redirectAttrs, model, registerForm);
 	}
 
 }
