@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.esdc.bookstore.config.utils.WebUtils;
+import com.esdc.bookstore.controller.form.RegisterForm;
 import com.esdc.bookstore.entity.Book;
 import com.esdc.bookstore.entity.Product;
 import com.esdc.bookstore.entity.ProductType;
@@ -258,6 +259,16 @@ public class BookStoreController {
 		}
 
 		return "403Page";
+	}
+	
+	@RequestMapping(value = "/registerPage", method = RequestMethod.GET)
+	public String registerPage(Model model) {
+		
+		RegisterForm registerForm = new RegisterForm();
+		
+		model.addAttribute("registerForm", registerForm);
+		
+		return "register";
 	}
 
 }

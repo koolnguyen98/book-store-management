@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <th:block th:include="/_head"></th:block>
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
+    <th:block th:include="/_header"></th:block>
+    <!-- Header End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <a href="#"><i class="fa fa-home"></i> Home</a>
+                        <span>Login</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Form Section Begin -->
+
+    <!-- Register Section Begin -->
+    <div class="register-login-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="register-form">
+                        <h2>Đăng kí</h2>
+                        <form th:object="${registerForm}" th:action="@{/signup}" method="POST">
+                            <div class="group-input">
+                                <label for="username">Tên đăng nhập *</label>
+                                <input type="text" id="username" th:field="*{username}">
+                                <p style="color: #e74c3c" class="username-helper">sss</p>
+                            </div>
+                            <div class="group-input">
+                                <label for="pass">Mật khẩu *</label>
+                                <input type="text" id="pass" th:field="*{password}">
+                                <p style="color: #e74c3c" class="password-helper"></p>
+                            </div>
+                            <div class="group-input">
+                                <label for="con-pass">Nhập lại mật khẩu *</label>
+                                <input type="text" id="con-pass" th:field="*{confPassword}">
+                                 <p style="color: #e74c3c" class="confPassword-helper"></p>
+                            </div>
+                            <div class="group-input">
+                                <label for="username">Họ và Tên *</label>
+                                <input type="text" id="fullname" th:field="*{fullName}" class="fullName-helper">
+                                <p style="color: #e74c3c" class="password-helper"></p>
+                            </div>
+                            <div class="group-input">
+                                <label for="username">Email *</label>
+                                <input type="text" id="email" th:field="*{email}" class="email-helper">
+                                 <p style="color: #e74c3c" class="email-helper"></p>
+                            </div>
+                            <div class="group-input">
+                                <label for="username">Số điện thoại *</label>
+                                <input type="text" id="phoneNumber" th:field="*{phoneNumber}">
+                                 <p style="color: #e74c3c" class="phoneNumber-helper"></p>
+                            </div>
+                            <div class="group-input">
+                                <label for="username">Địa chỉ *</label>
+                                <input type="text" id="address" th:field="*{address}">
+                                 <p style="color: #e74c3c" class="address-helper"></p>
+                            </div>
+                            <div class="form-group">
+                                <span>Male: </span><input id="male" th:field="*{sex}" type="radio" th:value=@{1} checked>
+                                
+                                <span>Female: </span><input id="female" th:field="*{sex}" type="radio" th:value=@{0}>
+                            </div>
+                            <button type="submit" class="site-btn register-btn">Đăng kí</button>
+                        </form>
+                        <div class="switch-login">
+                            <a href="/login" class="or-login">Đã có tài khoản? Đăng nhập.</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Register Form Section End -->
+
+    <!-- Partner Logo Section Begin -->
+  
+    <!-- Partner Logo Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer-section">
+        <th:block th:include="/_footer"></th:block>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    <th:block th:include="/_jsplugin"></th:block>
+    
+    <script type="text/javascript" th:src=@{/js/main/register.js}></script>
+</body>
+
+</html>
