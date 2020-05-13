@@ -299,5 +299,16 @@ public class BookStoreController {
 		
 		return "redirect:/login";
 	}
+	
+	@RequestMapping(value = "/user/profile/update", method = RequestMethod.POST)
+	public String updateUserProfile(Model model, Principal principal, RedirectAttributes redirect, @ModelAttribute("registerForm") RegisterForm registerForm) {
+		if (principal != null) {
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			
+			return userService.updateUserProfile(redirect, model, registerForm);
+		}
+		
+		return "redirect:/login";
+	}
 
 }
