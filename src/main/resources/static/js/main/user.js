@@ -2,7 +2,7 @@ const isUserValid = (payload) => {
 	const emailPattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
 	const phonePattern = /(03|07|08|09|01[2|6|8|9])+([0-9]{8})\b/;
 	
-	const { fullname, email, phoneNumber, address } = payload;
+	const { fullName, email, phoneNumber, address } = payload;
 		
 	let formIsValid = true;
 	let coordinates;
@@ -16,7 +16,7 @@ const isUserValid = (payload) => {
 	$(".address-helper").html('');
 	
 	
-	if (fullname.trim().length == 0) {
+	if (fullName.trim().length == 0) {
 		$(".fullName-helper").html('Fullname is required');
 		formIsValid = false;
 		
@@ -76,7 +76,7 @@ const isUserValid = (payload) => {
 }
 
 const updateUserProfile = () => {
-	$('body').on('click', '.register-btn', function(e) {
+	$('body').on('click', '.login-btn', function(e) {
 		e.preventDefault();
 		
 		let fullname = $('#fullname').val();
@@ -86,17 +86,21 @@ const updateUserProfile = () => {
 		let sex = $('#male').is(':checked') ? 1 : 0;
 		
 		let payload = {
-			fullname, email, phoneNumber, address, sex
+			fullName: fullname, email, phoneNumber, address, sex
 		};
 		
 		let isValid = isUserValid(payload);
 		
 		if (isValid) {
+			alert('valid');
 			$('.login-btn').submit();
-		} 
+		} else {
+			alert('invalid');
+		}
 	})
 }
 
 $(function() {
+	alert('load')
 	updateUserProfile();
 })

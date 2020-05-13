@@ -33,7 +33,7 @@
     <!-- Shopping Cart Section Begin -->
     <section class="checkout-section spad">
         <div class="container">
-            <form th:action="@{/user/profile/update}" th:object="${registerForm}" method="POST" class="checkout-form">
+            <form th:action="@{/user/profile/update}" th:object="${registerForm}" method="POST" class="checkout-form" novalidate="novalidate">
                 <h4 style="margin-left: 450px">Thông tin tài khoản</h4>
                 <div class="row">
                     <div class="col-lg-3"></div>
@@ -53,24 +53,28 @@
 							</div>
                             <div class="col-lg-12">
                                 <label for="fir">Họ Tên<span>*</span></label>
-                                <input th:field="*{fullname}" type="text" id="fir" >
+                                <input th:field="*{fullName}" type="text" id="fullname" >
+                                <p style="color: #e74c3c" class="fullName-helper"></p>
                             </div>
                             <div class="col-lg-12">
                                 <label for="street">Địa chỉ<span>*</span></label>
                                 <input th:field="*{address}" type="text" id="address" class="street-first">
+                                <p style="color: #e74c3c" class="address-helper"></p>
                             </div>
 
                             <div class="col-lg-12">
                                 <label for="email">Email <span>*</span></label>
                                 <input th:field="*{email}" type="text" id="email" >
+                                <p style="color: #e74c3c" class="email-helper"></p>
                             </div>
                             <div class="col-lg-12">
                                 <label for="phone">Số điện thoại<span>*</span></label>
                                 <input th:field="*{phoneNumber}" type="text" id="phoneNumber">
+                                <p style="color: #e74c3c" class="phoneNumber-helper"></p>
                             </div>
                             <div class="col-lg-12">                            
-                                <span>Male: </span><input id="male" th:if="${registerForm.isSex() ? 'checked': '' }" th:field="*{sex}" name="sex" type="radio" class="col-lg-3 sex"  th:value="${1}">
-                                <span>Female: </span><input id="female" th:if="${!registerForm.isSex() ? 'checked': ''}"  th:field="*{sex}" name="sex" type="radio" class="col-lg-3 sex" th:value="${0}" >
+                                <span>Male: </span><input th:if="${registerForm.isSex() ? 'checked': '' }" th:field="*{sex}" name="sex" type="radio" class="col-lg-3 sex"  th:value="${1}">
+                                <span>Female: </span><input th:if="${!registerForm.isSex() ? 'checked': ''}"  th:field="*{sex}" name="sex" type="radio" class="col-lg-3 sex" th:value="${0}" >
                             </div>
                             <div class="col-lg-12" style="text-align: center">
                                     <button type="submit" class="site-btn login-btn">Cập nhật</button>
@@ -97,6 +101,8 @@
 
     <!-- Js Plugins -->
     <th:block th:include="/_jsplugin"></th:block>
+    
+    <script type="text/javascript" th:src=@{/js/main/user.js}></script>
 </body>
 
 </html>

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.esdc.bookstore.controller.form.RegisterForm;
 import com.esdc.bookstore.entity.Account;
 import com.esdc.bookstore.entity.User;
-import com.esdc.bookstore.entity.User;
 import com.esdc.bookstore.entity.Role;
 import com.esdc.bookstore.repository.AccountRepository;
 import com.esdc.bookstore.repository.RoleRepository;
@@ -95,28 +94,38 @@ public class UserService {
 	}
 
 	public String userProfile(Model model, String username, RedirectAttributes redirect) {
+		try {
 		Account account = accountRepository.findByUserName(username);
 
 		if (account == null) {
 			model.addAttribute("errorMessage", "Username is not found");
-
-			return "account";
+			System.out.println("account");
+			return "redirect:/login";
 		}
-
-		User user = userRepository.findByAccount(account);
+		
+		System.out.println(account.toString());
+		
+		User user = userRepository.findUserByAccountId(account.getId());
 
 		if (user == null) {
 			model.addAttribute("errorMessage", "Username is not found");
-
-			return "account";
+			System.out.println("user");
+			return "redirect:/login";
 		}
 		
-		System.out.println(user.isSex());
+		System.out.println(user.toString());
+		
 
-		RegisterForm registerForm = new RegisterForm(user.getId(), user.getFullName(), user.getEmail(),
+		RegisterForm registerForm = new RegisterForm((Long) user.getId(), user.getFullName(), user.getEmail(),
 				user.getPhoneNumber(), user.getAddress(), user.isSex());
+		
+		System.out.println(registerForm.toString());
 
 		model.addAttribute("registerForm", registerForm);
+		
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
 
 		return "account";
 	}

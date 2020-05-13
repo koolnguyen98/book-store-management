@@ -294,6 +294,8 @@ public class BookStoreController {
 		if (principal != null) {
 			User loginedUser = (User) ((Authentication) principal).getPrincipal();
 			
+			System.out.println(loginedUser.toString());
+			
 			return userService.userProfile(model, loginedUser.getUsername(), redirect);
 		}
 		
