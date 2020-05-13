@@ -69,6 +69,17 @@ public class RegisterForm {
 		this.address = address;
 		this.sex = sex;
 	}
+	
+	public RegisterForm(int id, @NotNull String fullName, @NotNull String email, @NotNull String phoneNumber,
+			@NotNull String address, @NotNull boolean sex) {
+		super();
+		this.id = id;
+		this.fullName = fullName;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.address = address;
+		this.sex = sex;
+	}
 
 	public int getId() {
 		return id;

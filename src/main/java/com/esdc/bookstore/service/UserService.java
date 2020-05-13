@@ -1,13 +1,16 @@
 package com.esdc.bookstore.service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.esdc.bookstore.controller.form.RegisterForm;
 import com.esdc.bookstore.entity.Account;
+import com.esdc.bookstore.entity.User;
 import com.esdc.bookstore.entity.User;
 import com.esdc.bookstore.entity.Role;
 import com.esdc.bookstore.repository.AccountRepository;
@@ -89,5 +92,28 @@ public class UserService {
 		redirect.addFlashAttribute("successMessage", "Create account successfully");
 		
 		return "redirect:/registerPage";
+	}
+	
+	public String userProfile(Model model, String username, RedirectAttributes redirect) {
+			Account account = accountRepository.findByUserName(username);
+			
+			if (account == null) {
+				model.addAttribute("errorMessage", "Username is not found");
+				
+				return "account";
+			}
+			
+			User user = userRepository.findByAccount(account);
+			
+			if (user == null) {
+				model.addAttribute("errorMessage", "Username is not found");
+				
+				return "account";
+			}
+			
+			RegisterForm registerForm = new RegisterForm();
+		
+		
+		return "account";
 	}
 }

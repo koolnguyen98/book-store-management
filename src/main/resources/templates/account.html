@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <th:block th:include="/_head"></th:block>
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
+    <th:block th:include="/_header"></th:block>
+    <!-- Header End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text">
+                        <a href="#"><i class="fa fa-home"></i> Home</a>
+                        <span>Login</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Form Section Begin -->
+
+    <!-- Shopping Cart Section Begin -->
+    <section class="checkout-section spad">
+        <div class="container">
+            <form th:action="@{/user/profile/update}" th:object="${registerForm}" method="POST" class="checkout-form">
+                <h4 style="margin-left: 450px">Thông tin tài khoản</h4>
+                <div class="row">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                        	<input type="hidden" th:field="*{id}" />
+                        	
+                            <div class="col-lg-12">
+                                <label for="fir">Họ Tên<span>*</span></label>
+                                <input th:field="*{fullName}" type="text" id="fir" th:value="*{fullName}">
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="street">Địa chỉ<span>*</span></label>
+                                <input th:field="*{address}" type="text" id="street" class="street-first"
+                                    th:value="${address}" >
+                            </div>
+
+                            <div class="col-lg-12">
+                                <label for="email">Email <span>*</span></label>
+                                <input th:field="*{email}" type="text" id="email" th:value="${email}">
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="phone">Số điện thoại<span>*</span></label>
+                                <input th:field="*{phoneNumber}" type="text" id="phone" th:value="${phoneNumber}">
+                            </div>
+                            <div class="col-lg-12">                            
+                                <span>Male: </span><input th:field="*{sex}" name="sex" type="radio" class="col-lg-3 sex"  th:value="${1}">
+                                <span>Female: </span><input th:field="*{sex}" name="sex" type="radio" class="col-lg-3 sex" th:value="${0}">
+                            </div>
+                            <div class="col-lg-12" style="text-align: center">
+                                    <button type="submit" class="site-btn login-btn">Cập nhật</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3"></div>
+
+                </div>
+            </form>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+
+    <!-- Partner Logo Section Begin -->
+  
+    <!-- Partner Logo Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer-section">
+        <th:block th:include="/_footer"></th:block>
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    <th:block th:include="/_jsplugin"></th:block>
+</body>
+
+</html>
