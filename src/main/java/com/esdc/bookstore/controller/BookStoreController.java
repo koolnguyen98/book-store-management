@@ -4,16 +4,22 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.validation.annotation.Validated;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.esdc.bookstore.config.utils.WebUtils;
+import com.esdc.bookstore.controller.form.BookForm;
+import com.esdc.bookstore.controller.form.RegisterForm;
 import com.esdc.bookstore.entity.Book;
 import com.esdc.bookstore.entity.Product;
 import com.esdc.bookstore.entity.ProductType;
@@ -21,12 +27,16 @@ import com.esdc.bookstore.entity.PublishingCompany;
 import com.esdc.bookstore.entity.ShoppingCart;
 import com.esdc.bookstore.entity.Stationery;
 import com.esdc.bookstore.service.NonScurityService;
+import com.esdc.bookstore.service.UserService;
 
 @Controller
 public class BookStoreController {
 
 	@Autowired
 	private NonScurityService nonScurityService;
+	
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping(value = { "/", "/home" }, method = RequestMethod.GET)
 	public String homePage(Model model, Principal principal) {
@@ -263,6 +273,22 @@ public class BookStoreController {
 		}
 
 		return "403Page";
+	}
+	
+	@RequestMapping(value = "/registerPage", method = RequestMethod.GET)
+	public String registerPage(Model model) {
+		
+		RegisterForm registerForm = new RegisterForm();
+		
+		model.addAttribute("registerForm", registerForm);
+		
+		return "register";
+	}
+	
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public String register(RedirectAttributes redirectAttrs, Model model, @ModelAttribute("registerForm") @Validated RegisterForm registerForm) {
+		
+		return userService.createUser(redirectAttrs, model, registerForm);
 	}
 
 }
