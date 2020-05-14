@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <th:block th:include="/_head"></th:block>
+</head>
+
+<body>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<!-- Header Section Begin -->
+	<th:block th:include="/_header"></th:block>
+    <!-- Header End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text product-more">
+                        <a href="./index.html"><i class="fa fa-home"></i> Trang Chủ</a>
+                        <a href="./shop.html">Sản phẩm</a>
+                        <span>Thanh Toán</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section Begin -->
+
+    <!-- Shopping Cart Section Begin -->
+    <section class="checkout-section spad">
+        <div class="container">
+            <div action="#" class="checkout-form">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="product-tab">
+                            <div class="tab-item">
+                                <ul class="nav" role="tablist">
+                                    <li>
+                                        <a class="active" data-toggle="tab" href="#tab-1" role="tab">Tác giả</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#tab-2" role="tab">Nhà xuất bản</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#tab-3" role="tab">Loại Sách</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-item-content">
+                                <div class="tab-content">
+                                    <div class="tab-pane fade-in active" id="tab-1" role="tabpanel">
+                                        <div class="product-content">
+                                            <button class="btn btn-info addAuthor" data-toggle="modal"
+                                                data-target="#addAuthor">Thêm tác giả mới</button><br><br>
+                                            <table class="table table-bordered" style="width: 100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã </th>
+                                                        <th>Tên</th>
+                                                        <th>Quốc gia</th>
+                                                        <th>Tác vụ</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="authorTable">
+                                                    <tr th:each="author : ${authors}">
+                                                        <td style="width: 20%">[[${author.id}]]</td>
+                                                        <td style="width: 50%">
+                                                            [[${author.name}]]
+                                                        </td>
+                                                        <td style="width: 22%">[[${author.country}]]</td>
+                                                        <td style="width: 8%">
+                                                            <button class="btn btn-primary editAuthor" data-toggle="modal"
+                                                                data-target="#editAuthor"
+                                                                style="display: inline-block; width: 30px; height: 30px; padding: 1px">
+                                                                <i class="fa fa-edit"></i>
+                                                            </button>
+                                                            <button class="btn btn-danger deleteAuthor" data-toggle="modal"
+                                                                data-target="#deleteAuthor"
+                                                                style="display: inline-block; width: 30px; height: 30px; padding: 1px">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <!-- Đã xác nhận -->
+                                    <div class="tab-pane fade" id="tab-2" role="tabpanel">
+                                        <div class="product-content">
+                                                <button class="btn btn-info addPublisher" data-toggle="modal"
+                                                data-target="#addAuthor">Thêm NXB mới</button><br><br>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã </th>
+                                                        <th>Tên</th>
+                                                        <th>Quốc gia</th>
+                                                        <th>Tác vụ</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="publisherTable">
+                                                    <tr th:each="publishingCompany : ${publishingCompanys}">
+                                                        <td style="width: 20%">[[${publishingCompany.id}]]</td>
+                                                        <td style="width: 50%">
+                                                            [[${publishingCompany.name}]]
+                                                        </td>
+                                                        <td style="width: 22%">[[${publishingCompany.country}]]</td>
+                                                        <td style="width: 8%">
+                                                            <button class="btn btn-primary editPublisher" data-toggle="modal"
+                                                                data-target="#editAuthor"
+                                                                style="display: inline-block; width: 30px; height: 30px; padding: 1px">
+                                                                <i class="fa fa-edit"></i>
+                                                            </button>
+                                                            <button class="btn btn-danger deletePublisher" data-toggle="modal"
+                                                                data-target="#deleteAuthor"
+                                                                style="display: inline-block; width: 30px; height: 30px; padding: 1px">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="tab-pane fade-in" id="tab-3" role="tabpanel">
+                                        <div class="product-content">
+                                            <button class="btn btn-info" data-toggle="modal"
+                                                data-target="#addProductTypeModal">Thêm loại sách</button><br><br>
+                                            <table class="table table-bordered" style="width: 100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã </th>
+                                                        <th>Tên</th>
+                                                        <th>Viết tắt</th>
+                                                        <th>Tác vụ</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="productTypeTable">
+                                                    <tr th:each="productType : ${productTypes}">
+                                                        <td style="width: 20%">[[${productType.id}]]</td>
+                                                        <td style="width: 50%">
+                                                            [[${productType.name}]]
+                                                        </td>
+                                                        <td style="width: 22%">[[${productType.acronym}]]</td>
+                                                        <td style="width: 8%">
+                                                            <button class="btn btn-primary editProductType" data-toggle="modal"
+                                                                data-target="#editAuthor"
+                                                                style="display: inline-block; width: 30px; height: 30px; padding: 1px">
+                                                                <i class="fa fa-edit"></i>
+                                                            </button>
+                                                            <button class="btn btn-danger deleteProductType" data-toggle="modal"
+                                                                data-target="#deleteAuthor"
+                                                                style="display: inline-block; width: 30px; height: 30px; padding: 1px">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- The Modal Add Author/Publisher-->
+                    <div class="modal fade" id="addAuthor">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <div class="row">
+                                    	<input type="hidden" id="additionalType">
+                                        <div class="col-lg-6">
+                                            <label for="fir">Tên<span>*</span></label>
+                                            <input type="text" id="additionalName">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="last">Quốc gia<span>*</span></label>
+                                            <input type="text" id="additionalCountry">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-dismiss="modal" id="add">Lưu</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Huỷ</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal fade" id="addProductTypeModal">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label for="fir">Tên<span>*</span></label>
+                                            <input type="text" id="productTypeName">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="last">Viết tắt<span>*</span></label>
+                                            <input type="text" id="productTypeAcronym">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-dismiss="modal" id="addProductType">Lưu</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Huỷ</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+
+                   <!-- The Modal Edit Author/Publisher-->
+                   <div class="modal fade" id="editAuthor">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <div class="row">
+                                    	<input type="hidden" id="idAdditional">
+                                    	<input type="hidden" id="updateAdditionalType">
+                                        <div class="col-lg-6">
+                                            <label for="fir">Tên<span>*</span></label>
+                                            <input type="text" id="updateName">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="last">Quốc gia<span>*</span></label>
+                                            <input type="text" id="updateCountry">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-dismiss="modal" id="update">Lưu</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Huỷ</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+
+    <!-- Partner Logo Section Begin -->
+
+    <!-- Partner Logo Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer-section">
+		<th:block th:include="/_footer"></th:block>
+	</footer>
+	<!-- Footer Section End -->
+
+	<!-- Js Plugins -->
+	<th:block th:include="/_jsplugin"></th:block>
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".addAuthor").click(function(e) {
+				$("#additionalType").val("AUTHOR");
+			});
+			
+			$(".addPublisher").click(function(e) {
+				$("#additionalType").val("PUBLISHINGCOMPANY");
+			});
+			
+			$(".deleteAuthor").click(function(e) {
+				var check = confirm("Bạn có chắc chắn muốn xóa?");
+				
+				if (check) {
+					var id = $(this).parent().parent().find("td").first().text();
+					var type = "AUTHOR";
+					var abc = "/admin/deleteAdditional/" + id + "?type=" + type;
+					
+					var result = "";
+					$.ajax({
+						type : 'POST',
+						url : abc,
+						success : function(data) {
+						
+							alert(data);
+							
+						}
+					});
+					
+
+						$(this).parent().parent().remove();
+
+				}
+			});
+			
+			$(".deletePublisher").click(function(e) {
+				var check = confirm("Bạn có chắc chắn muốn xóa?");
+				
+				if (check) {
+					var id = $(this).parent().parent().find("td").first().text();
+					var type = "PUBLISHINGCOMPANY";
+					var abc = "/admin/deleteAdditional/" + id + "?type=" + type;
+					
+					var result = "";
+					$.ajax({
+						type : 'POST',
+						url : abc,
+						success : function(data) {
+						
+							alert(data);
+							
+						}
+					});
+					
+
+						$(this).parent().parent().remove();
+
+				}
+			});
+			
+			$("#add").click(function(e) {
+				
+				var name = $("#pro").val();
+				
+				var country = $("#additionalCountry").val();
+				
+				var type =  $("#additionalType").val();
+				
+				var data = {};
+				
+				data['type'] = type;
+				data['name'] = name;
+				data['country'] = country;
+				
+				var check = confirm("Bạn có chắc chắn muốn thêm?");
+				
+				if (check) {
+				
+					$.ajax({
+						type : 'POST',
+						data : data,
+						url : "/admin/addAdditionalProperties",
+						success : function(data) {
+							alert("Thêm thành công");
+							var tableId = "";
+							if(type == "AUTHOR") {
+								tableId = "#authorTable";
+							} else {
+								tableId = "#publisherTable";
+							}
+							
+							var id = parseInt($(tableId).find("tr").last().find("td").first().text()) + 1;
+							
+							if(type == "AUTHOR") {
+							
+								$(tableId).append(
+									'<tr>'+
+			                            '<td style="width: 20%">'+ id +'</td>'
+			                            +'<td style="width: 50%">'+
+			                            name
+			                            +'</td>'
+			                            +'<td style="width: 22%">' + country + '</td>'
+			                            +'<td style="width: 8%">'
+			                            +'<button class="btn btn-primary editAuthor" data-toggle="modal" data-target="#editAuthor" style="display: inline-block; width: 30px; height: 30px; padding: 1px">'
+			                            +'<i class="fa fa-edit"></i>'
+			                            +'</button>'
+			                            +'<button class="btn btn-danger deleteAuthor" data-toggle="modal" data-target="#deleteAuthor" style="display: inline-block; width: 30px; height: 30px; padding: 1px">'
+			                            +'<i class="fa fa-trash"></i>'
+			                            +'</button>'
+			                            +'</td>'
+			                            +'</tr>');
+							} else {
+							
+							$(tableId).append(
+									'<tr>'+
+			                            '<td style="width: 20%">'+ id +'</td>'
+			                            +'<td style="width: 50%">'+
+			                            name
+			                            +'</td>'
+			                            +'<td style="width: 22%">' + country + '</td>'
+			                            +'<td style="width: 8%">'
+			                            +'<button class="btn btn-primary editPublisher" data-toggle="modal" data-target="#editAuthor" style="display: inline-block; width: 30px; height: 30px; padding: 1px">'
+			                            +'<i class="fa fa-edit"></i>'
+			                            +'</button>'
+			                            +'<button class="btn btn-danger deletePublisher" data-toggle="modal" data-target="#deleteAuthor" style="display: inline-block; width: 30px; height: 30px; padding: 1px">'
+			                            +'<i class="fa fa-trash"></i>'
+			                            +'</button>'
+			                            +'</td>'
+			                            +'</tr>');
+							
+							}
+						}
+					});
+				}
+
+			});
+			
+		$("#addProductType").click(function(e) {
+				
+				var name = $("#productTypeName").val();
+				
+				var acronym = $("#productTypeAcronym").val();
+				
+				var data = {};
+				
+				data['name'] = name;
+				data['acronym'] = acronym;
+				
+				var check = confirm("Bạn có chắc chắn muốn thêm?");
+				
+				if (check) {
+				
+					$.ajax({
+						type : 'POST',
+						data : data,
+						url : "/admin/addProductType",
+						success : function(data) {
+							alert("Thêm thành công");
+							var tableId = "#productTypeTable";
+							
+							var id = parseInt($(tableId).find("tr").last().find("td").first().text()) + 1;
+							
+							
+								$(tableId).append(
+									'<tr>'+
+			                            '<td style="width: 20%">'+ id +'</td>'
+			                            +'<td style="width: 50%">'+
+			                            name
+			                            +'</td>'
+			                            +'<td style="width: 22%">' + acronym + '</td>'
+			                            +'<td style="width: 8%">'
+			                            +'<button class="btn btn-primary editProductType" data-toggle="modal" data-target="#editAuthor" style="display: inline-block; width: 30px; height: 30px; padding: 1px">'
+			                            +'<i class="fa fa-edit"></i>'
+			                            +'</button>'
+			                            +'<button class="btn btn-danger deleteProductType" data-toggle="modal" data-target="#deleteAuthor" style="display: inline-block; width: 30px; height: 30px; padding: 1px">'
+			                            +'<i class="fa fa-trash"></i>'
+			                            +'</button>'
+			                            +'</td>'
+			                            +'</tr>');
+						}
+					});
+				}
+
+			});
+		
+			
+			$(".deleteProductType").click(function(e) {
+				var check = confirm("Bạn có chắc chắn muốn xóa?");
+				
+				if (check) {
+					var id = $(this).parent().parent().find("td").first().text();
+					var abc = "/admin/deleteProductType/" + id;
+					
+					var result = "";
+					$.ajax({
+						type : 'POST',
+						url : abc,
+						success : function(data) {
+							
+						}
+					});
+				
+						$(this).parent().parent().remove();
+	
+				}
+			});
+		});
+	</script>
+    
+</body>
+
+</html>

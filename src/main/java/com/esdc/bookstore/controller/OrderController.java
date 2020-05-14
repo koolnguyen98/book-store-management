@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -196,7 +197,7 @@ public class OrderController {
 		return "redirect:/shoppingcarts";
 	}
 	
-	@RequestMapping(value = "/shoppingcarts/ordering", method = RequestMethod.POST)
+	@RequestMapping(value = "/shoppingcarts/ordering", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE })
 	public String ordering(Model model, @ModelAttribute("orderForm") @Valid OrderForm orderForm) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userName;
@@ -215,7 +216,7 @@ public class OrderController {
 		if (order != null) {
 			model.addAttribute("order", order);
 			model.addAttribute("orderDetails", orderDetails);
-			return "orderViewPage";
+			return "redirect:/";
 		} else {
 			model.addAttribute("message", "Order cannot be processed");
 			model.addAttribute("shoppingCarts", shoppingCarts);

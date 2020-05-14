@@ -38,10 +38,8 @@ public class BookStoreController {
 		List<Book> books = nonScurityService.findAllBook();
 
 		model.addAttribute("books", books);
-
-		List<Stationery> stationeries = nonScurityService.findAllStationery();
-
-		model.addAttribute("stationeries", stationeries);
+		
+		
 
 		String userInfo = "";
 		List<ShoppingCart> shoppingCarts = null;
@@ -49,6 +47,13 @@ public class BookStoreController {
 			User loginedUser = (User) ((Authentication) principal).getPrincipal();
 			userInfo = loginedUser.getUsername();
 			
+			boolean admin = loginedUser.getAuthorities().stream()
+			          .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+			
+			if (admin) {
+				model.addAttribute("admin", true);
+			}
+				
 			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
 
 			

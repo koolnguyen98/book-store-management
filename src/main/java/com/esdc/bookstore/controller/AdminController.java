@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.esdc.bookstore.controller.form.AdditionalForm;
 import com.esdc.bookstore.controller.form.BookForm;
@@ -105,73 +106,6 @@ public class AdminController {
 	
 	/**
 	 * 
-	 * 
-	 * Stationery Product 
-	 * 
-	 * 
-	 **/
-	
-	@RequestMapping(value = "/admin/addStationery", method = RequestMethod.GET)
-	public String addStationeryPage(Model model) {
-
-		StationeryForm stationeryForm = new StationeryForm();
-		model.addAttribute("stationeryForm", stationeryForm);
-		
-		List<ProductType> productTypes = scurityService.findAllProductType();
-		model.addAttribute("productTypes", productTypes);
-		
-		List<Brand> brands = scurityService.findAllBrand();
-		model.addAttribute("brands", brands);
-
-		return "addStationeryPage";
-	}
-
-	@RequestMapping(value = "/admin/addStationery", method = RequestMethod.POST)
-	public String addStationery(Model model, @ModelAttribute("stationeryForm") @Valid StationeryForm stationeryForm) {
-
-		Stationery stationery = scurityService.insertStationery(stationeryForm);
-
-		return "redirect:/home";
-	}
-
-	@RequestMapping(value = "/admin/updateStationery/{id}", method = RequestMethod.GET)
-	public String updateStationeryPage(Model model, @PathVariable int id) {
-
-		StationeryForm stationeryForm = scurityService.findStationeryById(id);
-
-		if (stationeryForm != null) {
-			model.addAttribute("stationeryForm", stationeryForm);
-			
-			List<ProductType> productTypes = scurityService.findAllProductType();
-			model.addAttribute("productTypes", productTypes);
-			
-			List<Brand> brands = scurityService.findAllBrand();
-			model.addAttribute("brands", brands);
-			
-			return "updateStationeryPage";
-		}
-		
-		return "redirect:/home";
-	}
-	
-	@RequestMapping(value = "/admin/updateStationery", method = RequestMethod.POST)
-	public String updateStationery(Model model, @ModelAttribute("stationeryForm") @Valid StationeryForm stationeryForm) {
-
-		Stationery stationery = scurityService.updateStationery(stationeryForm);
-
-		return "redirect:/home";
-	}
-	
-	@RequestMapping(value = "/admin/deleteStationery/{id}", method = RequestMethod.GET)
-	public String deleteStationery(Model model, @PathVariable int id) {
-
-		Boolean deleteStationrery = scurityService.deleteStationeryById(id);
-		
-		return "redirect:/home";
-	}
-	
-	/**
-	 * 
 	 *
 	 *  Product type
 	 * 
@@ -217,12 +151,15 @@ public class AdminController {
 		return "redirect:/home";
 	}
 	
-	@RequestMapping(value = "/admin/deleteProductType/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/deleteProductType/{id}", method = RequestMethod.POST)
 	public String deleteProductType(Model model, @PathVariable int id) {
 
 		Boolean deleteProductType = scurityService.deleteProductTypeById(id);
 		
-		return "redirect:/home";
+		if(deleteProductType)
+			return "true";
+		else
+			return "false";
 	}
 	
 	/**
@@ -232,6 +169,21 @@ public class AdminController {
 	 * 
 	 * 
 	 **/
+	
+	@RequestMapping(value = "/admin/additional", method = RequestMethod.GET)
+	public String findAllAuthorAndPublishingCompany(Model model) {
+
+		List<Author> author = scurityService.findAllAuthor();
+		model.addAttribute("authors", author);
+		
+		List<PublishingCompany> publishingCompany = scurityService.findAllPublishingCompany();
+		model.addAttribute("publishingCompanys", publishingCompany);
+		
+		List<ProductType> productType = scurityService.findAllProductType();
+		model.addAttribute("productTypes", productType);
+
+		return "manage-author";
+	}
 	
 	@RequestMapping(value = "/admin/addAdditionalProperties", method = RequestMethod.GET)
 	public String addAdditionalPropertiesPage(Model model) {
@@ -272,12 +224,15 @@ public class AdminController {
 		return "redirect:/home";
 	}
 	
-	@RequestMapping(value = "/admin/deleteAdditional/{id}", method = RequestMethod.GET)
-	public String deleteAdditional(Model model, @PathVariable int id, @PathVariable String type) {
+	@RequestMapping(value = "/admin/deleteAdditional/{id}", method = RequestMethod.POST)
+	public String deleteAdditional(Model model, @PathVariable int id, @RequestParam(value="type") String type) {
 
 		Boolean deleteAdditional = scurityService.deleteAdditionalByIdAndType(id, type);
 		
-		return "redirect:/home";
+		if(deleteAdditional)
+			return "true";
+		else
+			return "false";
 	}
 	
 	

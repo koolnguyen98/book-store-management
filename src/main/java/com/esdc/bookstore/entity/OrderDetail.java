@@ -34,6 +34,10 @@ public class OrderDetail {
     @NotNull
 	@Column(name = "unit_price", nullable = false)
 	private double unitPrice;
+    
+    @NotNull
+	@Column(name = "discount", nullable = false)
+	private double discount;
 	
     @NotNull
 	@Column(name = "total_price", nullable = false)
@@ -99,4 +103,14 @@ public class OrderDetail {
 		this.product = product;
 	}
 
+	public double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(double discount) {
+		this.discount = discount;
+	}
+
+	
+	
 }

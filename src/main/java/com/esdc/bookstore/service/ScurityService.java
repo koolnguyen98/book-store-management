@@ -101,22 +101,7 @@ public class ScurityService {
 	public Boolean deleteBookById(int id) {
 		return productService.deleteBookById(id);
 	}
-
-	public Stationery insertStationery(StationeryForm stationeryForm) {
-		return productService.insertStationery(stationeryForm);
-	}
-
-	public StationeryForm findStationeryById(int id) {
-		return productService.findStationeryById(id);
-	}
-
-	public Stationery updateStationery(StationeryForm stationeryForm) {
-		return productService.updateStationery(stationeryForm);
-	}
-
-	public Boolean deleteStationeryById(int id) {
-		return productService.deleteStationeryById(id);
-	}
+	
 
 	public ProductTypeForm findProductTypeById(int id) {
 		return productService.findProductTypeById(id);

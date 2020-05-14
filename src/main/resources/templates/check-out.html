@@ -136,23 +136,23 @@
 					
 					var stress = $("#street").val();
 					
-					var pcCheck = $("input[name='payment']:checked").val();
+					var paymentMethod = $("input[name='payment']:checked").val();
 					
-					if (pcCheck != 1 && pcCheck != 0) {
-						pcCheck = 0;
+					if (paymentMethod != 1 && paymentMethod != 0) {
+						paymentMethod = 0;
 					}
 					
 					var data = {};
 					
 					data['stress'] = stress;
-					data['pcCheck'] = pcCheck;
+					data['paymentMethod'] = paymentMethod;
 					
 					$.ajax({
 						type : 'POST',
 						url : "/shoppingcarts/ordering",
 						data: data,
 						success : function() {
-							location.reload();
+							window.location.href = '/';
 						}
 					});
 				} 

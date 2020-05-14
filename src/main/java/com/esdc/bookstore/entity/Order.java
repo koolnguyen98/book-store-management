@@ -35,7 +35,7 @@ public class Order {
 	private String address;
 	
 	@Basic(optional = false)
-	@Column(name = "date_create", insertable = false, updatable = false)
+	@Column(name = "date_create")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateCreate;
 	
@@ -119,6 +119,22 @@ public class Order {
 
 	public void setOrderDetails(List<OrderDetail> orderDetails) {
 		this.orderDetails = orderDetails;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 	
 }

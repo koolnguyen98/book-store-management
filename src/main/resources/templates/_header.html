@@ -41,12 +41,12 @@
                         </div>
                     </div>
                     <div class="col-lg-3 text-right col-md-3">
-                        <ul class="nav-right" th:if="${not #lists.isEmpty(shoppingCarts)}">
+                        <ul class="nav-right" th:if="${userInfo != ''}">
                             <li class="cart-icon">
                                 <a th:href="@{/shoppingcarts}">
                                     <i class="icon_bag_alt"></i>
                                     <span th:if="${not #lists.isEmpty(shoppingCarts)}">[[${#lists.size(shoppingCarts)}]]</span>
-                                    <span th:if="${#lists.isEmpty(shoppingCarts)}">0</span>
+                                    <span th:if="${#lists.isEmpty(shoppingCarts)}" id="shoppingCartNumber">0</span>
                                 </a>
                             </li>
                             <li class="cart-price">Giỏ hàng</li>
@@ -70,25 +70,22 @@
                         </ul>
                     </div>
                 </div>
-                <nav class="nav-menu mobile-menu">
-                    <ul>
-                        <li class="active"><a href="./index.html">Trang chủ</a></li>
-                        <li><a href="#">Tin tức</a></li>
-                        <li><a href="">Khuyến mãi</a></li>
-                        <li><a href="">Blog</a></li>
-                        <li><a href="">Liên hệ</a></li>
-                        <!-- <li><a href="#">Pages</a>
-                            <ul class="dropdown">
-                                <li><a href="./blog-details.html">Blog Details</a></li>
-                                <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                <li><a href="./check-out.html">Checkout</a></li>
-                                <li><a href="./faq.html">Faq</a></li>
-                                <li><a href="./register.html">Register</a></li>
-                                <li><a href="./login.html">Login</a></li>
-                            </ul>
-                        </li> -->
-                    </ul>
-                </nav>
+                
+                <!-- Admin feature -->
+                <div class="nav-depart" th:if="${admin == true}">
+                    <div class="depart-btn">
+                        <i class="ti-menu"></i>
+                        <span><a href="#">Quản lí danh mục</a></span>
+                        <ul class="depart-hover">
+                            <li><a href="./manage-product.html"><i class="fas fa-book"></i>Sách</a></li>
+                            <li><a href="./manage-author.html"><i class="fas fa-book"></i>Tác giả - Nhà xuất bản</a></li>
+                            <li><a href="./manage-bill.html"><i class="fas fa-book"></i>Đơn hàng</a></li>
+                            <li><a href="./chart.html"><i class="fas fa-book"></i>Doanh thu</a></li>
+                            <li><a href="./manage-member.html"><i class="fas fa-book"></i>Thành viên</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
                 <div id="mobile-menu-wrap"></div>
             </div>
         </div>

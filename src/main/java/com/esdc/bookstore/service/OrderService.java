@@ -1,5 +1,6 @@
 package com.esdc.bookstore.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -282,12 +283,19 @@ public class OrderService {
 		
 		Order newOrder = new Order(orderForm.getPaymentMethod(), new Date(), totalPrice, status.get(0));
 		
+		newOrder.setAddress(orderForm.getStress());
+		
+		Date date = new Date();
+		
+		newOrder.setAccount(account);
+		
 		Order order = orderRepository.save(newOrder);
 		
 		List<OrderDetail> orderDetails  = new ArrayList<OrderDetail>();
 		for (ShoppingCart shopping : shoppingCarts) {
 			OrderDetailKey orderDetailKey = new OrderDetailKey(order.getId(), shopping.getShoppingCartKey().getProductId());
 			OrderDetail orderDetail = new OrderDetail(orderDetailKey, shopping.getAmount(), shopping.getUnitPrice(), shopping.getTotalPrice());
+			orderDetail.setDiscount(shopping.getDiscount());
 			orderDetails.add(orderDetail);
 		}
 		List<OrderDetail> results  = orderDetailRepository.saveAll(orderDetails);
