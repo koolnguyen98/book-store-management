@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+<th:block th:include="/_head"></th:block>
+</head>
+
+<body>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<!-- Header Section Begin -->
+	<th:block th:include="/_header"></th:block>
+	<!-- Header End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text product-more">
+                        <a href="./index.html"><i class="fa fa-home"></i> Trang Chủ</a>
+                        <a href="./shop.html">Sản phẩm</a>
+                        <span>Thanh Toán</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section Begin -->
+
+    <!-- Shopping Cart Section Begin -->
+    <section class="checkout-section spad">
+        <div class="container">
+            <div action="#" class="checkout-form">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <h4>Sách</h4>
+                    </div>
+                    <div class="col-lg-9" style="text-align: right">
+                        <button class="btn btn-info" data-toggle="modal" data-target="#addProduct">Thêm sách
+                            mới</button>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="">
+
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Mã</th>
+                                        <th>Tên</th>
+                                        <th>Đơn giá</th>
+                                        <th>Kích thước</th>
+                                        <th>Số trang</th>
+                                        <th>Tác giả</th>
+                                        <th>NXB</th>
+                                        <th>Giảm giá</th>
+                                        <th>Tác vụ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="book : ${books}">
+                                        <td class="">[[${book.id}]]</td>
+                                        <td class="">
+                                            <h5>[[${book.productName}]]</h5>
+                                        </td>
+                                        <td class="">[[${book.price} + 'VNĐ']]</td>
+                                        <td class="">
+                                            <h5>[[${book.size}]]</h5>
+                                        </td>
+                                        <td class="">
+                                            <h5>[[${book.pageNumber}]]</h5>
+                                        </td>
+                                        <td class="">
+                                            <h5>[[${book.author.name}]]</h5>
+                                        </td>
+                                        <td class="">
+                                            <h5>[[${book.publishingCompany.name}]]</h5>
+                                        </td>
+                                        <td class="">
+                                            <h5>[[${book.discount} + '%']]</h5>
+                                        </td>
+                                        <td class="">
+                                            <button class="btn btn-primary" data-toggle="modal"
+                                                data-target="#editProduct"
+                                                style="display: inline-block; width: 25px; height: 25px; padding: 1px">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-danger" data-toggle="modal"
+                                            data-target="#deleteProduct"
+                                                style="display: inline-block; width: 25px; height: 25px; padding: 1px">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- The Modal Add Product-->
+                    <div class="modal fade" id="addProduct">
+                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                            <form class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Thêm sách mới</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label for="fir">Tên sách<span>*</span></label>
+                                            <input type="text" id="fir">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="last">Đơn giá (VNĐ)<span>*</span></label>
+                                            <input type="number" id="last">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="fir">Tác giả</label>
+                                            <input type="text" id="fir">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="last">Nhà xuất bản</label>
+                                            <input type="text" id="last">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="fir">Kích thước</label>
+                                            <input type="text" id="fir">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="last">Số trang</label>
+                                            <input type="number" id="last">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="fir">Ngôn ngữ</label>
+                                            <input type="text" id="fir">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="last">Hình thức bìa</label>
+                                            <input type="number" id="last">
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <label for="script">Giới thiệu</label><br>
+                                            <textarea id="script" rows="4" cols="120">
+                                                                </textarea>
+
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <fieldset class="form-group">
+                                                <a class="btn btn-info" href="javascript:void(0)"
+                                                    onclick="$('#pro-image').click()">Tải ảnh</a>
+                                                <input type="file" id="pro-image" name="pro-image"
+                                                    style="display: none;" class="form-control" multiple>
+                                            </fieldset>
+                                            <div class="preview-images-zone">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-dismiss="modal">Lưu</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Huỷ</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+
+                    <!-- The Modal Edit Product-->
+                    <div class="modal fade" id="editProduct">
+                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Chỉnh sủa thông tin sách</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <label for="fir">Tên sách<span>*</span></label>
+                                            <input type="text" id="fir" value="Bách khoa toàn thư Pokemon">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="last">Đơn giá (VNĐ)<span>*</span></label>
+                                            <input type="number" id="last" value="100800">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="fir">Tác giả</label>
+                                            <input type="text" id="fir" value="Nhiều tác giả">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="last">Nhà xuất bản</label>
+                                            <input type="text" id="last" value="NXB Kim Đồng">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="fir">Kích thước</label>
+                                            <input type="text" id="fir" value="12x32x10">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="last">Số trang</label>
+                                            <input type="number" id="last" value="688">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="fir">Ngôn ngữ</label>
+                                            <input type="text" id="fir" value="Tiếng Việt">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label for="last">Hình thức bìa</label>
+                                            <input type="text" id="last" value="Bìa mềm">
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <label for="script">Giới thiệu</label><br>
+                                            <textarea id="script" rows="4" cols="120">Đây là cuốn đại từ điển tổng hợp thông tin dữ liệu về 649 loài Pokémon tính đến phần Best Wishes, với đầy đủ các hình thái khác nhau. Từ lâu các fan của Pokémon tại Việt Nam đã mong chờ 1 ấn phẩm "Từ điển" như thế.
+                                                </textarea>
+
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <fieldset class="form-group">
+                                                <a class="btn btn-info" href="javascript:void(0)"
+                                                    onclick="$('#pro-image').click()">Tải thêm ảnh</a>
+                                                <input type="file" id="pro-image" name="pro-image"
+                                                    style="display: none;" class="form-control" multiple>
+                                            </fieldset>
+                                            <div class="preview-images-zone">
+                                                <div class="preview-image preview-show-1">
+                                                    <div class="image-cancel" data-no="1">x</div>
+                                                    <div class="image-zone"><img id="pro-img-1"
+                                                            src="img/products/p1.jpg">
+                                                    </div>
+                                                    <div class="tools-edit-image"><a href="javascript:void(0)"
+                                                            data-no="1" class="btn btn-light btn-edit-image">edit</a>
+                                                    </div>
+                                                </div>
+                                                <div class="preview-image preview-show-2">
+                                                    <div class="image-cancel" data-no="2">x</div>
+                                                    <div class="image-zone"><img id="pro-img-2"
+                                                            src="img/products/p1-1.jpg">
+                                                    </div>
+                                                    <div class="tools-edit-image"><a href="javascript:void(0)"
+                                                            data-no="2" class="btn btn-light btn-edit-image">edit</a>
+                                                    </div>
+                                                </div>
+                                                <div class="preview-image preview-show-3">
+                                                    <div class="image-cancel" data-no="3">x</div>
+                                                    <div class="image-zone"><img id="pro-img-3"
+                                                            src="img/products/p1-2.jpg"></div>
+                                                    <div class="tools-edit-image"><a href="javascript:void(0)"
+                                                            data-no="3" class="btn btn-light btn-edit-image">edit</a>
+                                                    </div>
+                                                </div>
+                                                <div class="preview-image preview-show-4">
+                                                    <div class="image-cancel" data-no="3">x</div>
+                                                    <div class="image-zone"><img id="pro-img-3"
+                                                            src="img/products/p1-3.jpg"></div>
+                                                    <div class="tools-edit-image"><a href="javascript:void(0)"
+                                                            data-no="3" class="btn btn-light btn-edit-image">edit</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-dismiss="modal">Lưu</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Huỷ</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+
+                    <!--The Modal Delete Product -->
+                    <div class="modal fade" id="deleteProduct">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Xoá sản phẩm</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <span>Bạn có muốn xoá <b>Bách khoa toàn thư Pokemon</b> không?</span>
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                        <button type="button" class="btn btn-success" data-dismiss="modal">Có</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Không</button>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+
+    <!-- Partner Logo Section Begin -->
+
+    <!-- Partner Logo Section End -->
+
+    <!-- Footer Section Begin -->
+	<footer class="footer-section">
+		<th:block th:include="/_footer"></th:block>
+	</footer>
+	<!-- Footer Section End -->
+
+	<!-- Js Plugins -->
+	<th:block th:include="/_jsplugin"></th:block>
+</body>
+
+</html>
