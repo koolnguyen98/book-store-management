@@ -92,15 +92,11 @@ const updateUserProfile = () => {
 		let isValid = isUserValid(payload);
 		
 		if (isValid) {
-			alert('valid');
-			$('.login-btn').submit();
-		} else {
-			alert('invalid');
+			$('.user-profile').submit();
 		}
 	})
 }
 
 $(function() {
-	alert('load')
 	updateUserProfile();
 })
