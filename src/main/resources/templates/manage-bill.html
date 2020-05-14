@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <th:block th:include="/_head"></th:block>
+</head>
+
+<body>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<!-- Header Section Begin -->
+	<th:block th:include="/_header"></th:block>
+    <!-- Header End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text product-more">
+                        <a href="./index.html"><i class="fa fa-home"></i> Trang Chủ</a>
+                        <a href="./shop.html">Sản phẩm</a>
+                        <span>Thanh Toán</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section Begin -->
+
+    <!-- Shopping Cart Section Begin -->
+    <section class="checkout-section spad">
+        <div class="container">
+            <div action="#" class="checkout-form">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4>Quản lí đơn hàng</h4>
+                        <div class="product-tab">
+                            <div class="tab-item">
+                                <ul class="nav" role="tablist">
+                                    <li>
+                                        <a class="active" data-toggle="tab" href="#tab-1" role="tab">Chờ xác nhận</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#tab-2" role="tab">Đã xác nhận</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#tab-3" role="tab">Giao hàng thành công</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" href="#tab-4" role="tab">Giao hàng thất bại</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-item-content">
+                                <div class="tab-content">
+                                    <!-- Chờ xác nhận -->
+                                    <div class="tab-pane fade-in active" id="tab-1" role="tabpanel">
+                                        <div class="product-content">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã</th>
+                                                        <th>Tài khoản</th>
+                                                        <th>Ngày tạo</th>
+                                                        <th>HTTT</th>
+                                                        <th>Tổng đơn (VNĐ)</th>
+                                                        <th>Tác vụ</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="way : ${way}">
+                                                        <td class="">[[${way.id}]]</td>
+                                                        <td class="">
+                                                            [[${way.account.userName}]]
+                                                        </td>
+                                                        <td class="">[[${way.dateCreate}]]</td>
+                                                        <td class="">  
+                                                            [[${way.paymentMethod} ? 'iBanking' : 'COD']]
+                                                        </td>
+                                                        <td class="">
+                                                           [[${way.totalPrice}]]
+                                                        </td>
+
+                                                        <td class="">
+                                                            <button class="btn btn-primary" data-toggle="modal"
+                                                                data-target="#choXacNhan" id="choXacNhanButton">
+                                                                Chi tiết
+                                                            </button>
+                                                        </td>
+                                                    </tr>      
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <!-- Đã xác nhận -->
+                                    <div class="tab-pane fade" id="tab-2" role="tabpanel">
+                                        <div class="product-content">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã</th>
+                                                        <th>Tài khoản</th>
+                                                        <th>Ngày tạo</th>
+                                                        <th>HTTT</th>
+                                                        <th>Tổng đơn (VNĐ)</th>
+                                                        <th>Tác vụ</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="confrim : ${confrim}">
+                                                        <td class="">[[${confrim.id}]]</td>
+                                                        <td class="">
+                                                            [[${confrim.account.userName}]]
+                                                        </td>
+                                                        <td class="">[[${confrim.dateCreate}]]</td>
+                                                        <td class="">
+                                                            [[${confrim.paymentMethod} ? 'iBanking' : 'COD']]
+                                                        </td>
+                                                        <td class="">
+                                                            [[${confrim.totalPrice}]] 
+                                                        </td>
+
+                                                        <td class="">
+                                                            <button class="btn btn-primary" data-toggle="modal"
+                                                                data-target="#daXacNhan" id="daXacNhanButton">
+                                                                Chi tiết
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <!-- Giao hàng thành công -->
+                                    <div class="tab-pane fade" id="tab-3" role="tabpanel">
+                                        <div class="product-content">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã</th>
+                                                        <th>Tài khoản</th>
+                                                        <th>Ngày tạo</th>
+                                                        <th>HTTT</th>
+                                                        <th>Tổng đơn (VNĐ)</th>
+                                                        <th>Tác vụ</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="success : ${success}">
+                                                        <td class="">[[${success.id}]]</td>
+                                                        <td class="">
+                                                            [[${success.account.userName}]]
+                                                        </td>
+                                                        <td class="">[[${success.dateCreate}]]</td>
+                                                        <td class="">
+                                                            [[${success.paymentMethod} ? 'iBanking' : 'COD']]
+                                                        </td>
+                                                        <td class="">
+                                                            [[${success.totalPrice}]]
+                                                        </td>
+
+                                                        <td class="">
+                                                            <button class="btn btn-primary" data-toggle="modal"
+                                                                data-target="#daGiaoHang" id="giaoHangButton">
+                                                                Chi tiết
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <!-- Giao hàng thất bại -->
+                                    <div class="tab-pane fade" id="tab-4" role="tabpanel">
+                                        <div class="product-content">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Mã</th>
+                                                        <th>Tài khoản</th>
+                                                        <th>Ngày tạo</th>
+                                                        <th>HTTT</th>
+                                                        <th>Tổng đơn (VNĐ)</th>
+                                                        <th>Tác vụ</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="unsuccess : ${unsuccess}">
+                                                        <td class="">[[${unsuccess.id}]]</td>
+                                                        <td class="">
+                                                            [[${unsuccess.account.userName}]]
+                                                        </td>
+                                                        <td class="">[[${unsuccess.dateCreate}]]</td>
+                                                        <td class="">
+                                                            [[${unsuccess.paymentMethod} ? 'iBanking' : 'COD']]
+                                                        </td>
+                                                        <td class="">
+                                                            [[${unsuccess.totalPrice}]]
+                                                        </td>
+
+                                                        <td class="">
+                                                            <button class="btn btn-primary" data-toggle="modal"
+                                                                data-target="#daGiaoHang" id="giaoHangButton">
+                                                                Chi tiết
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- The Modal Cho Xac Nhan-->
+                    <div class="modal fade choXacNhanModal" id="choXacNhan">
+                        
+                    </div>
+                    <!-- End Modal -->
+
+                    <!-- The Modal Da Xac Nhan-->
+                    <div class="modal fade" id="daXacNhan">
+                       
+                    </div>
+                    <!-- End Modal -->
+
+                    <!-- The Modal Da Giao Hang-->
+                    <div class="modal fade" id="giaoHang">
+                        
+                    </div>
+                    <!-- End Modal -->
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+
+    <!-- Partner Logo Section Begin -->
+
+    <!-- Partner Logo Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer-section">
+		<th:block th:include="/_footer"></th:block>
+	</footer>
+	<!-- Footer Section End -->
+
+	<!-- Js Plugins -->
+	<th:block th:include="/_jsplugin"></th:block>
+	
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#choXacNhan').on('click', '.xacNhan', function(e) {
+				
+				var orderId = $("#code").val();
+
+				$.ajax({
+					type : 'POST',
+					url : "/admin/bill/confirm/" + orderId,
+					success : function(data) {
+						
+						alert("Xác nhận thành công");
+						location.reload();
+						
+					}
+				});
+
+				return false;
+			});
+			
+			$('#daXacNhan').on('click', '#success', function(e) {
+				
+				var orderId = $("#succesDilivery").val();
+
+				$.ajax({
+					type : 'POST',
+					url : "/admin/bill/dilivery/" + orderId + "?success=true",
+					success : function(data) {
+						
+						alert("Giao hàng thành công");
+						location.reload();
+						
+					}
+				});
+
+				return false;
+			});
+			
+			$('#daXacNhan').on('click', '#unSuccess', function(e) {
+				
+				var orderId = $("#succesDilivery").val();
+
+				$.ajax({
+					type : 'POST',
+					url : "/admin/bill/dilivery/" + orderId + "?success=false",
+					success : function(data) {
+						
+						alert("Giao hàng thất bại");
+						location.reload();
+						
+					}
+				});
+
+				return false;
+			});
+			
+			$("#choXacNhanButton").click(function(e) {
+				
+				var orderId = $(this).parents().eq(1).find("td").first().text();
+
+				$.ajax({
+					type : 'GET',
+					url : "/admin/bill/" + orderId,
+					success : function(data) {
+						$("#choXacNhan").empty();
+						$("#choXacNhan").append(data);
+						$("#choXacNhan").modal("show");
+						
+					}
+				});
+
+				return false;
+			});
+			
+			$("#daXacNhanButton").click(function(e) {
+				
+				var orderId = $(this).parents().eq(1).find("td").first().text();
+
+				$.ajax({
+					type : 'GET',
+					url : "/admin/bill/" + orderId,
+					success : function(data) {
+						$("#daXacNhan").empty();
+						$("#daXacNhan").append(data);
+						$("#daXacNhan").modal("show");
+						
+					}
+				});
+
+				return false;
+			});
+			
+			$("#giaoHangButton").click(function(e) {
+				
+				var orderId = $(this).parents().eq(1).find("td").first().text();
+
+				$.ajax({
+					type : 'GET',
+					url : "/admin/bill/" + orderId,
+					success : function(data) {
+						$("#giaoHang").empty();
+						$("#giaoHang").append(data);
+						$("#giaoHang").modal("show");
+						
+					}
+				});
+
+				return false;
+			});
+			
+			
+		});
+	</script>
+	
+</body>
+
+</html>

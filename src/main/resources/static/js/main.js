@@ -246,7 +246,5 @@
 		}
 		$button.parent().find('input').val(newVal);
 	});
-	
-	
 
 })(jQuery);

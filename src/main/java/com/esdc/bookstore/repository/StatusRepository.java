@@ -8,4 +8,6 @@ import com.esdc.bookstore.entity.Status;
 @Repository
 public interface StatusRepository extends JpaRepository<Status, Integer>  {
 
+	Status findByStatus(String string);
+
 }

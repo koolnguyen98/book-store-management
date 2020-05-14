@@ -1,10 +1,15 @@
 package com.esdc.bookstore.controller;
 
+import java.security.Principal;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.esdc.bookstore.controller.form.AdditionalForm;
 import com.esdc.bookstore.controller.form.BookForm;
@@ -20,9 +26,12 @@ import com.esdc.bookstore.controller.form.StationeryForm;
 import com.esdc.bookstore.entity.Author;
 import com.esdc.bookstore.entity.Book;
 import com.esdc.bookstore.entity.Brand;
+import com.esdc.bookstore.entity.Order;
 import com.esdc.bookstore.entity.ProductType;
 import com.esdc.bookstore.entity.PublishingCompany;
+import com.esdc.bookstore.entity.ShoppingCart;
 import com.esdc.bookstore.entity.Stationery;
+import com.esdc.bookstore.service.NonScurityService;
 import com.esdc.bookstore.service.ScurityService;
 
 @Controller
@@ -30,6 +39,9 @@ public class AdminController {
 
 	@Autowired
 	private ScurityService scurityService;
+	
+	@Autowired
+	private NonScurityService nonScurityService;
 
 	/**
 	 * 
@@ -235,5 +247,190 @@ public class AdminController {
 			return "false";
 	}
 	
+	/**
+	 * 
+	 *
+	 *  Bill manage
+	 * 
+	 * 
+	 **/
 	
+	@RequestMapping(value = "/admin/bill", method = RequestMethod.GET)
+	public String findAllBillByStatus(Model model, Principal principal) {
+
+		List<ProductType> productTypes = nonScurityService.findAllProductType();
+
+		model.addAttribute("productTypes", productTypes);
+
+		String userInfo = "";
+		List<ShoppingCart> shoppingCarts = null;
+		if (principal != null) {
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			userInfo = loginedUser.getUsername();
+			
+			boolean admin = loginedUser.getAuthorities().stream()
+			          .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+			
+			if (admin) {
+				model.addAttribute("admin", true);
+			}
+				
+			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
+
+			
+		}
+		model.addAttribute("shoppingCarts", shoppingCarts);
+		model.addAttribute("userInfo", userInfo);
+		
+		List<Order> way = scurityService.findAllOrderByStatus("CXN");
+		model.addAttribute("way", way);
+		
+		List<Order> confrim = scurityService.findAllOrderByStatus("DXN");
+		model.addAttribute("confrim", confrim);
+		
+		List<Order> success = scurityService.findAllOrderByStatus("GTC");
+		model.addAttribute("success", success);
+		
+		List<Order> unsuccess = scurityService.findAllOrderByStatus("GTB");
+		model.addAttribute("unsuccess", unsuccess);
+
+		return "manage-bill";
+	}
+	
+	@RequestMapping(value = "/admin/bill/confirm/{id}", method = RequestMethod.POST)
+	public String confirmOrder(Model model, Principal principal, @PathVariable int id) {
+
+		List<ProductType> productTypes = nonScurityService.findAllProductType();
+
+		model.addAttribute("productTypes", productTypes);
+
+		String userInfo = "";
+		List<ShoppingCart> shoppingCarts = null;
+		if (principal != null) {
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			userInfo = loginedUser.getUsername();
+			
+			boolean admin = loginedUser.getAuthorities().stream()
+			          .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+			
+			if (admin) {
+				model.addAttribute("admin", true);
+			}
+				
+			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
+
+			
+		}
+		
+		boolean confirm = scurityService.confirmOrder(id);
+		
+		model.addAttribute("shoppingCarts", shoppingCarts);
+		model.addAttribute("userInfo", userInfo);
+		
+		List<Order> way = scurityService.findAllOrderByStatus("CXN");
+		model.addAttribute("way", way);
+		
+		List<Order> confrim = scurityService.findAllOrderByStatus("DXN");
+		model.addAttribute("confrim", confrim);
+		
+		List<Order> success = scurityService.findAllOrderByStatus("GTC");
+		model.addAttribute("success", success);
+		
+		List<Order> unsuccess = scurityService.findAllOrderByStatus("GTB");
+		model.addAttribute("unsuccess", unsuccess);
+		
+		return "manage-bill";
+	}
+	
+	@RequestMapping(value = "/admin/bill/{id}", method = RequestMethod.GET)
+	public String showOrder(Model model, Principal principal, @PathVariable int id) {
+
+		List<ProductType> productTypes = nonScurityService.findAllProductType();
+
+		model.addAttribute("productTypes", productTypes);
+
+		String userInfo = "";
+		List<ShoppingCart> shoppingCarts = null;
+		if (principal != null) {
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			userInfo = loginedUser.getUsername();
+			
+			boolean admin = loginedUser.getAuthorities().stream()
+			          .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+			
+			if (admin) {
+				model.addAttribute("admin", true);
+			}
+				
+			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
+
+			
+		}
+		
+		Order order = scurityService.findOrderById(id);
+		
+		model.addAttribute("order", order);
+		
+		model.addAttribute("shoppingCarts", shoppingCarts);
+		model.addAttribute("userInfo", userInfo);
+		
+		List<Order> way = scurityService.findAllOrderByStatus("CXN");
+		model.addAttribute("way", way);
+		
+		List<Order> confrim = scurityService.findAllOrderByStatus("DXN");
+		model.addAttribute("confrim", confrim);
+		
+		List<Order> success = scurityService.findAllOrderByStatus("GTC");
+		model.addAttribute("success", success);
+		
+		List<Order> unsuccess = scurityService.findAllOrderByStatus("GTB");
+		model.addAttribute("unsuccess", unsuccess);
+		
+		return "modalBill";
+	}
+	
+	@RequestMapping(value = "/admin/bill/dilivery/{id}", method = RequestMethod.POST)
+	public String diliveryOrder(Model model, Principal principal, @PathVariable int id, @RequestParam("success") boolean status) {
+
+		List<ProductType> productTypes = nonScurityService.findAllProductType();
+
+		model.addAttribute("productTypes", productTypes);
+
+		String userInfo = "";
+		List<ShoppingCart> shoppingCarts = null;
+		if (principal != null) {
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			userInfo = loginedUser.getUsername();
+			
+			boolean admin = loginedUser.getAuthorities().stream()
+			          .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+			
+			if (admin) {
+				model.addAttribute("admin", true);
+			}
+				
+			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
+
+			
+		}
+		
+		boolean confirm = scurityService.confirmOrder(id, status);
+		
+		model.addAttribute("shoppingCarts", shoppingCarts);
+		model.addAttribute("userInfo", userInfo);
+		
+		List<Order> way = scurityService.findAllOrderByStatus("CXN");
+		model.addAttribute("way", way);
+		
+		List<Order> confrim = scurityService.findAllOrderByStatus("DXN");
+		model.addAttribute("confrim", confrim);
+		
+		List<Order> success = scurityService.findAllOrderByStatus("GTC");
+		model.addAttribute("success", success);
+		
+		List<Order> unsuccess = scurityService.findAllOrderByStatus("GTB");
+		model.addAttribute("unsuccess", unsuccess);
+		
+		return "manage-bill";
+	}
 }

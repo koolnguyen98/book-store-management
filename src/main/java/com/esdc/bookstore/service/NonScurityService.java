@@ -95,5 +95,10 @@ public class NonScurityService {
 		return shoppingCartRepository.findByShoppingCartKeyAccountId(account.getId());
 	}
 
+	public List<Book> findBookByName(String textSearch) {
+		List<Book> books = bookRepository.findBookByName(textSearch);
+		return books;
+	}
+
 	
 }

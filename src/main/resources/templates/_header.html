@@ -26,19 +26,19 @@
                 <div class="row">
                     <div class="col-lg-2 col-md-2">
                         <div class="logo">
-                            <a href="./index.html">
-                                <img src="img/booklogo1.png" alt="" >
+                            <a th:href="@{/}">
+                                <img th:src="@{/img/booklogo1.png}" alt="" >
                             </a>
                         </div>
                     </div>
                     <div class="col-lg-7 col-md-7">
-                        <div class="advanced-search">
+                        <form class="advanced-search" th:action="@{/shop/search}" method='GET'>
                             <button type="button" class="category-btn">Tìm kiếm sách</button>
                             <div class="input-group">
-                                <input type="text" placeholder="Công nghệ...">
-                                <button type="button"><i class="ti-search"></i></button>
+                                <input type="text" placeholder="Công nghệ..." name='textSearch' style="color:black">
+                                <button type="submit"><i class="ti-search" id="ti-search"></i></button>
                             </div>
-                        </div>
+                        </form>
                     </div>
                     <div class="col-lg-3 text-right col-md-3">
                         <ul class="nav-right" th:if="${userInfo != ''}">
@@ -77,11 +77,11 @@
                         <i class="ti-menu"></i>
                         <span><a href="#">Quản lí danh mục</a></span>
                         <ul class="depart-hover">
-                            <li><a href="./manage-product.html"><i class="fas fa-book"></i>Sách</a></li>
-                            <li><a href="./manage-author.html"><i class="fas fa-book"></i>Tác giả - Nhà xuất bản</a></li>
-                            <li><a href="./manage-bill.html"><i class="fas fa-book"></i>Đơn hàng</a></li>
-                            <li><a href="./chart.html"><i class="fas fa-book"></i>Doanh thu</a></li>
-                            <li><a href="./manage-member.html"><i class="fas fa-book"></i>Thành viên</a></li>
+                            <li><a th:href="@{/admin/product}"><i class="fas fa-book"></i>Sách</a></li>
+                            <li><a th:href="@{/admin/additional}"><i class="fas fa-book"></i>Tác giả - Nhà xuất bản</a></li>
+                            <li><a th:href="@{/admin/bill}"><i class="fas fa-book"></i>Đơn hàng</a></li>
+                            <li><a th:href="@{/admin/chart}"><i class="fas fa-book"></i>Doanh thu</a></li>
+                            <li><a th:href="@{/admin/member}"><i class="fas fa-book"></i>Thành viên</a></li>
                         </ul>
                     </div>
                 </div>
@@ -90,3 +90,4 @@
             </div>
         </div>
     </header>
+    
