@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.esdc.bookstore.controller.form.AdditionalForm;
 import com.esdc.bookstore.controller.form.BookForm;
@@ -478,5 +479,15 @@ public class AdminController {
 		model.addAttribute("users", userService.findAll());
 		
 		return "manage-member";
+	}
+	
+	@RequestMapping(value = "/admin/users/accounts/{id}/block", method = RequestMethod.GET)
+	public String blockUser(Model model, RedirectAttributes redirect, @PathVariable("id") Integer accountID) {
+		return userService.blockUser(model, redirect, accountID);
+	}
+	
+	@RequestMapping(value = "/admin/users/accounts/{id}/unblock", method = RequestMethod.GET)
+	public String unblockUser(Model model, RedirectAttributes redirect, @PathVariable("id") Integer accountID) {
+		return userService.unblockUser(model, redirect, accountID);
 	}
 }
