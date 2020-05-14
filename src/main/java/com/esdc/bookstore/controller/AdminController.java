@@ -27,6 +27,7 @@ import com.esdc.bookstore.entity.Author;
 import com.esdc.bookstore.entity.Book;
 import com.esdc.bookstore.entity.Brand;
 import com.esdc.bookstore.entity.Order;
+import com.esdc.bookstore.entity.Product;
 import com.esdc.bookstore.entity.ProductType;
 import com.esdc.bookstore.entity.PublishingCompany;
 import com.esdc.bookstore.entity.ShoppingCart;
@@ -114,6 +115,39 @@ public class AdminController {
 		Boolean deleteBook = scurityService.deleteBookById(id);
 		
 		return "redirect:/home";
+	}
+	
+	@RequestMapping(value = "/admin/book", method = RequestMethod.GET)
+	public String allBook(Model model, Principal principal) {
+
+		List<ProductType> productTypes = nonScurityService.findAllProductType();
+
+		model.addAttribute("productTypes", productTypes);
+
+		String userInfo = "";
+		List<ShoppingCart> shoppingCarts = null;
+		if (principal != null) {
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			userInfo = loginedUser.getUsername();
+			
+			boolean admin = loginedUser.getAuthorities().stream()
+			          .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+			
+			if (admin) {
+				model.addAttribute("admin", true);
+			}
+				
+			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
+
+			
+		}
+		model.addAttribute("shoppingCarts", shoppingCarts);
+		model.addAttribute("userInfo", userInfo);
+		
+		List<Book> books = nonScurityService.findAllBook();
+		model.addAttribute("books", books);
+		
+		return "manage-product";
 	}
 	
 	/**
