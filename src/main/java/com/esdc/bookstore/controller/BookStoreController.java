@@ -23,12 +23,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.esdc.bookstore.config.utils.WebUtils;
 import com.esdc.bookstore.controller.form.BookForm;
 import com.esdc.bookstore.controller.form.RegisterForm;
+import com.esdc.bookstore.entity.Account;
 import com.esdc.bookstore.entity.Book;
 import com.esdc.bookstore.entity.Product;
 import com.esdc.bookstore.entity.ProductType;
 import com.esdc.bookstore.entity.PublishingCompany;
 import com.esdc.bookstore.entity.ShoppingCart;
 import com.esdc.bookstore.entity.Stationery;
+import com.esdc.bookstore.repository.AccountRepository;
 import com.esdc.bookstore.service.NonScurityService;
 import com.esdc.bookstore.service.UserService;
 
@@ -58,6 +60,7 @@ public class BookStoreController {
 		List<ShoppingCart> shoppingCarts = null;
 		if (principal != null) {
 			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			
 			userInfo = loginedUser.getUsername();
 			
 			boolean admin = loginedUser.getAuthorities().stream()
@@ -334,6 +337,30 @@ public class BookStoreController {
 	public String register(RedirectAttributes redirectAttrs, Model model, @ModelAttribute("registerForm") @Validated RegisterForm registerForm) {
 		
 		return userService.createUser(redirectAttrs, model, registerForm);
+	}
+	
+	@RequestMapping(value = "/user/profile", method = RequestMethod.GET)
+	public String userProfile(Model model, Principal principal, RedirectAttributes redirect) {
+		if (principal != null) {
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			
+			System.out.println(loginedUser.toString());
+			
+			return userService.userProfile(model, loginedUser.getUsername(), redirect);
+		}
+		
+		return "redirect:/login";
+	}
+	
+	@RequestMapping(value = "/user/profile/update", method = RequestMethod.POST)
+	public String updateUserProfile(Model model, Principal principal, RedirectAttributes redirect, @ModelAttribute("registerForm") RegisterForm registerForm) {
+		if (principal != null) {
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			
+			return userService.updateUserProfile(redirect, model, registerForm);
+		}
+		
+		return "redirect:/login";
 	}
 
 }
