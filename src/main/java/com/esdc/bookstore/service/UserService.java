@@ -31,6 +31,10 @@ public class UserService {
 
 	@Autowired
 	private AuthService authService;
+	
+	public List<User> findAll() {
+		return userRepository.findAll();
+	}
 
 	public String createUser(RedirectAttributes redirect, Model model, RegisterForm registerForm) {
 		String email = registerForm.getEmail();

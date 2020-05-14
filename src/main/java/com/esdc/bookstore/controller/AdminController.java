@@ -34,6 +34,7 @@ import com.esdc.bookstore.entity.ShoppingCart;
 import com.esdc.bookstore.entity.Stationery;
 import com.esdc.bookstore.service.NonScurityService;
 import com.esdc.bookstore.service.ScurityService;
+import com.esdc.bookstore.service.UserService;
 
 @Controller
 public class AdminController {
@@ -43,6 +44,9 @@ public class AdminController {
 	
 	@Autowired
 	private NonScurityService nonScurityService;
+	
+	@Autowired
+	private UserService userService;
 
 	/**
 	 * 
@@ -466,5 +470,13 @@ public class AdminController {
 		model.addAttribute("unsuccess", unsuccess);
 		
 		return "manage-bill";
+	}
+	
+	@RequestMapping(value = "/admin/users", method = RequestMethod.GET)
+	public String memberList(Model model) {
+		
+		model.addAttribute("users", userService.findAll());
+		
+		return "manage-member";
 	}
 }
