@@ -3,7 +3,7 @@ package com.esdc.bookstore.controller.form;
 import javax.validation.constraints.NotNull;
 
 public class RegisterForm {
-	private int id;
+	private Long id;
 
 	@NotNull
 	private String username;
@@ -56,7 +56,7 @@ public class RegisterForm {
 		this.sex = sex;
 	}
 
-	public RegisterForm(int id, @NotNull String username, @NotNull String password, @NotNull String confPassword,
+	public RegisterForm(Long id, @NotNull String username, @NotNull String password, @NotNull String confPassword,
 			@NotNull String fullName, @NotNull String email, @NotNull String phoneNumber, @NotNull String address,
 			@NotNull boolean sex) {
 		this.id = id;
@@ -69,12 +69,22 @@ public class RegisterForm {
 		this.address = address;
 		this.sex = sex;
 	}
+	
+	public RegisterForm(Long id, @NotNull String fullName, @NotNull String email, @NotNull String phoneNumber,
+			@NotNull String address, @NotNull boolean sex) {
+		this.id = id;
+		this.fullName = fullName;
+		this.email = email;
+		this.phoneNumber = phoneNumber;
+		this.address = address;
+		this.sex = sex;
+	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
