@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.esdc.bookstore.config.utils.DateTimeUtil;
@@ -491,11 +493,21 @@ public class AdminController {
 		return userService.unblockUser(model, redirect, accountID);
 	}
 	
-	@RequestMapping(value = "/admin/summarize", method = RequestMethod.GET)
-	public List<Revenue> summarize(@RequestParam Optional<String> viewType, @RequestParam Optional<String> from, @RequestParam Optional<String> to) {
+	@RequestMapping(value = "/admin/reports", method = RequestMethod.GET)
+	public String report() {
+		return "chart";
+	}
+	
+	@RequestMapping(value = "/admin/sales/summarize", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+	@ResponseBody
+	public List<Revenue> summarize(@PathParam("viewType") Optional<String> viewType, @RequestParam Optional<String> from, @RequestParam Optional<String> to) {
 		String _viewType = viewType.isPresent() ? viewType.get() : "day";
 		String _from = from.isPresent() ? from.get() : DateTimeUtil.getInstance().getCurrentDayAsString();
 		String _to = to.isPresent() ? to.get() : DateTimeUtil.getInstance().getCurrentDayAsString();
+		
+		System.out.println(_viewType);
+		System.out.println(_from);
+		System.out.println( _to);
 		
 		return orderService.getRevenue(_from, _to, _viewType);
 	}
