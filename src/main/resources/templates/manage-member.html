@@ -85,16 +85,18 @@
                                         </td>
                                        
                                         <td class="">
-                                            <button data-id="${user.getAccount().getId()}" th:if="${!user.getAccount().isEnabled()}" class="btn btn-danger block-user" data-toggle="modal"
-                                                data-target="#unlockAccount"
+                                   
+                                        	<div data-th-id="${user.getAccount().getId()}"></div>
+                                            <a th:attr="data-id=${user.getAccount().getId()},data-email=${user.getAccount().getUserName()}" th:if="${!user.getAccount().isEnabled()}" class="btn btn-danger unblock-user" data-toggle="modal"
+                                                href="#unlockAccount"
                                                 style="margin-left: 30px; width: 25px; height: 25px; padding: 1px">
                                                 <i class="fa fa-lock"></i>
-                                            </button>
-                                             <button data-id="${user.getAccount().getId()}" th:if="${user.getAccount().isEnabled()}" class="btn btn-success unblock-user" data-toggle="modal"
-                                                data-target="#lockAccount"
+                                            </a>
+                                             <a th:attr="data-id=${user.getAccount().getId()},data-email=${user.getAccount().getUserName()}" th:if="${user.getAccount().isEnabled()}" class="btn btn-success block-user" data-toggle="modal"
+                                                href="#lockAccount"
                                                 style="margin-left: 30px; width: 25px; height: 25px; padding: 1px">
                                                 <i class="fa fa-unlock"></i>
-                                            </button>
+                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -115,13 +117,13 @@
 
                                 <!-- Modal body -->
                                 <div class="modal-body">
-                                    <span>Bạn có muốn khoá tài khoản <b>acb@gmail.com</b> không?</span>
+                                    <span>Bạn có muốn khoá tài khoản <b class="block-email">acb@gmail.com</b> không?</span>
                                 </div>
 
                                 <!-- Modal footer -->
                                 <div class="modal-footer">
-                                        <a href="#" type="button" class="btn btn-success" data-dismiss="modal">Có</a>
-                                        <a href="#" type="button" class="btn btn-danger" data-dismiss="modal">Không</a>
+                                        <a href="#" class="btn btn-success block-accept" data-dismiss="modal">Có</a>
+                                        <button class="btn btn-danger" data-dismiss="modal">Không</button>
                                     </div>
 
                             </div>
@@ -142,12 +144,12 @@
     
                                     <!-- Modal body -->
                                     <div class="modal-body">
-                                        <span>Bạn có muốn mở khoá tài khoản <b>acb@gmail.com</b> không?</span>
+                                        <span>Bạn có muốn mở khoá tài khoản <b class="unblock-email">acb@gmail.com</b> không?</span>
                                     </div>
     
                                     <!-- Modal footer -->
                                     <div class="modal-footer">
-                                            <button type="button" class="btn btn-success" data-dismiss="modal">Có</button>
+                                            <a href="#" class="btn btn-success unblock-accept" data-dismiss="modal">Có</a>
                                             <button type="button" class="btn btn-danger" data-dismiss="modal">Không</button>
                                         </div>
     
@@ -174,7 +176,42 @@
 
 	<!-- Js Plugins -->
 	<th:block th:include="/_jsplugin"></th:block>
-
+	<script type="text/javascript">
+		$(function() {
+			$('.block-user').click(function(e) {
+				e.preventDefault();
+				
+				let accountId = $(this).data("id");
+				let username = $(this).data("email");
+				
+				let url = `/admin/users/accounts/${accountId}/block`;
+				
+				$('.block-accept').attr('href', url);
+				$('.block-email').html(username);
+				
+			});
+			
+			$('.block-accept').click(function(e) {
+				window.open($(this).attr('href'), '_self');
+			});
+			
+			$('.unblock-user').click(function(e) {
+				e.preventDefault();
+				
+				let accountId = $(this).data("id");
+				let username = $(this).data("email");
+				
+				let url = `/admin/users/accounts/${accountId}/unblock`;
+				
+				$('.unblock-accept').attr('href', url);
+				$('.unblock-email').html(username);
+			});
+			
+			$('.unblock-accept').click(function(e) {
+				window.open($(this).attr('href'), '_self');
+			});
+		})
+	</script>
 	
 </body>
 
