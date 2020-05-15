@@ -171,11 +171,14 @@ public class ProductService {
 			if(spcbooks.isEmpty() && oddbooks.isEmpty()) {
 				List<Image> images = book.getImages();
 				
-				if (images.isEmpty()) {
-					imageRepository.deleteAll(images);
+				if (!images.isEmpty()) {
+					imageRepository.deleteInBatch(images);
 				}
-				
-				bookRepository.delete(book);
+				List<Book> books = new ArrayList<Book>();
+				books.add(book);
+				bookRepository.deleteInBatch(books);
+
+				return true;
 			}
 			book.setStatus(false);
 			bookRepository.save(book);
@@ -294,6 +297,7 @@ public class ProductService {
 				Image image = new Image();
 				try {
 					image.setImage(imageFile.getBytes());
+					image.setBase64(Base64.getEncoder().encodeToString(imageFile.getBytes()));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

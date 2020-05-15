@@ -23,4 +23,6 @@ public interface BookRepository extends JpaRepository<Book, Integer>  {
 	@Query(value = "SELECT b FROM Book b WHERE b.productName LIKE %?1%")
 	List<Book> findBookByName(String textSearch);
 
+	List<Book> findByStatus(boolean status);
+
 }

@@ -43,14 +43,22 @@
 					<div class="row">
 						<div class="col-lg-6">
 							<div class="product-pic-zoom">
-								<img class="product-big-img" th:src="@{/img/products/p1.jpg}"
-									alt="">
+								<img th:src="@{/img/products/p1.jpg}" alt="" style="height: 250px"  th:if="*{#lists.isEmpty(book.images)}">
+                                <img th:src="@{|data:image/*;base64,*{book.images[0].base64}|}" alt="" style="height: 250px"  th:unless="*{#lists.isEmpty(book.images)}">
+                                        
 								<div class="zoom-icon">
 									<i class="fa fa-search-plus"></i>
 								</div>
 							</div>
 							<div class="product-thumbs">
-								<div class="product-thumbs-track ps-slider owl-carousel">
+								<div class="product-thumbs-track ps-slider owl-carousel" th:unless="*{#lists.isEmpty(book.images)}">
+									<div class="pt active" th:each="image : ${book.images}"
+										th:data-imgbigurl="@{|data:image/*;base64,*{image.base64}|}">
+										<img th:src="@{|data:image/*;base64,*{image.base64}|}" alt="">
+									</div>
+								</div>
+								
+								<div class="product-thumbs-track ps-slider owl-carousel" th:if="*{#lists.isEmpty(book.images)}">
 									<div class="pt active"
 										th:data-imgbigurl="@{/img/products/p1.jpg}">
 										<img th:src="@{/img/products/p1.jpg}" alt="">
@@ -347,7 +355,8 @@
 			<div class="product-slider owl-carousel">
 				<div class="product-item" th:each="productBook : ${books}">
 					<div class="pi-pic">
-						<img th:src="@{/img/products/p2.jpg}" alt="" style="height: 300px">
+						<img th:src="@{/img/products/p1.jpg}" alt="" style="height: 250px"  th:if="*{#lists.isEmpty(productBook.images)}">
+                                        <img th:src="@{|data:image/*;base64,*{productBook.images[0].base64}|}" alt="" style="height: 250px"  th:unless="*{#lists.isEmpty(productBook.images)}">
 						<div class="sale pp-sale" th:if="${productBook.discount*1 != 0}">[[${productBook.discount}
 							+ '%']]</div>
 						<div class="icon">

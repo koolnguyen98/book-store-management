@@ -1,0 +1,102 @@
+<div class="modal-dialog modal-dialog-centered modal-xl">
+	<form class="modal-content" th:object="${bookForm}"
+		th:action="@{/admin/editBook}" method='POST'
+		enctype="multipart/form-data">
+
+		<!-- Modal Header -->
+		<div class="modal-header">
+			<h4 class="modal-title">Chỉnh sủa thông tin sách (Mã sách: <span>[[${bookForm.id}]]</span>)</h4>
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<input type="hidden" th:value="${bookForm.id}" th:field="*{id}">
+		</div>
+
+		<!-- Modal body -->
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-lg-6">
+					<label for="fir">Tên sách<span>*</span></label> <input type="text"
+						name='productName' th:field="*{productName}">
+				</div>
+				<div class="col-lg-6">
+					<label for="last">Đơn giá (VNĐ)<span>*</span></label> <input
+						type="number" name='price' th:field="*{price}">
+				</div>
+				<div class="col-lg-6">
+					<label for="fir">Tác giả</label> <select id="author" name="author"
+						th:field="*{author}">
+						<option th:each="author : ${authors}" th:value="${author.id}">[[${author.name}]]</option>
+					</select>
+				</div>
+				<div class="col-lg-6">
+					<label for="last">Nhà xuất bản</label> <select
+						id="publishingCompany" name="publishingCompany"
+						th:field="*{publishingCompany}">
+						<option th:each="publishingCompany : ${publishingCompanies}"
+							th:value="${publishingCompany.id}">[[${publishingCompany.name}]]</option>
+					</select>
+				</div>
+				<div class="col-lg-6">
+					<label for="fir">Thể loại</label> <select id="productType"
+						name="productType" th:field="*{productType}">
+						<option th:each="productType : ${productTypes}"
+							th:value="${productType.id}">[[${productType.name}]]</option>
+					</select>
+				</div>
+				<div class="col-lg-6">
+					<label for="last">Số lượng</label> <input type="number"
+						name='amount' th:field="*{amount}">
+				</div>
+				<div class="col-lg-6">
+					<label for="fir">Kích thước</label> <input type="text" name='size'
+						th:field="*{size}">
+				</div>
+				<div class="col-lg-6">
+					<label for="last">Số trang</label> <input type="number"
+						name='pageNumber' th:field="*{pageNumber}">
+				</div>
+				<div class="col-lg-6">
+					<label for="fir">Ngôn ngữ</label> <input type="text"
+						name='language' th:field="*{language}">
+				</div>
+				<div class="col-lg-6">
+					<label for="last">Hình thức bìa</label> <input type="text"
+						name='formBookJacket' th:field="*{formBookJacket}">
+				</div>
+				<div class="col-lg-6">
+					<label for="last">Năm xuất bản</label> <input type="number"
+						name='publishingYear' th:field="*{publishingYear}">
+				</div>
+				<div class="col-lg-6">
+					<label for="last">Tinh trạng</label> <input type="checkbox"
+						name='status' th:field="*{status}">
+				</div>
+				<div class="col-lg-12">
+					<label for="script">Giới thiệu</label><br>
+					<textarea id="script" rows="4" cols="120" th:field="*{description}"
+						name='description'>
+                                                                </textarea>
+				</div>
+
+				<input type='file' name='imageFiles' value='' th:field="*{imageFiles}"  multiple accept="image/png, image/jpeg"/>
+
+				<div class="col-lg-12">
+					<fieldset class="form-group">
+						<a class="btn btn-info" href="javascript:void(0)"
+							onclick="$('#pro-image').click()">Tải ảnh</a> <input type="file"
+							id="pro-image" name='imageFiles' value='' th:field="*{imageFiles}"  multiple accept="image/png, image/jpeg"
+							style="display: none;" class="form-control">
+					</fieldset>
+					<div class="preview-images-zone"></div>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- Modal footer -->
+		<div class="modal-footer">
+			<button type="submit" class="btn btn-success">Lưu</button>
+			<button type="button" class="btn btn-danger" data-dismiss="modal">Huỷ</button>
+		</div>
+
+	</form>
+</div>

@@ -5,9 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "image")
@@ -21,6 +23,10 @@ public class Image {
 	@NotNull
 	@Column(name = "image", nullable = false, columnDefinition="longblob")
 	private byte[] image;
+	
+	@Lob
+	@Column(name = "base64", nullable = false)
+	private String base64;
 	
 	@ManyToOne()
     @JoinColumn(name="product_id", nullable = false) 
@@ -57,6 +63,14 @@ public class Image {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public String getBase64() {
+		return base64;
+	}
+
+	public void setBase64(String base64) {
+		this.base64 = base64;
 	}
 	
 }

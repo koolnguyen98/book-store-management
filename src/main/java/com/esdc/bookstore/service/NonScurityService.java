@@ -1,5 +1,6 @@
 package com.esdc.bookstore.service;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.esdc.bookstore.entity.Account;
 import com.esdc.bookstore.entity.Book;
+import com.esdc.bookstore.entity.Image;
 import com.esdc.bookstore.entity.Product;
 import com.esdc.bookstore.entity.ProductType;
 import com.esdc.bookstore.entity.PublishingCompany;
@@ -59,7 +61,9 @@ public class NonScurityService {
 	}
 
 	public List<Book> findAllBook() {
-		return bookRepository.findAll();
+		List<Book> books = bookRepository.findByStatus(true);
+		
+		return books;
 	}
 	
 	public List<Book> findBookByProductAcronym(String acronym) {

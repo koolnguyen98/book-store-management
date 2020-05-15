@@ -51,12 +51,14 @@ public class AdminController {
 	 * 
 	 * 
 	 **/
-	
-	@RequestMapping(value = "/admin/addBook", method = RequestMethod.GET)
-	public String addBookPage(Model model) {
 
-		BookForm bookForm = new BookForm();
-		model.addAttribute("bookForm", bookForm);
+	@RequestMapping(value = "/admin/addBook", method = RequestMethod.POST)
+	public String addBook(Model model, @ModelAttribute("bookForm") @Valid BookForm bookForm, Principal principal) {
+		bookForm.setStatus(true);
+		Book book = scurityService.insertBook(bookForm);
+		
+		BookForm bf = new BookForm();
+		model.addAttribute("bookForm", bf);
 		
 		List<ProductType> productTypes = scurityService.findAllProductType();
 		model.addAttribute("productTypes", productTypes);
@@ -67,18 +69,33 @@ public class AdminController {
 		List<PublishingCompany> publishingCompanies = scurityService.findAllPublishingCompany();
 		model.addAttribute("publishingCompanies", publishingCompanies);
 
-		return "addBookPage";
+		String userInfo = "";
+		List<ShoppingCart> shoppingCarts = null;
+		if (principal != null) {
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			userInfo = loginedUser.getUsername();
+			
+			boolean admin = loginedUser.getAuthorities().stream()
+			          .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+			
+			if (admin) {
+				model.addAttribute("admin", true);
+			}
+				
+			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
+
+			
+		}
+		model.addAttribute("shoppingCarts", shoppingCarts);
+		model.addAttribute("userInfo", userInfo);
+		
+		List<Book> books = nonScurityService.findAllBook();
+		model.addAttribute("books", books);
+
+		return "redirect:/admin/book";
 	}
 
-	@RequestMapping(value = "/admin/addBook", method = RequestMethod.POST)
-	public String addBook(Model model, @ModelAttribute("bookForm") @Valid BookForm bookForm) {
-
-		Book book = scurityService.insertBook(bookForm);
-
-		return "redirect:/home";
-	}
-
-	@RequestMapping(value = "/admin/updateBook/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/edit/{id}", method = RequestMethod.GET)
 	public String updateBookPage(Model model, @PathVariable int id) {
 
 		BookForm bookForm = scurityService.findBookById(id);
@@ -95,34 +112,43 @@ public class AdminController {
 			List<PublishingCompany> publishingCompanies = scurityService.findAllPublishingCompany();
 			model.addAttribute("publishingCompanies", publishingCompanies);
 			
-			return "updateBookPage";
+			return "modalProduct";
 		}
 		
-		return "redirect:/home";
+		return "redirect:/admin/book";
 	}
 	
-	@RequestMapping(value = "/admin/updateBook", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/editBook", method = RequestMethod.POST)
 	public String updateBook(Model model, @ModelAttribute("bookForm") @Valid BookForm bookForm) {
 
 		Book book = scurityService.updateBook(bookForm);
 
-		return "redirect:/home";
+		return "redirect:/admin/book";
 	}
 	
-	@RequestMapping(value = "/admin/deleteBook/{id}", method = RequestMethod.GET)
-	public String deleteBook(Model model, @PathVariable int id) {
+	@RequestMapping(value = "/admin/deleteBook/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Boolean> deleteBook(Model model, @PathVariable int id) {
 
 		Boolean deleteBook = scurityService.deleteBookById(id);
 		
-		return "redirect:/home";
+		return Collections.singletonMap("success", deleteBook);
 	}
 	
 	@RequestMapping(value = "/admin/book", method = RequestMethod.GET)
 	public String allBook(Model model, Principal principal) {
 
-		List<ProductType> productTypes = nonScurityService.findAllProductType();
-
+		BookForm bookForm = new BookForm();
+		model.addAttribute("bookForm", bookForm);
+		
+		List<ProductType> productTypes = scurityService.findAllProductType();
 		model.addAttribute("productTypes", productTypes);
+		
+		List<Author> authors = scurityService.findAllAuthor();
+		model.addAttribute("authors", authors);
+		
+		List<PublishingCompany> publishingCompanies = scurityService.findAllPublishingCompany();
+		model.addAttribute("publishingCompanies", publishingCompanies);
 
 		String userInfo = "";
 		List<ShoppingCart> shoppingCarts = null;
@@ -217,7 +243,27 @@ public class AdminController {
 	 **/
 	
 	@RequestMapping(value = "/admin/additional", method = RequestMethod.GET)
-	public String findAllAuthorAndPublishingCompany(Model model) {
+	public String findAllAuthorAndPublishingCompany(Model model, Principal principal) {
+		
+		String userInfo = "";
+		List<ShoppingCart> shoppingCarts = null;
+		if (principal != null) {
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			userInfo = loginedUser.getUsername();
+			
+			boolean admin = loginedUser.getAuthorities().stream()
+			          .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+			
+			if (admin) {
+				model.addAttribute("admin", true);
+			}
+				
+			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
+
+			
+		}
+		model.addAttribute("shoppingCarts", shoppingCarts);
+		model.addAttribute("userInfo", userInfo);
 
 		List<Author> author = scurityService.findAllAuthor();
 		model.addAttribute("authors", author);

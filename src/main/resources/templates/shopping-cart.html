@@ -50,8 +50,8 @@
                             </thead>
                             <tbody>
                                 <tr th:each="shoppingCart : ${shoppingCarts}">
-                                    <td class="cart-pic first-row"><img th:src="@{/img/products/p1.jpg}" alt=""
-                                            style="height: 150px"></td>
+                                    <td class="cart-pic first-row"><img th:src="@{/img/products/p1.jpg}" alt="" style="height: 250px"  th:if="*{#lists.isEmpty(shoppingCart.product.images)}">
+                                        <img th:src="@{|data:image/*;base64,*{shoppingCart.product.images[0].base64}|}" alt="" style="height: 250px"  th:unless="*{#lists.isEmpty(shoppingCart.product.images)}"></td>
                                     <td class="cart-title first-row">
                                         <h5>[[${shoppingCart.product.productName}]]</h5>
                                     </td>

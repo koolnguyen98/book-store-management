@@ -105,6 +105,13 @@ public class BookStoreController {
 			User loginedUser = (User) ((Authentication) principal).getPrincipal();
 			userInfo = loginedUser.getUsername();
 			
+			boolean admin = loginedUser.getAuthorities().stream()
+			          .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+			
+			if (admin) {
+				model.addAttribute("admin", true);
+			}
+			
 			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
 
 			
@@ -140,6 +147,13 @@ public class BookStoreController {
 			User loginedUser = (User) ((Authentication) principal).getPrincipal();
 			userInfo = loginedUser.getUsername();
 			
+			boolean admin = loginedUser.getAuthorities().stream()
+			          .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+			
+			if (admin) {
+				model.addAttribute("admin", true);
+			}
+			
 			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
 
 			
@@ -174,6 +188,13 @@ public class BookStoreController {
 		if (principal != null) {
 			User loginedUser = (User) ((Authentication) principal).getPrincipal();
 			userInfo = loginedUser.getUsername();
+			
+			boolean admin = loginedUser.getAuthorities().stream()
+			          .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+			
+			if (admin) {
+				model.addAttribute("admin", true);
+			}
 			
 			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
 
@@ -220,6 +241,13 @@ public class BookStoreController {
 		if (principal != null) {
 			User loginedUser = (User) ((Authentication) principal).getPrincipal();
 			userInfo = loginedUser.getUsername();
+			
+			boolean admin = loginedUser.getAuthorities().stream()
+			          .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+			
+			if (admin) {
+				model.addAttribute("admin", true);
+			}
 			
 			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
 
