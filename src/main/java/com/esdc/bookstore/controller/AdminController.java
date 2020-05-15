@@ -1,9 +1,8 @@
 package com.esdc.bookstore.controller;
 
 import java.security.Principal;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -17,23 +16,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.esdc.bookstore.config.utils.DateTimeUtil;
 import com.esdc.bookstore.controller.form.AdditionalForm;
 import com.esdc.bookstore.controller.form.BookForm;
 import com.esdc.bookstore.controller.form.ProductTypeForm;
-import com.esdc.bookstore.controller.form.StationeryForm;
 import com.esdc.bookstore.entity.Author;
 import com.esdc.bookstore.entity.Book;
-import com.esdc.bookstore.entity.Brand;
 import com.esdc.bookstore.entity.Order;
-import com.esdc.bookstore.entity.Product;
 import com.esdc.bookstore.entity.ProductType;
 import com.esdc.bookstore.entity.PublishingCompany;
+import com.esdc.bookstore.entity.Revenue;
 import com.esdc.bookstore.entity.ShoppingCart;
-import com.esdc.bookstore.entity.Stationery;
 import com.esdc.bookstore.service.NonScurityService;
+import com.esdc.bookstore.service.OrderService;
 import com.esdc.bookstore.service.ScurityService;
 import com.esdc.bookstore.service.UserService;
 
@@ -48,6 +45,9 @@ public class AdminController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private OrderService orderService;
 
 	/**
 	 * 
@@ -489,5 +489,14 @@ public class AdminController {
 	@RequestMapping(value = "/admin/users/accounts/{id}/unblock", method = RequestMethod.GET)
 	public String unblockUser(Model model, RedirectAttributes redirect, @PathVariable("id") Integer accountID) {
 		return userService.unblockUser(model, redirect, accountID);
+	}
+	
+	@RequestMapping(value = "/admin/summarize", method = RequestMethod.GET)
+	public List<Revenue> summarize(@RequestParam Optional<String> viewType, @RequestParam Optional<String> from, @RequestParam Optional<String> to) {
+		String _viewType = viewType.isPresent() ? viewType.get() : "day";
+		String _from = from.isPresent() ? from.get() : DateTimeUtil.getInstance().getCurrentDayAsString();
+		String _to = to.isPresent() ? to.get() : DateTimeUtil.getInstance().getCurrentDayAsString();
+		
+		return orderService.getRevenue(_from, _to, _viewType);
 	}
 }
