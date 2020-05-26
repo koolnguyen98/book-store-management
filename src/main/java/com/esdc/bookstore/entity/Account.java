@@ -110,6 +110,14 @@ public class Account {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 
 	@Override
 	public String toString() {

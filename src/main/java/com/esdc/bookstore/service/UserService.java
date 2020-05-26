@@ -16,6 +16,7 @@ import com.esdc.bookstore.repository.AccountRepository;
 import com.esdc.bookstore.repository.RoleRepository;
 import com.esdc.bookstore.repository.UserRepository;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Service
@@ -31,6 +32,10 @@ public class UserService {
 
 	@Autowired
 	private AuthService authService;
+	
+	public List<User> findAll() {
+		return userRepository.findAll();
+	}
 
 	public String createUser(RedirectAttributes redirect, Model model, RegisterForm registerForm) {
 		String email = registerForm.getEmail();
@@ -79,6 +84,7 @@ public class UserService {
 		account.setPassword(authService.hashpwd(registerForm.getPassword()));
 		account.setUser(entity);
 		account.setRoles(roles);
+		account.setEnabled(true);
 
 		Account addedAccount = accountRepository.save(account);
 
@@ -164,5 +170,49 @@ public class UserService {
 		redirect.addFlashAttribute("successMessage", "Update account successfully");
 		
 		return "redirect:/user/profile";
+	}
+	
+	public String blockUser(Model model, RedirectAttributes redirect, Integer accountID) {
+Account account = accountRepository.findAccountById(accountID);
+		
+		if (account == null) {
+			redirect.addFlashAttribute("messageError", "Account not found");
+			
+			return "redirect:/admin/users";
+		}
+		
+		try {
+			account.setEnabled(false);
+			accountRepository.save(account);
+		} catch(Exception e) {
+			redirect.addFlashAttribute("messageError", "Block account failed");
+			
+			return "redirect:/admin/users";
+		}
+		
+		redirect.addFlashAttribute("successMessage", "Block account successfully");
+		return "redirect:/admin/users";
+	}
+	
+	public String unblockUser(Model model, RedirectAttributes redirect, Integer accountID) {
+		Account account = accountRepository.findAccountById(accountID);
+		
+		if (account == null) {
+			redirect.addFlashAttribute("messageError", "Account not found");
+			
+			return "redirect:/admin/users";
+		}
+		
+		try {
+			account.setEnabled(true);
+			accountRepository.save(account);
+		} catch(Exception e) {
+			redirect.addFlashAttribute("messageError", "Unblock account failed");
+			
+			return "redirect:/admin/users";
+		}
+		
+		redirect.addFlashAttribute("successMessage", "Unblock account successfully");
+		return "redirect:/admin/users";
 	}
 }

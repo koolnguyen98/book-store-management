@@ -15,6 +15,7 @@ import com.esdc.bookstore.entity.Order;
 import com.esdc.bookstore.entity.OrderDetail;
 import com.esdc.bookstore.entity.OrderDetailKey;
 import com.esdc.bookstore.entity.Product;
+import com.esdc.bookstore.entity.Revenue;
 import com.esdc.bookstore.entity.ShoppingCart;
 import com.esdc.bookstore.entity.ShoppingCartKey;
 import com.esdc.bookstore.entity.Status;
@@ -45,7 +46,11 @@ public class OrderService {
 	
 	@Autowired
 	private OrderDetailRepository orderDetailRepository;
-
+	
+	public static final String DAY = "day";
+	public static final String MONTH = "month";
+	public static final String YEAR = "year";
+	
 	public List<ShoppingCart> findShoppingcartByUsername(String userName) {
 		Account account = accountRepository.findByUserName(userName);
 
@@ -343,6 +348,19 @@ public class OrderService {
 
 	public List<OrderDetail> findOrderDetailDByOrder(Order order) {
 		return orderDetailRepository.findByOrder(order);
+	}
+	
+	public List<Revenue> getRevenue(String from, String to, String viewType) {
+		switch (viewType) {
+			case DAY:
+				return orderRepository.getRevenueByDay(from, to);
+			case MONTH:
+				return orderRepository.getRevenueByMonth(from, to);
+			case YEAR:	
+				return orderRepository.getRevenueByYear(from, to);
+			default:
+				return null;
+		}
 	}
 
 }

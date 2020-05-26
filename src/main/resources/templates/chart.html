@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <th:block th:include="/_head"></th:block>
+</head>
+
+<body>
+	<!-- Page Preloder -->
+	<div id="preloder">
+		<div class="loader"></div>
+	</div>
+
+	<!-- Header Section Begin -->
+	<th:block th:include="/_header"></th:block>
+    <!-- Header End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <div class="breacrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-text product-more">
+                        <a href="./index.html"><i class="fa fa-home"></i> Trang chủ</a>
+                        <span>Thành viên</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb Section Begin -->
+
+    <!-- Shopping Cart Section Begin -->
+     <section class="checkout-section spad">
+        <div class="container">
+            <form action="#" class="checkout-form">
+                <div class="row">
+                    <div class="col-lg-2">
+                        <label for="datepickerEnd">Xem theo<span>*</span></label>
+                      	<select class="form-control" id="viewType">
+                      		<option value="day">Day</option>
+                      		<option value="month">Month</option>
+                      		<option value="year">Year</option>
+                      	</select> 
+                    </div>
+                    <div class="col-lg-3">
+                        <label for="datepickerStart">Ngày bắt đầu<span>*</span></label>
+                        <input type="text" id="datepickerStart" width="276" />
+                    </div>
+
+                    <div class="col-lg-3">
+                        <label for="datepickerEnd">Ngày kết thúc<span>*</span></label>
+                        <input type="text" id="datepickerEnd" width="276" />  
+                    </div>
+                    <div class="col-lg-2">
+                        <button class="btn btn-primary btn-summarize" style="margin-top: 30px">Thống kê</button>
+                    </div>
+                </div>
+                <div><hr><br></div> 
+                <div class="row">
+                    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+                </div>
+            </form>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+    
+    <!--The Modal Lock Account -->
+                    <div class="modal fade" id="error-message">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Thông Báo</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <span>Ngày kết thúc phải lớn hơn hoặc bằng ngày hiện tại</span>
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                        <button class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Modal -->
+    
+
+    <!-- Partner Logo Section Begin -->
+
+    <!-- Partner Logo Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer class="footer-section">
+		<th:block th:include="/_footer"></th:block>
+	</footer>
+	<!-- Footer Section End -->
+
+	<!-- Js Plugins -->
+	<th:block th:include="/_jsplugin"></th:block>
+
+    
+    <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	
+	<script type="text/javascript">
+		//const fetchSummarizeData
+		 function getDateFormat(viewType) {
+	        switch (viewType) {
+	            case 'day':
+	                dateFormat = 'YYYY-MM-DD'
+	                break;
+	            case 'month':
+	                dateFormat = 'YYYY-MM'
+	                break;
+	            default:
+	                dateFormat = 'YYYY'
+	                break;
+	        }
+	
+	        return dateFormat;
+	    }
+		
+		function renderChart(dataPoints) {
+			var options = {
+					animationEnabled: true,
+					title:{
+						text: "Sales"
+					},
+					axisX: {
+						title: "Period"
+					},
+					axisY: {
+						title: "Sales",
+						titleFontColor: "#4F81BC",
+						lineColor: "#4F81BC",
+						labelFontColor: "#4F81BC",
+						tickColor: "#4F81BC",
+						includeZero: false
+					},
+					data: [{
+						type: "spline",
+						toolTipContent: "Period: {label} </br> Total: {y} </br> Quantity: {z}",
+						showInLegend: true,
+						yValueFormatString: "#,###",
+						dataPoints
+					}]
+				};
+			
+			  $("#chartContainer").CanvasJSChart(options);
+		}
+		
+		function fetchSalesData(_from, _to, viewType) {
+			let requestURL = `/admin/sales/summarize?from=${_from}&to=${_to}&viewType=${viewType}`;
+    		
+    		$.ajax({
+    		      url: requestURL,
+    		      type: 'GET',
+    		      dataType: 'json'
+    		    })
+    		    .done(function(data, textStatus, xhr) {
+    		      if (xhr.status === 200) {
+    		    	  let dataPoints = [];
+    		    	  let dateFormat = getDateFormat(viewType);
+    		    	  
+    		    	  data.forEach(point => {
+    		    		  dataPoints.push(
+    		    			{ label: moment(point.period).format(dateFormat), y: point.totalPrice,  z: point.quantity },
+    		    		  );
+    		    		  
+    		    	  });
+    		    	  
+    		    	 renderChart(dataPoints);
+    		      }
+    		    })
+    		    .fail(function(e) {
+    		    	console.log(err);
+    		    })
+		}
+		
+		function eventHandler() {
+			let _datepickerStart = $('#datepickerStart').val();
+        	let _datepickerEnd = $('#datepickerEnd').val();
+        	
+        	let _from = _datepickerStart ? moment($('#datepickerStart').val()).format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
+        	let _to = _datepickerEnd ? moment($('#datepickerEnd').val()).format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
+        	
+        	const viewType = $('#viewType').val();
+        	
+        	if (_from <= _to) {
+        		fetchSalesData(_from, _to, viewType);
+        	} else {
+        		$('#error-message').modal('toggle');
+        	}
+		} 
+	
+		$(function() {
+			//Better to construct options first and then pass it as a parameter
+			
+			eventHandler();
+            
+            $('#datepickerStart').datepicker({
+                uiLibrary: 'bootstrap4'
+            });
+            
+            $('#datepickerEnd').datepicker({
+                uiLibrary: 'bootstrap4'
+            });
+            
+            $('.btn-summarize').click(function(e) {
+            	e.preventDefault();
+            	
+            	eventHandler();
+            })
+            
+            $('body').on('change', '#viewType', function(e) {
+            	eventHandler();
+			})
+      
+		})
+	</script>
+	
+</body>
+
+</html>
