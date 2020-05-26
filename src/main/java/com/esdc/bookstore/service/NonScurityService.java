@@ -104,5 +104,9 @@ public class NonScurityService {
 		return books;
 	}
 
+	public List<Book> findBookLimit3() {
+		return bookRepository.findTop4By();
+	}
+
 	
 }

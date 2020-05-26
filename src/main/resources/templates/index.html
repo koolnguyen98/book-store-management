@@ -83,28 +83,31 @@
                 <div class="col-lg-4">
                     <div class="single-banner">
                         <img src="img/banner1.jpg" alt="">
-                        <a th:href="@{/shop/__${productTypes[0].acronym}__}"></a>
-                        <div class="inner-text">
-                            <h4>Văn học</h4>
-                        </div>
+                        <a th:href="@{/shop/__${productTypes[0].acronym}__}">
+	                        <div class="inner-text">
+	                            <h4>Văn học</h4>
+	                        </div>
+                        </a>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="single-banner">
                         <img src="img/banner2.jpg" alt="">
-                        <a th:href="@{/shop/__${productTypes[5].acronym}__}"></a>
-                        <div class="inner-text">
-                            <h4>Kĩ năng sống</h4>
-                        </div>
+                        <a th:href="@{/shop/__${productTypes[5].acronym}__}">
+	                        <div class="inner-text">
+	                            <h4>Kĩ năng sống</h4>
+	                        </div>
+                        </a>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="single-banner">
                         <img src="img/banner3.jpg" alt="">
-                        <a th:href="@{/shop/__${productTypes[1].acronym}__}"></a>
-                        <div class="inner-text">
-                            <h4>Truyện tranh</h4>
-                        </div>
+                        <a th:href="@{/shop/__${productTypes[1].acronym}__}">
+	                        <div class="inner-text">
+	                            <h4>Truyện tranh</h4>
+	                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -117,10 +120,12 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-3">
-                    <div class="product-large set-bg" data-setbg="img/products/vanhoc-banner.jpg">
-                        <h2>Văn học</h2>
-                        <a th:href="@{/shop/__${productTypes[0].acronym}__}">Khám phá</a>
-                    </div>
+                	<a th:href="@{/shop/__${productTypes[0].acronym}__}">
+	                    <div class="product-large set-bg" data-setbg="img/products/vanhoc-banner.jpg">
+	                        <h2>Văn học</h2>
+	                        <a th:href="@{/shop/__${productTypes[0].acronym}__}">Khám phá</a>
+	                    </div>
+	              	</a>
                 </div>
                 <div class="col-lg-8 offset-lg-1">
                     <div class="filter-control">
@@ -139,13 +144,13 @@
                                 </div>
                                 <ul>
                                     <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                    <li class="quick-view"><a th:href="@{__${#httpServletRequest.requestURI}__/product/__${books[0].id}__}">+ Chi tiết</a></li>
+                                    <li class="quick-view"><a th:href="@{/shop/product/__${books[0].id}__}">+ Chi tiết</a></li>
                                     
                                 </ul>
                             </div>
                             <div class="pi-text">
                                 <div class="catagory-name">[[${books[0].productType.name}]]</div>
-                                <a th:href="@{__${#httpServletRequest.requestURI}__/product/__${books[0].id}__}">
+                                <a th:href="@{/shop/product/__${books[0].id}__}">
                                     <h5>[[${books[0].productName}]]</h5>
                                 </a>
                                 <div class="product-price">
@@ -163,13 +168,13 @@
                                 </div>
                                 <ul>
                                     <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                    <li class="quick-view"><a th:href="@{__${#httpServletRequest.requestURI}__/product/__${books[1].id}__}">+ Chi tiết</a></li>
+                                    <li class="quick-view"><a th:href="@{/shop/product/__${books[1].id}__}">+ Chi tiết</a></li>
                                     
                                 </ul>
                             </div>
                             <div class="pi-text">
                                 <div class="catagory-name">[[${books[1].productType.name}]]</div>
-                                <a th:href="@{__${#httpServletRequest.requestURI}__/product/__${books[1].id}__}">
+                                <a th:href="@{/shop/product/__${books[1].id}__}">
                                     <h5>[[${books[1].productName}]]</h5>
                                 </a>
                                 <div class="product-price">
@@ -187,13 +192,13 @@
                                 </div>
                                 <ul>
                                     <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                    <li class="quick-view"><a th:href="@{__${#httpServletRequest.requestURI}__/product/__${books[2].id}__}">+ Chi tiết</a></li>
+                                    <li class="quick-view"><a th:href="@{/shop/product/__${books[2].id}__}">+ Chi tiết</a></li>
                                     
                                 </ul>
                             </div>
                             <div class="pi-text">
                                 <div class="catagory-name">[[${books[2].productType.name}]]</div>
-                                <a th:href="@{__${#httpServletRequest.requestURI}__/product/__${books[2].id}__}">
+                                <a th:href="@{/shop/product/__${books[2].id}__}">
                                     <h5>[[${books[2].productName}]]</h5>
                                 </a>
                                 <div class="product-price">
@@ -211,13 +216,13 @@
                                 </div>
                                 <ul>
                                     <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                    <li class="quick-view"><a th:href="@{__${#httpServletRequest.requestURI}__/product/__${books[3].id}__}">+ Chi tiết</a></li>
+                                    <li class="quick-view"><a th:href="@{/shop/product/__${books[3].id}__}">+ Chi tiết</a></li>
                                     
                                 </ul>
                             </div>
                             <div class="pi-text">
                                 <div class="catagory-name">[[${books[3].productType.name}]]</div>
-                                <a th:href="@{__${#httpServletRequest.requestURI}__/product/__${books[3].id}__}">
+                                <a th:href="@{/shop/product/__${books[3].id}__}">
                                     <h5>[[${books[3].productName}]]</h5>
                                 </a>
                                 <div class="product-price">

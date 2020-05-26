@@ -53,7 +53,7 @@ public class BookStoreController {
 
 		model.addAttribute("productTypes", productTypes);
 
-		List<Book> books = nonScurityService.findAllBook();
+		List<Book> books = nonScurityService.findBookLimit3();
 
 		model.addAttribute("books", books);
 		
