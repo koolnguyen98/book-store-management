@@ -138,7 +138,8 @@
 												<p>[[${book.description}]]</p>
 											</div>
 											<div class="col-lg-5">
-												<img th:src="@{*{book.images[0].base64}}" alt="">
+												<img th:src="@{*{book.images[0].base64}}" alt="" th:unless="*{#lists.isEmpty(book.images)}">
+												<img th:src="@{/img/products/p1.jpg}" alt="" th:if="*{#lists.isEmpty(book.images)}">
 											</div>
 										</div>
 									</div>

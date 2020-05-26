@@ -52,5 +52,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
  
         return userDetails;
     }
+    
+    public Account findAccountByUserName(String userName) {
+    	return accountRepository.findByUserName(userName);
+    }
  
 }
