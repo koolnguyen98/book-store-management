@@ -18,21 +18,21 @@ public interface OrderRepository extends JpaRepository<Order, Integer>  {
 	@Query(value="SELECT COUNT(*) AS quantity, SUM(inv.total_price) AS totalPrice, DATE_FORMAT(inv.date_create, '%Y-%m-%d') AS period FROM bill_order inv \r\n" + 
 			"WHERE CAST(inv.date_create AS DATE) >= ?1 \r\n" + 
 			"AND CAST(inv.date_create AS DATE) <= ?2 \r\n" + 
-			"AND inv.status_id = 1 \r\n" +
+			"AND inv.status_id = 3 \r\n" +
 			"GROUP BY DATE_FORMAT(inv.date_create, '%Y-%m-%d') ORDER BY inv.date_create ASC", nativeQuery=true)
 	List<Revenue> getRevenueByDay(String from, String to);
 	
 	@Query(value="SELECT COUNT(*) AS quantity, SUM(inv.total_price) AS totalPrice, DATE_FORMAT(inv.date_create, '%Y-%m') AS period FROM bill_order inv \r\n" + 
 			"WHERE CAST(inv.date_create AS DATE) >= ?1 \r\n" + 
 			"AND CAST(inv.date_create AS DATE) <= ?2 \r\n" + 
-			"AND inv.status_id = 1 \r\n" +
+			"AND inv.status_id = 3 \r\n" +
 			"GROUP BY DATE_FORMAT(inv.date_create, '%Y-%m') ORDER BY inv.date_create ASC", nativeQuery=true)
 	List<Revenue> getRevenueByMonth(String from, String to);
 	
 	@Query(value="SELECT COUNT(*) AS quantity, SUM(inv.total_price) AS totalPrice, DATE_FORMAT(inv.date_create, '%Y') AS period FROM bill_order inv \r\n" + 
 			"WHERE CAST(inv.date_create AS DATE) >= ?1 \r\n" + 
 			"AND CAST(inv.date_create AS DATE) <= ?2 \r\n" + 
-			"AND inv.status_id = 1 \r\n" +
+			"AND inv.status_id = 3 \r\n" +
 			"GROUP BY DATE_FORMAT(inv.date_create, '%Y') ORDER BY inv.date_create ASC", nativeQuery=true)
 	List<Revenue> getRevenueByYear(String from, String to);
 
