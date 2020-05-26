@@ -86,7 +86,7 @@
                                                         </td>
 
                                                         <td class="">
-                                                            <button class="btn btn-primary" data-toggle="modal"
+                                                            <button class="btn btn-primary choXacNhanButton" data-toggle="modal"
                                                                 data-target="#choXacNhan" id="choXacNhanButton">
                                                                 Chi tiết
                                                             </button>
@@ -126,7 +126,7 @@
                                                         </td>
 
                                                         <td class="">
-                                                            <button class="btn btn-primary" data-toggle="modal"
+                                                            <button class="btn btn-primary daXacNhanButton" data-toggle="modal"
                                                                 data-target="#daXacNhan" id="daXacNhanButton">
                                                                 Chi tiết
                                                             </button>
@@ -166,7 +166,7 @@
                                                         </td>
 
                                                         <td class="">
-                                                            <button class="btn btn-primary" data-toggle="modal"
+                                                            <button class="btn btn-primary giaoHangButton" data-toggle="modal"
                                                                 data-target="#daGiaoHang" id="giaoHangButton">
                                                                 Chi tiết
                                                             </button>
@@ -207,7 +207,7 @@
                                                         </td>
 
                                                         <td class="">
-                                                            <button class="btn btn-primary" data-toggle="modal"
+                                                            <button class="btn btn-primary giaoHangButton" data-toggle="modal"
                                                                 data-target="#daGiaoHang" id="giaoHangButton">
                                                                 Chi tiết
                                                             </button>
@@ -317,7 +317,7 @@
 				return false;
 			});
 			
-			$("#choXacNhanButton").click(function(e) {
+			$(".choXacNhanButton").click(function(e) {
 				
 				var orderId = $(this).parents().eq(1).find("td").first().text();
 
@@ -335,7 +335,7 @@
 				return false;
 			});
 			
-			$("#daXacNhanButton").click(function(e) {
+			$(".daXacNhanButton").click(function(e) {
 				
 				var orderId = $(this).parents().eq(1).find("td").first().text();
 
@@ -353,7 +353,7 @@
 				return false;
 			});
 			
-			$("#giaoHangButton").click(function(e) {
+			$(".giaoHangButton").click(function(e) {
 				
 				var orderId = $(this).parents().eq(1).find("td").first().text();
 
