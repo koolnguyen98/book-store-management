@@ -44,7 +44,7 @@
 						<div class="col-lg-6">
 							<div class="product-pic-zoom">
 								<img th:src="@{/img/products/p1.jpg}" alt="" style="height: 250px"  th:if="*{#lists.isEmpty(book.images)}">
-                                <img th:src="@{|data:image/*;base64,*{book.images[0].base64}|}" alt="" style="height: 250px"  th:unless="*{#lists.isEmpty(book.images)}">
+                                <img th:src="@{*{book.images[0].base64}}" alt="" style="height: 250px"  th:unless="*{#lists.isEmpty(book.images)}">
                                         
 								<div class="zoom-icon">
 									<i class="fa fa-search-plus"></i>
@@ -53,8 +53,8 @@
 							<div class="product-thumbs">
 								<div class="product-thumbs-track ps-slider owl-carousel" th:unless="*{#lists.isEmpty(book.images)}">
 									<div class="pt active" th:each="image : ${book.images}"
-										th:data-imgbigurl="@{|data:image/*;base64,*{image.base64}|}">
-										<img th:src="@{|data:image/*;base64,*{image.base64}|}" alt="">
+										th:data-imgbigurl="@{*{image.base64}}">
+										<img th:src="@{*{image.base64}}" alt="">
 									</div>
 								</div>
 								
@@ -356,7 +356,7 @@
 				<div class="product-item" th:each="productBook : ${books}">
 					<div class="pi-pic">
 						<img th:src="@{/img/products/p1.jpg}" alt="" style="height: 250px"  th:if="*{#lists.isEmpty(productBook.images)}">
-                                        <img th:src="@{|data:image/*;base64,*{productBook.images[0].base64}|}" alt="" style="height: 250px"  th:unless="*{#lists.isEmpty(productBook.images)}">
+                                        <img th:src="@{*{productBook.images[0].base64}}" alt="" style="height: 250px"  th:unless="*{#lists.isEmpty(productBook.images)}">
 						<div class="sale pp-sale" th:if="${productBook.discount*1 != 0}">[[${productBook.discount}
 							+ '%']]</div>
 						<div class="icon">

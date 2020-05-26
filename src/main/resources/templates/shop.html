@@ -68,7 +68,7 @@
                                 <div class="product-item">
                                     <div class="pi-pic">
                                         <img th:src="@{/img/products/p1.jpg}" alt="" style="height: 250px"  th:if="*{#lists.isEmpty(book.images)}">
-                                        <img th:src="@{|data:image/*;base64,*{book.images[0].base64}|}" alt="" style="height: 250px"  th:unless="*{#lists.isEmpty(book.images)}">
+                                        <img th:src="@{*{book.images[0].base64}}" alt="" style="height: 250px"  th:unless="*{#lists.isEmpty(book.images)}">
                                         <div class="sale pp-sale" th:if="${book.discount*1 != 0}"><span th:text="${book.discount} + '%'"></span></div>
                                         <div class="icon">
                                             <i class="icon_heart_alt"></i>
