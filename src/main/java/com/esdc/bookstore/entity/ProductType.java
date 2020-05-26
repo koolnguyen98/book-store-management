@@ -29,7 +29,7 @@ public class ProductType {
 	private String name;
 	
 	@NotNull
-	@Size(max = 5)
+	@Size(max = 10)
 	@Column(name = "acronym", nullable = false, unique = true)
 	private String acronym;
 	

@@ -70,23 +70,27 @@
 					<label for="last">Tinh trạng</label> <input type="checkbox"
 						name='status' th:field="*{status}">
 				</div>
+				
+				<div class="col-lg-6">
+					<label for="last">Hình 1</label> <input type="text"
+						name='imageFiles[0]' th:field="*{imageFiles[0]}">
+				</div>
+				
+				<div class="col-lg-6">
+					<label for="last">Hình 2</label> <input type="text"
+						name='imageFiles[1]' th:field="*{imageFiles[1]}">
+				</div>
+				
+				<div class="col-lg-6">
+					<label for="last">Hình 3</label> <input type="text"
+						name='imageFiles[2]' th:field="*{imageFiles[2]}">
+				</div>
+				
 				<div class="col-lg-12">
 					<label for="script">Giới thiệu</label><br>
 					<textarea id="script" rows="4" cols="120" th:field="*{description}"
 						name='description'>
-                                                                </textarea>
-				</div>
-
-				<input type='file' name='imageFiles' value='' th:field="*{imageFiles}"  multiple accept="image/png, image/jpeg"/>
-
-				<div class="col-lg-12">
-					<fieldset class="form-group">
-						<a class="btn btn-info" href="javascript:void(0)"
-							onclick="$('#pro-image').click()">Tải ảnh</a> <input type="file"
-							id="pro-image" name='imageFiles' value='' th:field="*{imageFiles}"  multiple accept="image/png, image/jpeg"
-							style="display: none;" class="form-control">
-					</fieldset>
-					<div class="preview-images-zone"></div>
+                    </textarea>
 				</div>
 
 			</div>

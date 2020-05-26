@@ -21,8 +21,8 @@ public class Image {
 	private Integer id;
 	
 	@NotNull
-	@Column(name = "image", nullable = false, columnDefinition="longblob")
-	private byte[] image;
+	@Column(name = "image", nullable = false)
+	private String image;
 	
 	@Lob
 	@Column(name = "base64", nullable = false)
@@ -36,7 +36,7 @@ public class Image {
 		super();
 	}
 
-	public Image(byte[] image) {
+	public Image(String image) {
 		super();
 		this.image = image;
 	}
@@ -49,14 +49,14 @@ public class Image {
 		this.id = id;
 	}
 
-	public byte[] getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(byte[] image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
-
+	
 	public Product getProduct() {
 		return product;
 	}

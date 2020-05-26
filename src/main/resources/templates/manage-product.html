@@ -15,201 +15,213 @@
 	<th:block th:include="/_header"></th:block>
 	<!-- Header End -->
 
-    <!-- Breadcrumb Section Begin -->
-    <div class="breacrumb-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb-text product-more">
-                        <a href="./index.html"><i class="fa fa-home"></i> Trang Chủ</a>
-                        <a href="./shop.html">Sản phẩm</a>
-                        <span>Thanh Toán</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Breadcrumb Section Begin -->
+	<!-- Breadcrumb Section Begin -->
+	<div class="breacrumb-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="breadcrumb-text product-more">
+						<a href="./index.html"><i class="fa fa-home"></i> Trang Chủ</a> <a
+							href="./shop.html">Sản phẩm</a> <span>Thanh Toán</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Breadcrumb Section Begin -->
 
-    <!-- Shopping Cart Section Begin -->
-    <section class="checkout-section spad">
-        <div class="container">
-            <div action="#" class="checkout-form">
-                <div class="row">
-                    <div class="col-lg-3">
-                        <h4>Sách</h4>
-                    </div>
-                    <div class="col-lg-9" style="text-align: right">
-                        <button class="btn btn-info" data-toggle="modal" data-target="#addProduct">Thêm sách
-                            mới</button>
-                    </div>
+	<!-- Shopping Cart Section Begin -->
+	<section class="checkout-section spad">
+		<div class="container">
+			<div action="#" class="checkout-form">
+				<div class="row">
+					<div class="col-lg-3">
+						<h4>Sách</h4>
+					</div>
+					<div class="col-lg-9" style="text-align: right">
+						<button class="btn btn-info" data-toggle="modal"
+							data-target="#addProduct">Thêm sách mới</button>
+					</div>
 
-                    <div class="col-lg-12">
-                        <div class="">
+					<div class="col-lg-12">
+						<div class="">
 
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Mã</th>
-                                        <th>Tên</th>
-                                        <th>Đơn giá</th>
-                                        <th>Kích thước</th>
-                                        <th>Số trang</th>
-                                        <th>Tác giả</th>
-                                        <th>NXB</th>
-                                        <th>Giảm giá</th>
-                                        <th>Tác vụ</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tableProduct">
-                                    <tr th:each="book : ${books}">
-                                        <td class="">[[${book.id}]]</td>
-                                        <td class="">
-                                            <h5>[[${book.productName}]]</h5>
-                                        </td>
-                                        <td class="">[[${book.price} + 'VNĐ']]</td>
-                                        <td class="">
-                                            <h5>[[${book.size}]]</h5>
-                                        </td>
-                                        <td class="">
-                                            <h5>[[${book.pageNumber}]]</h5>
-                                        </td>
-                                        <td class="">
-                                            <h5>[[${book.author.name}]]</h5>
-                                        </td>
-                                        <td class="">
-                                            <h5>[[${book.publishingCompany.name}]]</h5>
-                                        </td>
-                                        <td class="">
-                                            <h5>[[${book.discount} + '%']]</h5>
-                                        </td>
-                                        <td class="">
-                                            <button class="btn btn-primary" data-toggle="modal" id="editProductButton"
-                                                style="display: inline-block; width: 25px; height: 25px; padding: 1px">
-                                                <i class="fa fa-edit"></i>
-                                            </button>
-                                            <button class="btn btn-danger deleteBook" id="deleteBook"
-                                                style="display: inline-block; width: 25px; height: 25px; padding: 1px">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>Mã</th>
+										<th>Tên</th>
+										<th>Đơn giá</th>
+										<th>Kích thước</th>
+										<th>Số trang</th>
+										<th>Tác giả</th>
+										<th>NXB</th>
+										<th>Giảm giá</th>
+										<th>Tác vụ</th>
+									</tr>
+								</thead>
+								<tbody id="tableProduct">
+									<tr th:each="book : ${books}">
+										<td class="">[[${book.id}]]</td>
+										<td class="">
+											<h5>[[${book.productName}]]</h5>
+										</td>
+										<td class="">[[${book.price} + 'VNĐ']]</td>
+										<td class="">
+											<h5>[[${book.size}]]</h5>
+										</td>
+										<td class="">
+											<h5>[[${book.pageNumber}]]</h5>
+										</td>
+										<td class="">
+											<h5>[[${book.author.name}]]</h5>
+										</td>
+										<td class="">
+											<h5>[[${book.publishingCompany.name}]]</h5>
+										</td>
+										<td class="">
+											<h5>[[${book.discount} + '%']]</h5>
+										</td>
+										<td class="">
+											<button class="btn btn-primary" data-toggle="modal"
+												id="editProductButton"
+												style="display: inline-block; width: 25px; height: 25px; padding: 1px">
+												<i class="fa fa-edit"></i>
+											</button>
+											<button class="btn btn-danger deleteBook" id="deleteBook"
+												style="display: inline-block; width: 25px; height: 25px; padding: 1px">
+												<i class="fa fa-trash"></i>
+											</button>
+										</td>
+									</tr>
 
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- The Modal Add Product-->
-                    <div class="modal fade" id="addProduct">
-                        <div class="modal-dialog modal-dialog-centered modal-xl">
-                            <form class="modal-content" th:object="${bookForm}" th:action="@{/admin/addBook}" method='POST' enctype="multipart/form-data">
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- The Modal Add Product-->
+					<div class="modal fade" id="addProduct">
+						<div class="modal-dialog modal-dialog-centered modal-xl">
+							<form class="modal-content" th:object="${bookForm}"
+								th:action="@{/admin/addBook}" method='POST'
+								enctype="multipart/form-data">
 
-                                <!-- Modal Header -->
-                                <div class="modal-header">
-                                    <h4 class="modal-title">Thêm sách mới</h4>
-                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                </div>
+								<!-- Modal Header -->
+								<div class="modal-header">
+									<h4 class="modal-title">Thêm sách mới</h4>
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+								</div>
 
-                                <!-- Modal body -->
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <label for="fir">Tên sách<span>*</span></label>
-                                            <input type="text" name='productName' th:field="*{productName}">
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label for="last">Đơn giá (VNĐ)<span>*</span></label>
-                                            <input type="number" name='price' th:field="*{price}">
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label for="fir">Tác giả</label> 
-                                            <select id="author" name="author" th:field="*{author}">
-												<option th:each="author : ${authors}" th:value="${author.id}">[[${author.name}]]</option>
+								<!-- Modal body -->
+								<div class="modal-body">
+									<div class="row">
+										<div class="col-lg-6">
+											<label for="fir">Tên sách<span>*</span></label> <input
+												type="text" name='productName' th:field="*{productName}">
+										</div>
+										<div class="col-lg-6">
+											<label for="last">Đơn giá (VNĐ)<span>*</span></label> <input
+												type="number" name='price' th:field="*{price}">
+										</div>
+										<div class="col-lg-6">
+											<label for="fir">Tác giả</label> <select id="author"
+												name="author" th:field="*{author}">
+												<option th:each="author : ${authors}"
+													th:value="${author.id}">[[${author.name}]]</option>
 											</select>
 										</div>
-                                        <div class="col-lg-6">
-                                            <label for="last">Nhà xuất bản</label>
-                                            <select id="publishingCompany" name="publishingCompany" th:field="*{publishingCompany}">
-												<option th:each="publishingCompany : ${publishingCompanies}" th:value="${publishingCompany.id}">[[${publishingCompany.name}]]</option>
+										<div class="col-lg-6">
+											<label for="last">Nhà xuất bản</label> <select
+												id="publishingCompany" name="publishingCompany"
+												th:field="*{publishingCompany}">
+												<option th:each="publishingCompany : ${publishingCompanies}"
+													th:value="${publishingCompany.id}">[[${publishingCompany.name}]]</option>
 											</select>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label for="fir">Thể loại</label>
-                                            <select id="productType" name="productType" th:field="*{productType}">
-												<option th:each="productType : ${productTypes}" th:value="${productType.id}">[[${productType.name}]]</option>
+										</div>
+										<div class="col-lg-6">
+											<label for="fir">Thể loại</label> <select id="productType"
+												name="productType" th:field="*{productType}">
+												<option th:each="productType : ${productTypes}"
+													th:value="${productType.id}">[[${productType.name}]]</option>
 											</select>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label for="last">Số lượng</label>
-                                            <input type="number" name='amount' th:field="*{amount}">
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label for="fir">Kích thước</label>
-                                            <input type="text" name='size' th:field="*{size}">
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label for="last">Số trang</label>
-                                            <input type="number" name='pageNumber' th:field="*{pageNumber}">
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label for="fir">Ngôn ngữ</label>
-                                            <input type="text" name='language' th:field="*{language}">
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label for="last">Hình thức bìa</label>
-                                            <input type="text" name='formBookJacket' th:field="*{formBookJacket}">
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label for="last">Năm xuất bản</label>
-                                            <input type="number" name='publishingYear' th:field="*{publishingYear}">
-                                        </div>
-                                        <div class="col-lg-12">
-                                            <label for="script">Giới thiệu</label><br>
-                                            <textarea id="script" rows="4" cols="120" th:field="*{description}" name='description'>
-                                                                </textarea>
-                                        </div>
-                                        
-                                        <div class="col-lg-12">
-                                            <fieldset class="form-group">
-                                                <a class="btn btn-info" href="javascript:void(0)"
-                                                    onclick="$('#pro-image').click()">Tải ảnh</a>
-                                                <input type="file" id="pro-image" name="imageFiles" th:field="*{imageFiles}"
-                                                    style="display: none;" class="form-control" multiple accept="image/png, image/jpeg">
-                                            </fieldset>
-                                            <div class="preview-images-zone">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+										</div>
+										<div class="col-lg-6">
+											<label for="last">Số lượng</label> <input type="number"
+												name='amount' th:field="*{amount}">
+										</div>
+										<div class="col-lg-6">
+											<label for="fir">Kích thước</label> <input type="text"
+												name='size' th:field="*{size}">
+										</div>
+										<div class="col-lg-6">
+											<label for="last">Số trang</label> <input type="number"
+												name='pageNumber' th:field="*{pageNumber}">
+										</div>
+										<div class="col-lg-6">
+											<label for="fir">Ngôn ngữ</label> <input type="text"
+												name='language' th:field="*{language}">
+										</div>
+										<div class="col-lg-6">
+											<label for="last">Hình thức bìa</label> <input type="text"
+												name='formBookJacket' th:field="*{formBookJacket}">
+										</div>
+										<div class="col-lg-6">
+											<label for="last">Năm xuất bản</label> <input type="number"
+												name='publishingYear' th:field="*{publishingYear}">
+										</div>
+										
+										<div class="col-lg-6">
+											<label for="last">Hình 1</label> <input type="text"
+												name='imageFiles[0]' th:field="*{imageFiles[0]}">
+										</div>
 
-                                <!-- Modal footer -->
-                                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-success">Lưu</button>
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Huỷ</button>
-                                </div>
+										<div class="col-lg-6">
+											<label for="last">Hình 2</label> <input type="text"
+												name='imageFiles[1]' th:field="*{imageFiles[1]}">
+										</div>
 
-                            </form>
-                        </div>
-                    </div>
-                    <!-- End Modal -->
+										<div class="col-lg-6">
+											<label for="last">Hình 3</label> <input type="text"
+												name='imageFiles[2]' th:field="*{imageFiles[2]}">
+										</div>
+										
+										<div class="col-lg-12">
+											<label for="script">Giới thiệu</label><br>
+											<textarea id="script" rows="4" cols="120"
+												th:field="*{description}" name='description'>
+                                            </textarea>
+										</div>
 
-                    <!-- The Modal Edit Product-->
-                    <div class="modal fade" id="editProduct">
-                        
-                    </div>
-                    <!-- End Modal -->
+									</div>
+								</div>
 
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Shopping Cart Section End -->
+								<!-- Modal footer -->
+								<div class="modal-footer">
+									<button type="submit" class="btn btn-success">Lưu</button>
+									<button type="button" class="btn btn-danger"
+										data-dismiss="modal">Huỷ</button>
+								</div>
 
-    <!-- Partner Logo Section Begin -->
+							</form>
+						</div>
+					</div>
+					<!-- End Modal -->
 
-    <!-- Partner Logo Section End -->
+					<!-- The Modal Edit Product-->
+					<div class="modal fade" id="editProduct"></div>
+					<!-- End Modal -->
 
-    <!-- Footer Section Begin -->
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Shopping Cart Section End -->
+
+	<!-- Partner Logo Section Begin -->
+
+	<!-- Partner Logo Section End -->
+
+	<!-- Footer Section Begin -->
 	<footer class="footer-section">
 		<th:block th:include="/_footer"></th:block>
 	</footer>
@@ -217,7 +229,7 @@
 
 	<!-- Js Plugins -->
 	<th:block th:include="/_jsplugin"></th:block>
-	
+
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$(".deleteBook").click(function(e) {

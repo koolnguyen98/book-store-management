@@ -42,7 +42,7 @@ public class BookForm {
 	
 	private Integer publishingYear;
 	
-	private MultipartFile[] imageFiles;
+	private List<String> imageFiles;
 	
 	private List<String> base64Images;
 	
@@ -105,7 +105,7 @@ public class BookForm {
 	public BookForm(int id, @NotNull @Size(max = 50) String productName, @NotNull @Size(max = 100) String size,
 			@NotNull @Size(max = 2000) String description, double discount, double price, boolean status, int amount,
 			int productType, String translator, @NotNull String formBookJacket, Integer pageNumber,
-			Integer publishingYear, MultipartFile[] imageFiles, @NotNull String language, int author,
+			Integer publishingYear, List<String> imageFiles, @NotNull String language, int author,
 			int publishingCompany) {
 		super();
 		this.id = id;
@@ -255,11 +255,11 @@ public class BookForm {
 		this.publishingCompany = publishingCompany;
 	}
 
-	public MultipartFile[] getImageFiles() {
+	public List<String> getImageFiles() {
 		return imageFiles;
 	}
 
-	public void setImageFiles(MultipartFile[] imageFiles) {
+	public void setImageFiles(List<String> imageFiles) {
 		this.imageFiles = imageFiles;
 	}
 

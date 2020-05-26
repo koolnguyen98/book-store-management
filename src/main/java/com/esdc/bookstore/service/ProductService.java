@@ -54,19 +54,19 @@ public class ProductService {
 
 	@Autowired
 	private PublishingCompanyRepository publishingCompanyRepository;
-	
+
 	@Autowired
 	private ShoppingCartRepository shoppingCartRepository;
-	
+
 	@Autowired
 	private OrderDetailRepository orderDetailRepository;
-	
+
 	@Autowired
 	private BrandRepository brandRepository;
-	
+
 	@Autowired
 	private StationeryRepository stationeryRepository;
-	
+
 	@Autowired
 	private ImageRepository imageRepository;
 
@@ -89,13 +89,16 @@ public class ProductService {
 		book.setSize(bookForm.getSize());
 		book.setStatus(bookForm.getStatus());
 		book.setTranslator(bookForm.getTranslator());
-		
+
 		Book result = bookRepository.save(book);
-		
+
 		List<Image> images = this.getByteListImage(bookForm.getImageFiles(), result);
-		
-		imageRepository.saveAll(images);
-		
+
+		if (images != null) {
+			imageRepository.saveAll(images);
+
+		}
+
 		return bookRepository.findById(result.getId()).get();
 	}
 
@@ -121,6 +124,7 @@ public class ProductService {
 			bookForm.setStatus(book.getStatus());
 			bookForm.setTranslator(book.getTranslator());
 			bookForm.setBase64Images(this.CoverBase64(book.getImages()));
+			bookForm.setImageFiles(this.CoverBase64(book.getImages()));
 
 			return bookForm;
 		}
@@ -147,15 +151,46 @@ public class ProductService {
 			book.setSize(bookForm.getSize());
 			book.setStatus(bookForm.getStatus());
 			book.setTranslator(bookForm.getTranslator());
-			
+
 			Book result = bookRepository.save(book);
-			
-			List<Image> images = this.getByteListImage(bookForm.getImageFiles(), result);
-			
-			imageRepository.saveAll(images);
+
+			List<Image> images = this.getByteListImage(result.getImages(), bookForm.getImageFiles(), result);
+
+			if (images != null) {
+				imageRepository.saveAll(images);
+			}
 			
 			return bookRepository.findById(result.getId()).get();
 		}
+		return null;
+	}
+
+	private List<Image> getByteListImage(List<Image> images, List<String> imageFiles, Book result) {
+		List<Image> results = new ArrayList<Image>();
+
+		if (imageFiles != null && imageFiles.size() > 0) {
+			for (int index = 0; index < imageFiles.size(); index++) {
+				Image image;
+				if((images.size() == 1 && index == 0) || (images.size() == 2 && index < images.size()) || (images.size() == 3 && index < images.size())) {
+					image = images.get(index);
+
+				} else {
+					image = new Image();
+				
+				}
+				
+				image.setImage(imageFiles.get(index));
+				image.setBase64(imageFiles.get(index));
+
+				image.setProduct(result);
+				
+				results.add(image);
+				
+			}	
+			
+			return results;
+		}
+
 		return null;
 	}
 
@@ -167,10 +202,10 @@ public class ProductService {
 		if (book != null && product != null) {
 			List<ShoppingCart> spcbooks = shoppingCartRepository.findByShoppingCartKeyProductId(product.getId());
 			List<OrderDetail> oddbooks = orderDetailRepository.findByProduct(product);
-			
-			if(spcbooks.isEmpty() && oddbooks.isEmpty()) {
+
+			if (spcbooks.isEmpty() && oddbooks.isEmpty()) {
 				List<Image> images = book.getImages();
-				
+
 				if (!images.isEmpty()) {
 					imageRepository.deleteInBatch(images);
 				}
@@ -202,13 +237,13 @@ public class ProductService {
 		stationery.setBrand(brandRepository.findById(stationeryForm.getBrand()).get());
 		stationery.setSize(stationeryForm.getSize());
 		stationery.setStatus(stationeryForm.getStatus());
-		
+
 		Stationery result = stationeryRepository.save(stationery);
-		
+
 		List<Image> images = this.getByteListImage(stationeryForm.getImageFiles(), result);
-		
+
 		imageRepository.saveAll(images);
-		
+
 		return stationeryRepository.findById(result.getId()).get();
 	}
 
@@ -230,7 +265,7 @@ public class ProductService {
 			stationeryForm.setSize(stationery.getSize());
 			stationeryForm.setStatus(stationery.getStatus());
 			stationeryForm.setBase64Images(this.CoverBase64(stationery.getImages()));
-			
+
 			return stationeryForm;
 		}
 		return null;
@@ -254,11 +289,11 @@ public class ProductService {
 			stationery.setStatus(stationeryForm.getStatus());
 
 			Stationery result = stationeryRepository.save(stationery);
-			
+
 			List<Image> images = this.getByteListImage(stationeryForm.getImageFiles(), result);
-			
+
 			imageRepository.saveAll(images);
-			
+
 			return stationeryRepository.findById(result.getId()).get();
 		}
 		return null;
@@ -288,32 +323,30 @@ public class ProductService {
 		}
 		return false;
 	}
-	
-	private List<Image> getByteListImage(MultipartFile[] imageFiles, Product result) {
+
+	private List<Image> getByteListImage(List<String> imageFiles, Product result) {
 		List<Image> images = new ArrayList<Image>();
-		
-		if (imageFiles != null && imageFiles.length > 0) {
-			for (MultipartFile imageFile : imageFiles) {
+
+		if (imageFiles != null && imageFiles.size() > 0) {
+			for (String imageFile : imageFiles) {
 				Image image = new Image();
-				try {
-					image.setImage(imageFile.getBytes());
-					image.setBase64(Base64.getEncoder().encodeToString(imageFile.getBytes()));
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+
+				image.setImage(imageFile);
+				image.setBase64(imageFile);
+
 				image.setProduct(result);
 				images.add(image);
 			}
 			return images;
 		}
-		
+
 		return null;
 	}
-	
+
 	private List<String> CoverBase64(List<Image> images) {
 		List<String> base64Images = new ArrayList<String>();
 		for (Image image : images) {
-			String base64Encoded = Base64.getEncoder().encodeToString(image.getImage());
+			String base64Encoded = image.getImage();
 			base64Images.add(base64Encoded);
 		}
 		return base64Images;
@@ -327,7 +360,7 @@ public class ProductService {
 
 		return productTypeRepository.save(productType);
 	}
-	
+
 	public ProductTypeForm findProductTypeById(int id) {
 		Optional<ProductType> productTypeOpt = productTypeRepository.findById(id);
 		ProductType productType = productTypeOpt.isPresent() ? productTypeOpt.get() : null;
@@ -359,8 +392,8 @@ public class ProductService {
 		ProductType productType = productTypeOpt.isPresent() ? productTypeOpt.get() : null;
 		if (productType != null) {
 			List<Product> products = productRepository.findByProductType(productType);
-			
-			if(products.isEmpty()) {
+
+			if (products.isEmpty()) {
 				productTypeRepository.delete(productType);
 				return true;
 			}
@@ -403,7 +436,6 @@ public class ProductService {
 		default:
 			break;
 		}
-		
 
 		return false;
 	}
@@ -483,7 +515,8 @@ public class ProductService {
 			break;
 
 		case "PUBLISHINGCOMPANY":
-			Optional<PublishingCompany> publishingCompanyOpt = publishingCompanyRepository.findById(additionalForm.getId());
+			Optional<PublishingCompany> publishingCompanyOpt = publishingCompanyRepository
+					.findById(additionalForm.getId());
 			PublishingCompany publishingCompany = publishingCompanyOpt.isPresent() ? publishingCompanyOpt.get() : null;
 			if (publishingCompanyOpt != null) {
 				publishingCompany.setCountry(additionalForm.getCountry());
@@ -497,7 +530,7 @@ public class ProductService {
 		default:
 			break;
 		}
-		
+
 		return false;
 	}
 
@@ -508,7 +541,7 @@ public class ProductService {
 			Brand brand = brandOpt.isPresent() ? brandOpt.get() : null;
 			if (brand != null) {
 				List<Stationery> stationeries = stationeryRepository.findByBrand(brand);
-				if(stationeries.isEmpty()) {
+				if (stationeries.isEmpty()) {
 					brandRepository.delete(brand);
 					return true;
 				}
@@ -520,7 +553,7 @@ public class ProductService {
 			Author author = authorOpt.isPresent() ? authorOpt.get() : null;
 			if (author != null) {
 				List<Book> books = bookRepository.findByAuthor(author);
-				if(books.isEmpty()) {
+				if (books.isEmpty()) {
 					authorRepository.delete(author);
 					return true;
 				}
@@ -532,7 +565,7 @@ public class ProductService {
 			PublishingCompany publishingCompany = publishingCompanyOpt.isPresent() ? publishingCompanyOpt.get() : null;
 			if (publishingCompanyOpt != null) {
 				List<Book> books = bookRepository.findByPublishingCompany(publishingCompany);
-				if(books.isEmpty()) {
+				if (books.isEmpty()) {
 					publishingCompanyRepository.delete(publishingCompany);
 					return true;
 				}
@@ -542,7 +575,7 @@ public class ProductService {
 		default:
 			break;
 		}
-		
+
 		return false;
 	}
 }

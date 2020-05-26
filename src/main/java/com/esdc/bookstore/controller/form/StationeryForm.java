@@ -39,7 +39,7 @@ public class StationeryForm {
 	@NotNull
 	private String parameter;
 	
-	private MultipartFile[] imageFiles;
+	private List<String> imageFiles;
 	
 	private List<String> base64Images;
 	
@@ -86,7 +86,7 @@ public class StationeryForm {
 
 	public StationeryForm(@NotNull @Size(max = 50) String productName, @NotNull @Size(max = 100) String size,
 			@NotNull @Size(max = 2000) String description, double discount, double price, boolean status, int amount,
-			int productType, @NotNull String madeIn, @NotNull String parameter, MultipartFile[] imageFiles, int brand) {
+			int productType, @NotNull String madeIn, @NotNull String parameter, List<String> imageFiles, int brand) {
 		super();
 		this.productName = productName;
 		this.size = size;
@@ -198,11 +198,11 @@ public class StationeryForm {
 		this.brand = brand;
 	}
 
-	public MultipartFile[] getImageFiles() {
+	public List<String> getImageFiles() {
 		return imageFiles;
 	}
 
-	public void setImageFiles(MultipartFile[] imageFiles) {
+	public void setImageFiles(List<String> imageFiles) {
 		this.imageFiles = imageFiles;
 	}
 
