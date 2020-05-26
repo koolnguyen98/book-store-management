@@ -4,6 +4,9 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.validation.annotation.Validated;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -278,24 +281,37 @@ public class BookStoreController {
 	}
 
 	@RequestMapping(value = "/logoutSuccessful", method = RequestMethod.GET)
-	public String logoutSuccessfulPage(Model model) {
-		List<ProductType> productTypes = nonScurityService.findAllProductType();
-
-		model.addAttribute("productTypes", productTypes);
-
-		List<Book> books = nonScurityService.findAllBook();
-
-		model.addAttribute("books", books);
-
-		List<Stationery> stationeries = nonScurityService.findAllStationery();
-
-		model.addAttribute("stationeries", stationeries);
-
-		String userInfo = "";
-
-		model.addAttribute("userInfo", userInfo);
+	public String logoutSuccessfulPage(Model model, HttpServletRequest request, HttpServletResponse response) {
 		
-		return "redirect:/";
+		String url = request.getHeader("referer");
+		String[] arrUrl = url.split("/");
+		boolean login = false;
+		for (int index = 0; index < arrUrl.length; index++) {
+			if(arrUrl[index].equals("login")) {
+				login = true;
+			}
+		}
+		if(login) {
+			return "redirect:/login"; 
+		}else {
+			List<ProductType> productTypes = nonScurityService.findAllProductType();
+
+			model.addAttribute("productTypes", productTypes);
+
+			List<Book> books = nonScurityService.findAllBook();
+
+			model.addAttribute("books", books);
+
+			List<Stationery> stationeries = nonScurityService.findAllStationery();
+
+			model.addAttribute("stationeries", stationeries);
+
+			String userInfo = "";
+
+			model.addAttribute("userInfo", userInfo);
+			
+			return "redirect:/";
+		}
 	}
 
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
