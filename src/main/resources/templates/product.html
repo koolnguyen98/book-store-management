@@ -88,7 +88,7 @@
 										class="fa fa-star-o"></i> <span>(5)</span>
 								</div>
 								<div class="pd-desc">
-									<p th:text="${book.description}"></p>
+									<p style="height:100px; overflow:hidden;" th:text="${book.description}"></p>
 									<h4>
 										[[(${book.price} - (${book.price}*${book.discount})/100) +
 										'VNĐ']] <span th:text="${book.price} + 'VNĐ'"></span> <b
@@ -138,7 +138,7 @@
 												<p>[[${book.description}]]</p>
 											</div>
 											<div class="col-lg-5">
-												<img src="img/products/p1.jpg" alt="">
+												<img th:src="@{*{book.images[0].base64}}" alt="">
 											</div>
 										</div>
 									</div>
