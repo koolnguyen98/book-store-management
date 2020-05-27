@@ -83,25 +83,31 @@
                 <div class="col-lg-4">
                     <div class="single-banner">
                         <img src="img/banner1.jpg" alt="">
-                        <div class="inner-text">
-                            <h4>Văn học</h4>
-                        </div>
+                        <a th:href="@{/shop/__${productTypes[0].acronym}__}">
+	                        <div class="inner-text">
+	                            <h4>Văn học</h4>
+	                        </div>
+                        </a>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="single-banner">
                         <img src="img/banner2.jpg" alt="">
-                        <div class="inner-text">
-                            <h4>Kĩ năng sống</h4>
-                        </div>
+                        <a th:href="@{/shop/__${productTypes[5].acronym}__}">
+	                        <div class="inner-text">
+	                            <h4>Kĩ năng sống</h4>
+	                        </div>
+                        </a>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="single-banner">
                         <img src="img/banner3.jpg" alt="">
-                        <div class="inner-text">
-                            <h4>Truyện tranh</h4>
-                        </div>
+                        <a th:href="@{/shop/__${productTypes[1].acronym}__}">
+	                        <div class="inner-text">
+	                            <h4>Truyện tranh</h4>
+	                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -114,10 +120,12 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-3">
-                    <div class="product-large set-bg" data-setbg="img/products/vanhoc-banner.jpg">
-                        <h2>Văn học</h2>
-                        <a href="#">Khám phá</a>
-                    </div>
+                	<a th:href="@{/shop/__${productTypes[0].acronym}__}">
+	                    <div class="product-large set-bg" data-setbg="img/products/vanhoc-banner.jpg">
+	                        <h2>Văn học</h2>
+	                        <a th:href="@{/shop/__${productTypes[0].acronym}__}">Khám phá</a>
+	                    </div>
+	              	</a>
                 </div>
                 <div class="col-lg-8 offset-lg-1">
                     <div class="filter-control">
@@ -129,95 +137,98 @@
                     <div class="product-slider owl-carousel">
                         <div class="product-item">
                             <div class="pi-pic">
-                                <img src="img/products/vh1.jpg" alt="" style="height: 370px">
+                                <img th:src="@{*{books[0].images[0].base64}}" alt="" style="height: 370px">
                                 <div class="sale">Sale</div>
                                 <div class="icon">
                                     <i class="icon_heart_alt"></i>
                                 </div>
                                 <ul>
                                     <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                    <li class="quick-view"><a href="#">+ Chi tiết</a></li>
+                                    <li class="quick-view"><a th:href="@{/shop/product/__${books[0].id}__}">+ Chi tiết</a></li>
                                     
                                 </ul>
                             </div>
                             <div class="pi-text">
-                                <div class="catagory-name">Tiểu thuyết</div>
-                                <a href="#">
-                                    <h5>Bố già</h5>
+                                <div class="catagory-name">[[${books[0].productType.name}]]</div>
+                                <a th:href="@{/shop/product/__${books[0].id}__}">
+                                    <h5>[[${books[0].productName}]]</h5>
                                 </a>
                                 <div class="product-price">
-                                    122,000 VNĐ
-                                    <span>150,000 VNĐ</span>
+                                    [[(${books[0].price} - (${books[0].price}*${books[0].discount})/100) + 'VNĐ']]
+                                    <span>[[${books[0].price} + 'VNĐ']]</span>
                                 </div>
                             </div>
                         </div>
                         <div class="product-item">
                             <div class="pi-pic">
-                                <img src="img/products/vh2.jpg" alt="" style="height: 370px">
+                                <img th:src="@{*{books[1].images[0].base64}}" alt="" style="height: 370px">
                                 <div class="sale">Sale</div>
                                 <div class="icon">
                                     <i class="icon_heart_alt"></i>
                                 </div>
                                 <ul>
                                     <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                    <li class="quick-view"><a href="#">+ Chi tiết</a></li>
+                                    <li class="quick-view"><a th:href="@{/shop/product/__${books[1].id}__}">+ Chi tiết</a></li>
+                                    
                                 </ul>
                             </div>
                             <div class="pi-text">
-                                <div class="catagory-name">Tiểu thuyết</div>
-                                <a href="#">
-                                    <h5>Hai số phận</h5>
+                                <div class="catagory-name">[[${books[1].productType.name}]]</div>
+                                <a th:href="@{/shop/product/__${books[1].id}__}">
+                                    <h5>[[${books[1].productName}]]</h5>
                                 </a>
                                 <div class="product-price">
-                                        115,000 VNĐ
-                                        <span>155,000 VNĐ</span>
-                                    </div>
+                                    [[(${books[1].price} - (${books[1].price}*${books[1].discount})/100) + 'VNĐ']]
+                                    <span>[[${books[1].price} + 'VNĐ']]</span>
+                                </div>
                             </div>
                         </div>
                         <div class="product-item">
                             <div class="pi-pic">
-                                <img src="img/products/vh3.jpg" alt="" style="height: 370px">
+                                <img th:src="@{*{books[2].images[0].base64}}" alt="" style="height: 370px">
                                 <div class="sale">Sale</div>
                                 <div class="icon">
                                     <i class="icon_heart_alt"></i>
                                 </div>
                                 <ul>
                                     <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                    <li class="quick-view"><a href="#">+ Chi tiết</a></li>
+                                    <li class="quick-view"><a th:href="@{/shop/product/__${books[2].id}__}">+ Chi tiết</a></li>
+                                    
                                 </ul>
                             </div>
                             <div class="pi-text">
-                                <div class="catagory-name">Văn học</div>
-                                <a href="#">
-                                    <h5>Không gia đình</h5>
+                                <div class="catagory-name">[[${books[2].productType.name}]]</div>
+                                <a th:href="@{/shop/product/__${books[2].id}__}">
+                                    <h5>[[${books[2].productName}]]</h5>
                                 </a>
                                 <div class="product-price">
-                                        105,000 VNĐ
-                                        <span>132,000 VNĐ</span>
-                                    </div>
+                                    [[(${books[2].price} - (${books[2].price}*${books[2].discount})/100) + 'VNĐ']]
+                                    <span>[[${books[2].price} + 'VNĐ']]</span>
+                                </div>
                             </div>
                         </div>
                         <div class="product-item">
                             <div class="pi-pic">
-                                <img src="img/products/vh4.jpg" alt="" style="height: 370px">
+                                <img th:src="@{*{books[3].images[0].base64}}" alt="" style="height: 370px">
                                 <div class="sale">Sale</div>
                                 <div class="icon">
                                     <i class="icon_heart_alt"></i>
                                 </div>
                                 <ul>
                                     <li class="w-icon active"><a href="#"><i class="icon_bag_alt"></i></a></li>
-                                    <li class="quick-view"><a href="#">+ Chi tiết</a></li>
+                                    <li class="quick-view"><a th:href="@{/shop/product/__${books[3].id}__}">+ Chi tiết</a></li>
+                                    
                                 </ul>
                             </div>
                             <div class="pi-text">
-                                <div class="catagory-name">Văn học</div>
-                                <a href="#">
-                                    <h5>Hai Vạn Dặm Dưới Đáy Biển</h5>
+                                <div class="catagory-name">[[${books[3].productType.name}]]</div>
+                                <a th:href="@{/shop/product/__${books[3].id}__}">
+                                    <h5>[[${books[3].productName}]]</h5>
                                 </a>
                                 <div class="product-price">
-                                        58,000 VNĐ
-                                        <span>83,000 VNĐ</span>
-                                    </div>
+                                    [[(${books[3].price} - (${books[3].price}*${books[3].discount})/100) + 'VNĐ']]
+                                    <span>[[${books[3].price} + 'VNĐ']]</span>
+                                </div>
                             </div>
                         </div>
                     </div>

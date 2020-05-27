@@ -524,7 +524,29 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/admin/users", method = RequestMethod.GET)
-	public String memberList(Model model) {
+	public String memberList(Model model, Principal principal) {
+		List<ProductType> productTypes = nonScurityService.findAllProductType();
+
+		model.addAttribute("productTypes", productTypes);
+
+		String userInfo = "";
+		List<ShoppingCart> shoppingCarts = null;
+		if (principal != null) {
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			userInfo = loginedUser.getUsername();
+			
+			boolean admin = loginedUser.getAuthorities().stream()
+			          .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+			
+			if (admin) {
+				model.addAttribute("admin", true);
+			}
+				
+			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
+			
+		}
+		model.addAttribute("shoppingCarts", shoppingCarts);
+		model.addAttribute("userInfo", userInfo);
 		
 		model.addAttribute("users", userService.findAll());
 		
@@ -542,7 +564,29 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/admin/reports", method = RequestMethod.GET)
-	public String report() {
+	public String report(Model model, Principal principal) {
+		List<ProductType> productTypes = nonScurityService.findAllProductType();
+
+		model.addAttribute("productTypes", productTypes);
+
+		String userInfo = "";
+		List<ShoppingCart> shoppingCarts = null;
+		if (principal != null) {
+			User loginedUser = (User) ((Authentication) principal).getPrincipal();
+			userInfo = loginedUser.getUsername();
+			
+			boolean admin = loginedUser.getAuthorities().stream()
+			          .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+			
+			if (admin) {
+				model.addAttribute("admin", true);
+			}
+				
+			shoppingCarts = nonScurityService.findAllShoppingCartByUser(userInfo);
+			
+		}
+		model.addAttribute("shoppingCarts", shoppingCarts);
+		model.addAttribute("userInfo", userInfo);
 		return "chart";
 	}
 	

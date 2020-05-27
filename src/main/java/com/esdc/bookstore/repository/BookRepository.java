@@ -24,5 +24,10 @@ public interface BookRepository extends JpaRepository<Book, Integer>  {
 	List<Book> findBookByName(String textSearch);
 
 	List<Book> findByStatus(boolean status);
+	
+//	@Query(value = "SELECT b FROM Book b ORDER BY b.id Limit 3")
+//	List<Book> findLimit3();
+
+	List<Book> findTop4By();
 
 }

@@ -29,42 +29,45 @@ public class Securityhandler implements AuthenticationSuccessHandler {
 			Authentication authentication) throws IOException, ServletException {
 		// set our response to OK status
 		response.setStatus(HttpServletResponse.SC_OK);
-
+		boolean block = false;
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 			User user = (User) authentication.getPrincipal();
 			String userName = user.getUsername();
 			Account account = userDetailsService.findAccountByUserName(userName);
 			if (!account.isEnabled()) {
-				response.sendRedirect("/logout");
+				block = true;
 			}
 		}
-		String url = request.getHeader("referer");
-		
-		String[] arrUrl = url.split("/");
-		boolean product = false;
-		for (int index = 0; index < arrUrl.length; index++) {
-			if(arrUrl[index].equals("product")) {
-				product = true;
-			}
-		}
-		
-		if (product) {
-			response.sendRedirect(url);
-		}else {
-			boolean admin = false;
-
-			for (GrantedAuthority auth : authentication.getAuthorities()) {
-				if ("ADMIN".equals(auth.getAuthority())) {
-					admin = true;
+		if(block) {
+			response.sendRedirect("/logout");
+		} else {
+			String url = request.getHeader("referer");
+			
+			String[] arrUrl = url.split("/");
+			boolean product = false;
+			for (int index = 0; index < arrUrl.length; index++) {
+				if(arrUrl[index].equals("product")) {
+					product = true;
 				}
 			}
+			
+			if (product) {
+				response.sendRedirect(url);
+			}else {
+				boolean admin = false;
 
-			if (admin) {
-				response.sendRedirect("/admin/book");
-			} else {
-				response.sendRedirect("/");
+				for (GrantedAuthority auth : authentication.getAuthorities()) {
+					if ("ADMIN".equals(auth.getAuthority())) {
+						admin = true;
+					}
+				}
+
+				if (admin) {
+					response.sendRedirect("/admin/book");
+				} else {
+					response.sendRedirect("/");
+				}
 			}
 		}
-		
 	}
 }

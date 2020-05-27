@@ -1,6 +1,7 @@
 const isAccountValid = (payload) => {
 	const emailPattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
 	const phonePattern = /(03|07|08|09|01[2|6|8|9])+([0-9]{8})\b/;
+	const usernamePattern = /\s/gmi;
 	
 	const { username, password, confPassword, fullname,
 		email, phoneNumber, address } = payload;
@@ -18,6 +19,15 @@ const isAccountValid = (payload) => {
 	
 	if (username.trim().length == 0) {
 		$(".username-helper").html('Username is required');
+		formIsValid = false;
+		
+		if (!coordinates) {
+			coordinates = $("#username").offset().top - 50;
+		}
+	}
+	
+	if (usernamePattern.test(username)) {
+		$(".username-helper").html('Username must not contains space');
 		formIsValid = false;
 		
 		if (!coordinates) {
